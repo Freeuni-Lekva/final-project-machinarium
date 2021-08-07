@@ -1,7 +1,9 @@
 package com.machinarium.utility.validators;
 
 import com.machinarium.common.TestCase;
+import com.machinarium.common.TestLogger;
 import com.machinarium.common.TestData;
+import com.machinarium.common.TestFunction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,31 +36,43 @@ public class ValidatorTest {
     @Test
     void on() {
 
-        for(Validator validator: validatorTestData.keySet()) {
+        this.testExecutor((validator, testCase) -> {
 
-            TestData testData = validatorTestData.get(validator);
+            String input = testCase.get(INPUT);
+            String expectedResult = testCase.get(EXPECTED_RESULT);
 
-            logger.log(Level.INFO, "Testing Validator Class: " + validator.getClass().toString());
+            assert Set.of(VALID, INVALID).contains(expectedResult) :
+                    "The value " + expectedResult + " in test case " + testCase.getID() + " is not a valid expected result.";
 
-            for (TestCase testCase : testData) {
-
-                String input = testCase.get(INPUT);
-                String expectedResult = testCase.get(EXPECTED_RESULT);
-
-                assert Set.of(VALID, INVALID).contains(expectedResult) :
-                        "The value " + expectedResult + " in test case " + testCase.getID() + " is not a valid expected result.";
-
-                logger.log(Level.INFO, testCase.toString());
-
-                if (expectedResult.equals(VALID)) assertNull(validator.on(input));
-                else assertEquals(testCase.get(REJECT_REASON), validator.on(input));
-            }
-        }
+            if (expectedResult.equals(VALID)) assertNull(validator.on(input));
+            else assertEquals(testCase.get(REJECT_REASON), validator.on(input));
+        });
     }
 
     @Test
     void validate() {
 
+        this.testExecutor((validator, testCase) -> {
+
+            String input = testCase.get(INPUT);
+            String expectedResult = testCase.get(EXPECTED_RESULT);
+
+            assert Set.of(VALID, INVALID).contains(expectedResult) :
+                    "The value " + expectedResult + " in test case " + testCase.getID() + " is not a valid expected result.";
+
+            if (expectedResult.equals(VALID)) assertTrue(validator.validate(input));
+            else assertFalse(validator.validate(input));
+        });
+    }
+
+    /**
+     * Executes the provided test function for instances of all classes implementing the {@link Validator} interface
+     * for all test cases provided in their respective {@link TestData}.
+     *
+     * @param testFunction The {@link TestFunction} to be executed.
+     */
+    void testExecutor(TestFunction<Validator> testFunction) {
+
         for(Validator validator: validatorTestData.keySet()) {
 
             TestData testData = validatorTestData.get(validator);
@@ -67,46 +81,13 @@ public class ValidatorTest {
 
             for (TestCase testCase : testData) {
 
-                String input = testCase.get(INPUT);
-                String expectedResult = testCase.get(EXPECTED_RESULT);
-
-                assert Set.of(VALID, INVALID).contains(expectedResult) :
-                        "The value " + expectedResult + " in test case " + testCase.getID() + " is not a valid expected result.";
-
                 logger.log(Level.INFO, testCase.toString());
-
-                if (expectedResult.equals(VALID)) assertTrue(validator.validate(input));
-                else assertFalse(validator.validate(input));
+                testFunction.execute(validator, testCase);
             }
         }
     }
 
     private Map<Validator, TestData> validatorTestData;
 
-    /**
-     * Logger set up.
-     */
-    private static final Logger logger = Logger.getLogger("ValidatorTest");
-
-    static {
-
-        Handler consoleHandler = new ConsoleHandler();
-        consoleHandler.setFormatter(new Formatter() {
-
-            private static final String formatString =
-                    "%2$s Message in Test Method(%1$s):\n" +
-                    "%3$s\n\n";
-
-            @Override
-            public String format(LogRecord record) {
-                return String.format(formatString,
-                        record.getSourceMethodName(),
-                        record.getLevel().getLocalizedName(),
-                        record.getMessage());
-            }
-        });
-
-        logger.setUseParentHandlers(false);
-        logger.addHandler(consoleHandler);
-    }
+    private static final Logger logger = TestLogger.getLogger("ValidatorTest");
 }

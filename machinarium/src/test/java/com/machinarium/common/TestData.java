@@ -25,9 +25,12 @@ public class TestData implements Iterable<TestCase> {
         .withFieldAsNull(CSVReaderNullFieldIndicator.EMPTY_QUOTES)
         .withIgnoreLeadingWhiteSpace(true).build();
 
-    @Override
-    public Iterator<TestCase> iterator() {return this.testCases.iterator();}
-
+    /**
+     * Returns a {@link TestData} object created from the .csv file at the specified path.
+     *
+     * @param path Path to the .csv file.
+     * @return The generated test data as a {@link TestData} object.
+     */
     public static TestData loadTestData(String path) {
 
         assert path != null: "Path to test data cannot be null.";
@@ -36,6 +39,9 @@ public class TestData implements Iterable<TestCase> {
 
         return loadedDataMap.get(path);
     }
+
+    @Override
+    public Iterator<TestCase> iterator() {return this.testCases.iterator();}
 
     private TestData(String path) {
 
