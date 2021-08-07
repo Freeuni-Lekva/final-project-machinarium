@@ -1,0 +1,9 @@
+Test Case ID,Test Input,Expected Result,Reject Reason
+1,UserName,VALID,
+2,MadeupUsername,VALID,
+3,this_is_still_valid,VALID,
+4,this,VALID,
+5,no,INVALID,Contains at least 4 characters.
+6,nop,INVALID,Contains at least 4 characters.
+7,lan inv cha,INVALID,Doesn't contain invalid characters.
+8,1??1,INVALID,Doesn't contain invalid characters.
