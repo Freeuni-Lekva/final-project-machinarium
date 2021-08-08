@@ -7,3 +7,12 @@ Test Case ID,Test Input,Expected Result,Reject Reason
 6,nop,INVALID,Contains at least 4 characters.
 7,lan inv cha,INVALID,Doesn't contain invalid characters.
 8,1??1,INVALID,Doesn't contain invalid characters.
+9,,INVALID,*
+10,SELECT * FROM Users;,INVALID,*
+11,DROP TABLE Users;,INVALID,*
+12,INSERT ,INVALID,*
+13,"INSERT INTO Users(username, password)
+VALUES (""someguyiwannahack"", ""Easy_Password123"");",INVALID,*
+14,DROP DATABASE Machinarium;,INVALID,*
+15,"UPDATE Users SET password=""c748db15ab47dfba758ceedf0655043585372cf5cc64388cb9710c3e93959544"";",INVALID,*
+16,DELETE FROM Users;,INVALID,*
