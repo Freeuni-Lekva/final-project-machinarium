@@ -1,7 +1,7 @@
 package model;
 
 public class Item {
-	private static final int NA_SPEC = -1;
+	public static final int NA_SPEC = -1;
 	private static final String DEFAULT_NAME = "Some Spare Item";
 
 	private String name;
