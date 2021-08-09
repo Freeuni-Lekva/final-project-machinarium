@@ -10,6 +10,7 @@ public class Car {
 	private static final int INVALID_TIME = -1;
 	private static final String DEFAULT_NAME = "Project Car";
 
+	private String vinCode; //ToDo :: refactoring //recently added
 	private String name;
 	private List<Item> items;
 

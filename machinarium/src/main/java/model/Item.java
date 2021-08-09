@@ -1,13 +1,14 @@
 package model;
 
 public class Item {
-	private static final int INVALID_SPEC = -1;
+	private static final int NA_SPEC = -1;
 	private static final String DEFAULT_NAME = "Some Spare Item";
 
 	private String name;
 	private Category category;
 
 	private PartType partTypeThis;
+	private PartModel partModelThis; //ToDo :: refactoring //recently added
 	private int weight;
 	private int weightSupport;
 	private int aeroDrag;
@@ -23,11 +24,11 @@ public class Item {
 		category = Category.NONE;
 
 		partTypeThis = PartType.NONE;
-		weight = INVALID_SPEC;
-		weightSupport = INVALID_SPEC;
-		aeroDrag = INVALID_SPEC;
-		horsePower = INVALID_SPEC;
-		tractionUnit = INVALID_SPEC;
+		weight = NA_SPEC;
+		weightSupport = NA_SPEC;
+		aeroDrag = NA_SPEC;
+		horsePower = NA_SPEC;
+		tractionUnit = NA_SPEC;
 
 		partTypeA = PartType.NONE;
 		partTypeB = PartType.NONE;
@@ -55,11 +56,11 @@ public class Item {
 		this.category = category;
 
 		partTypeThis = PartType.NONE;
-		weight = INVALID_SPEC;
-		weightSupport = INVALID_SPEC;
-		aeroDrag = INVALID_SPEC;
-		horsePower = INVALID_SPEC;
-		tractionUnit = INVALID_SPEC;
+		weight = NA_SPEC;
+		weightSupport = NA_SPEC;
+		aeroDrag = NA_SPEC;
+		horsePower = NA_SPEC;
+		tractionUnit = NA_SPEC;
 
 		this.partTypeA = partTypeA;
 		this.partTypeB = partTypeB;

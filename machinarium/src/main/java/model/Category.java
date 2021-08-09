@@ -4,5 +4,5 @@ enum Category {
 	NONE,
 	PART,
 	CONNECTOR,
-	FUSION_TOOL
+	FUSION_TOOL  //ToDo :: remove
 }
