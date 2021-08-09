@@ -20,7 +20,7 @@ public class Item {
 
 
 	public Item() {
-		name = DEFAULT_NAME;
+		name = DEFAULT_NAME ;
 		category = Category.NONE;
 
 		partTypeThis = PartType.NONE;
