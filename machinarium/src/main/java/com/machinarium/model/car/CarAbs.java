@@ -5,13 +5,19 @@ public class CarAbs implements Car {
 	public static final int TU_TO_HP = 100;
 	public static final int AD_TO_HP = 20;
 
-	private final String name;
-	private final String nameID;
+	private String name;
+	private String nameID;
+
 
 	public CarAbs(String name, String nameID) {
 		this.name = name;
 		this.nameID = nameID;
 	}
+
+	public CarAbs() {
+		this(null, null);
+	}
+
 
 	@Override
 	public String getName() {
@@ -19,9 +25,21 @@ public class CarAbs implements Car {
 	}
 
 	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	@Override
 	public String getNameID() {
 		return nameID;
 	}
+
+	@Override
+	public void setNameID(String nameID) {
+		this.nameID = nameID;
+	}
+
 
 	@Override
 	public boolean isValid() {

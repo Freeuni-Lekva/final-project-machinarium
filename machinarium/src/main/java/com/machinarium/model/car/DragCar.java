@@ -5,18 +5,19 @@ import com.machinarium.model.Item.part.*;
 import java.util.Random;
 
 public class DragCar extends CarAbs {
-	private final Chassis chassis;
-	private final Body body;
-	private final Engine engine;
-	private final Transmission transmission;
-	private final Wheels wheels;
+	private Chassis chassis;
+	private Body body;
+	private Engine engine;
+	private Transmission transmission;
+	private Wheels wheels;
 
-	private final Chassis_Body chassis_body;
-	private final Chassis_Transmission chassis_transmission;
-	private final Chassis_Wheels chassis_wheels;
-	private final Chassis_Engine chassis_engine;
-	private final Engine_Transmission engine_transmission;
-	private final Transmission_Wheels transmission_wheels;
+	private Chassis_Body chassis_body;
+	private Chassis_Transmission chassis_transmission;
+	private Chassis_Wheels chassis_wheels;
+	private Chassis_Engine chassis_engine;
+	private Engine_Transmission engine_transmission;
+	private Transmission_Wheels transmission_wheels;
+
 
 	public DragCar(String name, String nameID,
 				   Chassis chassis, Body body, Engine engine,
@@ -41,6 +42,93 @@ public class DragCar extends CarAbs {
 		this.engine_transmission = engine_transmission;
 		this.transmission_wheels = transmission_wheels;
 	}
+
+	public DragCar() {
+		this(null, null,
+				null, null, null, null, null,
+				null, null, null,
+				null, null, null);
+	}
+
+
+	public Chassis getChassis() {
+		return chassis;
+	}
+	public void setChassis(Chassis chassis) {
+		this.chassis = chassis;
+	}
+
+	public Body getBody() {
+		return body;
+	}
+	public void setBody(Body body) {
+		this.body = body;
+	}
+
+	public Engine getEngine() {
+		return engine;
+	}
+	public void setEngine(Engine engine) {
+		this.engine = engine;
+	}
+
+	public Transmission getTransmission() {
+		return transmission;
+	}
+	public void setTransmission(Transmission transmission) {
+		this.transmission = transmission;
+	}
+
+	public Wheels getWheels() {
+		return wheels;
+	}
+	public void setWheels(Wheels wheels) {
+		this.wheels = wheels;
+	}
+
+	public Chassis_Body getChassis_body() {
+		return chassis_body;
+	}
+	public void setChassis_body(Chassis_Body chassis_body) {
+		this.chassis_body = chassis_body;
+	}
+
+	public Chassis_Transmission getChassis_transmission() {
+		return chassis_transmission;
+	}
+	public void setChassis_transmission(Chassis_Transmission chassis_transmission) {
+		this.chassis_transmission = chassis_transmission;
+	}
+
+
+	public Chassis_Wheels getChassis_wheels() {
+		return chassis_wheels;
+	}
+	public void setChassis_wheels(Chassis_Wheels chassis_wheels) {
+		this.chassis_wheels = chassis_wheels;
+	}
+
+	public Chassis_Engine getChassis_engine() {
+		return chassis_engine;
+	}
+	public void setChassis_engine(Chassis_Engine chassis_engine) {
+		this.chassis_engine = chassis_engine;
+	}
+
+	public Engine_Transmission getEngine_transmission() {
+		return engine_transmission;
+	}
+	public void setEngine_transmission(Engine_Transmission engine_transmission) {
+		this.engine_transmission = engine_transmission;
+	}
+
+	public Transmission_Wheels getTransmission_wheels() {
+		return transmission_wheels;
+	}
+	public void setTransmission_wheels(Transmission_Wheels transmission_wheels) {
+		this.transmission_wheels = transmission_wheels;
+	}
+
 
 	@Override
 	public boolean isValid() {
