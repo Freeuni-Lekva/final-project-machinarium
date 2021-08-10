@@ -15,4 +15,8 @@ public class Wheels extends CarPart {
 		return str;
 	}
 
+	public int getTractionUnit() {
+		return tractionUnit;
+	}
+
 }

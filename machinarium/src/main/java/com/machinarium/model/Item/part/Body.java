@@ -15,4 +15,8 @@ public class Body extends CarPart {
 		return str;
 	}
 
+	public int getAeroDrag() {
+		return aeroDrag;
+	}
+
 }

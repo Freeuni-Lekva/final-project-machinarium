@@ -17,8 +17,8 @@ public class CarHub {
 		this.carDAO = carDAO;
 	}
 
-	public boolean validateCar(User user, String carNameID) {
-		Car car = carDAO.getCar(user, carNameID);
+	public boolean validateCar(String userName, String carNameID) {
+		Car car = carDAO.getCar(userName, carNameID);
 		return car.isValid();
 	}
 

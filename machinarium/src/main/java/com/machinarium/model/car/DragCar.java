@@ -2,11 +2,9 @@ package com.machinarium.model.car;
 
 import com.machinarium.model.Item.connector.*;
 import com.machinarium.model.Item.part.*;
+import java.util.Random;
 
-public class DragCar implements Car {
-	private final String name;
-	private final String nameID;
-
+public class DragCar extends CarAbs {
 	private final Chassis chassis;
 	private final Body body;
 	private final Engine engine;
@@ -28,8 +26,7 @@ public class DragCar implements Car {
 				   Engine_Transmission engine_transmission,
 				   Transmission_Wheels transmission_wheels) {
 
-		this.name = name;
-		this.nameID = nameID;
+		super(name, nameID);
 
 		this.chassis = chassis;
 		this.body = body;
@@ -46,18 +43,91 @@ public class DragCar implements Car {
 	}
 
 	@Override
-	public String getName() {
-		return name;
+	public boolean isValid() {
+		if (! allItemsArePresent()) return false;
+
+		int weightSupport = chassis.getWeightSupport();
+		weightSupport -= calcFullWeight();
+		if (weightSupport < 0) return false;
+
+		return true;
 	}
 
 	@Override
-	public String getNameID() {
-		return nameID;
+	public double quarterMileTime() {
+		if (! isValid()) return TIME_NA;
+		double runTime = 0;
+
+		int engineHorsePower = engine.getHorsePower();
+		int tractionLimitHorsePower = wheels.getTractionUnit() * TU_TO_HP;
+		int wheelHorsePower = Math.min(engineHorsePower, tractionLimitHorsePower);
+		int aeroDrag = body.getAeroDrag();
+		int effectiveHorsePower = wheelHorsePower - aeroDrag * AD_TO_HP;
+		int fullWeight = calcFullWeight();
+
+		runTime = measureRunTime(effectiveHorsePower, fullWeight);
+		return runTime;
 	}
 
-	@Override
-	public boolean isValid() {  //ToDo: implement
-		return false;
+
+	private boolean allItemsArePresent() {
+		if (getName() == null) return false;
+		if (getNameID() == null) return false;
+
+		if (chassis == null) return false;
+		if (body == null) return false;
+		if (engine == null) return false;
+		if (transmission == null) return false;
+		if (wheels == null) return false;
+
+		if (chassis_body == null) return false;
+		if (chassis_transmission == null) return false;
+		if (chassis_wheels == null) return false;
+		if (chassis_engine == null) return false;
+		if (engine_transmission == null) return false;
+		if (transmission_wheels == null) return false;
+
+		return true;
+	}
+
+	private int calcFullWeight() {
+		int fullWeight = 0;
+		fullWeight += chassis.getWeightSupport();
+		fullWeight += chassis.getWeight();
+		fullWeight += body.getWeight();
+		fullWeight += engine.getWeight();
+		fullWeight += transmission.getWeight();
+		fullWeight += wheels.getWeight();
+		return fullWeight;
+	}
+
+
+	private double measureRunTime(int effectiveHorsePower, int fullWeight) {
+		double time = (double)effectiveHorsePower / (double)fullWeight;
+		time *= applyWeatherEffect();
+		time *= applyTarmacEffect();
+		time = adjustTimer(time);
+		return time;
+	}
+
+	private double applyWeatherEffect() {
+		double lo = 0.9;
+		double hi = 1.1;
+		Random weatherEffectAnalyser = new Random();
+		double weatherEffect = lo + (hi - lo) * weatherEffectAnalyser.nextDouble();
+		return weatherEffect;
+	}
+
+	private double applyTarmacEffect() {
+		double lo = 0.9;
+		double hi = 1.1;
+		Random tarmacEffectAnalyser = new Random();
+		double tarmacEffect = lo + (hi - lo) * tarmacEffectAnalyser.nextDouble();
+		return tarmacEffect;
+	}
+
+	private double adjustTimer(double time) {
+		return time * 100;
 	}
 
 }

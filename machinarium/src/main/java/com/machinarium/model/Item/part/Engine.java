@@ -15,4 +15,8 @@ public class Engine extends CarPart {
 		return str;
 	}
 
+	public int getHorsePower() {
+		return horsePower;
+	}
+
 }

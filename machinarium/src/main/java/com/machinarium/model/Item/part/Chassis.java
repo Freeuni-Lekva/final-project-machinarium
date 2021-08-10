@@ -15,4 +15,8 @@ public class Chassis extends CarPart {
 		return str;
 	}
 
+	public int getWeightSupport() {
+		return weightSupport;
+	}
+
 }

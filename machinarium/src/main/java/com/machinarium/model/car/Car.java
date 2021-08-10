@@ -4,4 +4,5 @@ public interface Car {
 	String getName();
 	String getNameID();
 	boolean isValid();
+	double quarterMileTime();
 }
