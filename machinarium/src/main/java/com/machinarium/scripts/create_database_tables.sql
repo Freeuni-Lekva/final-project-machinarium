@@ -49,7 +49,7 @@ CREATE TABLE games(
 
 CREATE TABLE item_categories(
                                 id INT PRIMARY KEY AUTO_INCREMENT,
-                                item_name VARCHAR(64) UNIQUE
+                                category_name VARCHAR(64) UNIQUE
 );
 
 CREATE TABLE item_types(
