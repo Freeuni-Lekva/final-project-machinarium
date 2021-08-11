@@ -2,8 +2,8 @@ package com.machinarium.model.Item.part;
 
 public class Transmission extends Part {
 
-	public Transmission(String name, String nameID, int weight) {
-		super(name, nameID, weight);
+	public Transmission(int uid, String name, int weight) {
+		super(uid, name, weight);
 	}
 
 }

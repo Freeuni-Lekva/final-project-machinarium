@@ -3,8 +3,8 @@ package com.machinarium.model.Item.part;
 public class Wheels extends Part {
 	private final int tractionUnit;
 
-	public Wheels(String name, String nameID, int weight, int tractionUnit) {
-		super(name, nameID, weight);
+	public Wheels(int uid, String nameID, int weight, int tractionUnit) {
+		super(uid, nameID, weight);
 		this.tractionUnit = tractionUnit;
 	}
 

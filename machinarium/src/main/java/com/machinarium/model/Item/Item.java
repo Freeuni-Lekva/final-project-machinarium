@@ -1,28 +1,30 @@
 package com.machinarium.model.Item;
 
 public class Item {
-	private final String name;
-	private final String nameID;
+	public static final int NONE_UID = -1;
 
-	public Item(String name, String nameID) {
+	private final int uid;
+	private final String name;
+
+	public Item(int uid, String name) {
+		this.uid = uid;
 		this.name = name;
-		this.nameID = nameID;
 	}
 
+
+	public int getUid() {
+		return uid;
+	}
 
 	public String getName() {
 		return name;
 	}
 
-	public String getNameID() {
-		return nameID;
-	}
-
 	@Override
 	public String toString() {
 		String str = "";
+		str += "[uid: " + uid + "] \n";
 		str += "[name: " + name + "] \n";
-		str += "[nameID: " + nameID + "] \n";
 		return str;
 	}
 

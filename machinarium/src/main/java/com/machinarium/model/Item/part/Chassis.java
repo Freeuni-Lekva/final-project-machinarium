@@ -3,8 +3,8 @@ package com.machinarium.model.Item.part;
 public class Chassis extends Part {
 	private final int weightSupport;
 
-	public Chassis(String name, String nameID, int weight, int weightSupport) {
-		super(name, nameID, weight);
+	public Chassis(int uid, String name, int weight, int weightSupport) {
+		super(uid, name, weight);
 		this.weightSupport = weightSupport;
 	}
 

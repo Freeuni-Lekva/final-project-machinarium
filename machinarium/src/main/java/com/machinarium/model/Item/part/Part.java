@@ -5,8 +5,8 @@ import com.machinarium.model.Item.Item;
 public abstract class Part extends Item {
 	private final int weight;
 
-	public Part(String name, String nameID, int weight) {
-		super(name, nameID);
+	public Part(int uid, String name, int weight) {
+		super(uid, name);
 		this.weight = weight;
 	}
 

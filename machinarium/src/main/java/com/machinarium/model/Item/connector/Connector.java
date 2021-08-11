@@ -4,8 +4,15 @@ import com.machinarium.model.Item.Item;
 
 public class Connector<PartA, PartB> extends Item {
 
-	public Connector(String name, String nameID) {
-		super(name, nameID);
+	public Connector(int uid, String name) {
+		super(uid, name);
+	}
+
+	@Override
+	public String toString() {
+		String str = super.toString();
+		str += "{ Connector<PartA, PartB> } \n";
+		return str;
 	}
 
 }

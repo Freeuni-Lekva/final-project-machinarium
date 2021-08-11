@@ -19,32 +19,32 @@ public class CarHub {
 		this.carDAO = carDAO;
 	}
 
-	public List<Car> getCars(String userName) {
-		List<Car> allCars = new ArrayList<>();
-
-		List<String> allCarsNameID = carDAO.getAllCarsNameID(userName);
-		for (String carNameID : allCarsNameID) {
-			Car curCar = carDAO.getCar(userName, carNameID);
-			allCars.add(curCar);
-		}
-
-		return allCars;
-	}
-
-	public boolean disassembleCar(String userName, String carNameID) {
-		if (carDAO.hasNoCar(userName)) return false;
-
-		List<String> allItems = carDAO.getAllItems(userName, carNameID);
-		if (allItems == null || allItems.isEmpty()) return false;
-
-		for (String curItem : allItems) {
-			carDAO.takeItem(userName, carNameID, curItem);
-		}
-
-
-
-		return true;
-	}
+//	public List<Car> getCars(String userName) {
+//		List<Car> allCars = new ArrayList<>();
+//
+//		List<String> allCarsNameID = carDAO.getAllCarsNameID(userName);
+//		for (String carNameID : allCarsNameID) {
+//			Car curCar = carDAO.getCar(userName, carNameID);
+//			allCars.add(curCar);
+//		}
+//
+//		return allCars;
+//	}
+//
+//	public boolean disassembleCar(String userName, String carNameID) {
+//		if (carDAO.hasNoCar(userName)) return false;
+//
+//		List<String> allItems = carDAO.getAllItems(userName, carNameID);
+//		if (allItems == null || allItems.isEmpty()) return false;
+//
+//		for (String curItem : allItems) {
+//			carDAO.takeItem(userName, carNameID, curItem);
+//		}
+//
+//
+//
+//		return true;
+//	}
 
 
 }
