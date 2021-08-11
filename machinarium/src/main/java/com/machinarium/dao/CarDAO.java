@@ -8,16 +8,16 @@ public interface CarDAO {
 	boolean hasNoCar(String userName);
 	int carCount(String userName);
 
-	boolean rename(String userName, String carNameID, String newCarName);
-	String declare(String userName, String carName); // returns carNameID
-	boolean unDeclare(String userName, String carNameID); // removes empty car from garage
+	boolean rename(String userName, int carUid, String newCarName);
+	int declare(String userName, String carName); // returns carUid
+	boolean unDeclare(String userName, int carUid); // removes empty car from garage
 
 
-	boolean putItem(String userName, String carNameID, String itemNameID);
-	boolean takeItem(String userName, String carNameID, String itemNameID);
+	boolean putItem(String userName, int carUid, int itemUid);
+	boolean takeItem(String userName, int carUid, int itemUid);
 
-	Car getCar(String userName, String carNameID);
-	List<String> getAllCarsNameID(String userName);
-	List<String> getAllItemNameID(String userName, String carNameID);
+	Car getCar(String userName, String carUid);
+	List<Integer> getAllCarsNameID(String userName);
+	List<Integer> getAllItemNameID(String userName, String carUid);
 
 }
