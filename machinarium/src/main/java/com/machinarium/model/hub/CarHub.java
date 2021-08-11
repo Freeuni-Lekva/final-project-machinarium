@@ -19,32 +19,47 @@ public class CarHub {
 		this.carDAO = carDAO;
 	}
 
-//	public List<Car> getCars(String userName) {
-//		List<Car> allCars = new ArrayList<>();
-//
-//		List<String> allCarsNameID = carDAO.getAllCarsNameID(userName);
-//		for (String carNameID : allCarsNameID) {
-//			Car curCar = carDAO.getCar(userName, carNameID);
-//			allCars.add(curCar);
-//		}
-//
-//		return allCars;
-//	}
-//
-//	public boolean disassembleCar(String userName, String carNameID) {
-//		if (carDAO.hasNoCar(userName)) return false;
-//
-//		List<String> allItems = carDAO.getAllItems(userName, carNameID);
-//		if (allItems == null || allItems.isEmpty()) return false;
-//
-//		for (String curItem : allItems) {
-//			carDAO.takeItem(userName, carNameID, curItem);
-//		}
-//
-//
-//
-//		return true;
-//	}
+	public List<Car> getCars(String userName) {
+		List<Car> allCars = new ArrayList<>();
+
+		List<Integer> allCarUid = carDAO.getAllCarUid(userName);
+		for (Integer curCarUid : allCarUid) {
+			Car curCar = carDAO.getCar(userName, curCarUid);
+			allCars.add(curCar);
+		}
+
+		return allCars;
+	}
+
+	// returns new carUid
+	public int constructCar(String userName, String newCarName, List<Integer> itemUids) {
+		if (userDAO.getUser(userName) == null) return Car.NONE_UID;
+		if (newCarName == null) return Car.NONE_UID;
+		if (itemUids.isEmpty()) return Car.NONE_UID;
+
+		int newCarUid = carDAO.declare(userName, newCarName);
+		if (newCarUid == Car.NONE_UID) return Car.NONE_UID;
+
+		for (Integer curItemUid : itemUids) {
+			carDAO.putItem(userName, newCarUid, curItemUid);
+		}
+
+		return newCarUid;
+	}
+
+	public boolean disassembleCar(String userName, int carUid) {
+		if (carDAO.hasNoCar(userName)) return false;
+
+		List<Integer> allItemUid = carDAO.getAllItemUid(userName, carUid);
+		if (allItemUid == null || allItemUid.isEmpty()) return false;
+
+		for (Integer curItemUid : allItemUid) {
+			carDAO.takeItem(userName, carUid, curItemUid);
+		}
+
+		return true;
+	}
+
 
 
 }

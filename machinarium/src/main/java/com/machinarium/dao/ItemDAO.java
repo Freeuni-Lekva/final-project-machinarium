@@ -1,6 +1,6 @@
 package com.machinarium.dao;
 
-import com.machinarium.model.Item.Item;
+import java.util.List;
 
 public interface ItemDAO {
 
@@ -11,5 +11,7 @@ public interface ItemDAO {
 
 	boolean addItem(String userName, int itemUid);
 	boolean removeItem(String userName, int itemUid);
+
+	List<Integer> getAllSpareItemUid(String userName);
 
 }
