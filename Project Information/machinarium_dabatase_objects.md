@@ -20,4 +20,7 @@
 | user_order                     | BASE TABLE |
 | user_statistics                | BASE TABLE |
 | users                          | BASE TABLE |
-
+| see_game_results               | VIEW       |
+| see_user_items                 | VIEW       |
+| see_user_orders                | VIEW       |
+| see_user_results               | VIEW       |
