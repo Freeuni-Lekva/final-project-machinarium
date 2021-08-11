@@ -19,6 +19,9 @@ public class DragCar extends CarAbs {
 	private Transmission_Wheels transmission_wheels;
 
 
+//	private Conn<Chassis, Body>
+
+
 	public DragCar(String name, String nameID,
 				   Chassis chassis, Body body, Engine engine,
 				   Transmission transmission, Wheels wheels,

@@ -10,4 +10,6 @@ public interface CarDAO {
 	Car getCar(String userName, String carNameID);
 	List<Car> getCars(String userName);
 
+	boolean addCar(Car car);
+
 }
