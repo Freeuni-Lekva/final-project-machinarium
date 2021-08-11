@@ -8,15 +8,16 @@ public class Body extends CarPart {
 		this.aeroDrag = aeroDrag;
 	}
 
-	@Override
-	public String toString() {
-		String str = super.toString() + ", ";
-		str += "[aeroDrag: " + aeroDrag + "]";
-		return str;
-	}
 
 	public int getAeroDrag() {
 		return aeroDrag;
+	}
+
+	@Override
+	public String toString() {
+		String str = super.toString();
+		str += "[aeroDrag: " + aeroDrag + "] \n";
+		return str;
 	}
 
 }

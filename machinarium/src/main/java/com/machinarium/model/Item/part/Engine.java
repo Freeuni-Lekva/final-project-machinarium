@@ -8,15 +8,16 @@ public class Engine extends CarPart {
 		this.horsePower = horsePower;
 	}
 
-	@Override
-	public String toString() {
-		String str = super.toString() + ", ";
-		str += "[horsePower: " + horsePower + "]";
-		return str;
-	}
 
 	public int getHorsePower() {
 		return horsePower;
+	}
+
+	@Override
+	public String toString() {
+		String str = super.toString();
+		str += "[horsePower: " + horsePower + "] \n";
+		return str;
 	}
 
 }

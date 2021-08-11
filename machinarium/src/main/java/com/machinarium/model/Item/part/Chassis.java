@@ -8,15 +8,16 @@ public class Chassis extends CarPart {
 		this.weightSupport = weightSupport;
 	}
 
-	@Override
-	public String toString() {
-		String str = super.toString() + ", ";
-		str += "[weightSupport: " + weightSupport + "]";
-		return str;
-	}
 
 	public int getWeightSupport() {
 		return weightSupport;
+	}
+
+	@Override
+	public String toString() {
+		String str = super.toString();
+		str += "[weightSupport: " + weightSupport + "] \n";
+		return str;
 	}
 
 }

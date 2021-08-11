@@ -8,15 +8,15 @@ public class Wheels extends CarPart {
 		this.tractionUnit = tractionUnit;
 	}
 
-	@Override
-	public String toString() {
-		String str = super.toString() + ", ";
-		str += "[tractionUnit: " + tractionUnit + "]";
-		return str;
-	}
-
 	public int getTractionUnit() {
 		return tractionUnit;
+	}
+
+	@Override
+	public String toString() {
+		String str = super.toString();
+		str += "[tractionUnit: " + tractionUnit + "] \n";
+		return str;
 	}
 
 }

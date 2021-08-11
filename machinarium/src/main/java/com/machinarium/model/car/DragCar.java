@@ -11,15 +11,13 @@ public class DragCar extends CarAbs {
 	private Transmission transmission;
 	private Wheels wheels;
 
+	//	private Conn<Chassis, Body> chassisBody;
 	private Chassis_Body chassis_body;
 	private Chassis_Transmission chassis_transmission;
 	private Chassis_Wheels chassis_wheels;
 	private Chassis_Engine chassis_engine;
 	private Engine_Transmission engine_transmission;
 	private Transmission_Wheels transmission_wheels;
-
-
-//	private Conn<Chassis, Body>
 
 
 	public DragCar(String name, String nameID,
