@@ -1,9 +1,12 @@
-package com.machinarium.model;
+package com.machinarium.model.hub;
 
 import com.machinarium.dao.CarDAO;
 import com.machinarium.dao.ItemDAO;
 import com.machinarium.dao.UserDAO;
 import com.machinarium.model.car.Car;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CarHub {
 	private UserDAO userDAO;
@@ -16,11 +19,17 @@ public class CarHub {
 		this.carDAO = carDAO;
 	}
 
-	public boolean validateCar(String userName, String carNameID) {
-		Car car = carDAO.getCar(userName, carNameID);
-		return car.isValid();
-	}
+	public List<Car> getCar(String userName) {
+		List<Car> allCars = new ArrayList<>();
 
+		List<String> allCarsNameID = carDAO.getAllCarsNameID(userName);
+		for (String carNameID : allCarsNameID) {
+			Car curCar = carDAO.getCar(userName, carNameID);
+			allCars.add(curCar);
+		}
+
+		return allCars;
+	}
 
 
 }

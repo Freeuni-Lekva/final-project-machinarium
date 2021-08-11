@@ -8,8 +8,9 @@ public interface CarDAO {
 
 	boolean hasNoCar(String userName);
 	int numCars(String userName);
+
+	List<String> getAllCarsNameID(String userName);
 	Car getCar(String userName, String carNameID);
-	List<Car> getCars(String userName);
 
 	boolean addCar(Car car);
 

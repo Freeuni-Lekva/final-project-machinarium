@@ -1,4 +1,4 @@
-package com.machinarium;
+package com.machinarium.controller;
 
 import java.io.*;
 import javax.servlet.http.*;
