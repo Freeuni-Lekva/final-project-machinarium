@@ -1,11 +1,13 @@
 package com.machinarium.model.Item.part;
 
 import java.util.List;
+import java.util.Map;
 
 public class Chassis extends Part {
 	public static final int NONE_WEIGHT_SUPPORT = -1;
 
 	private final int weightSupport;
+
 
 	public Chassis(int uid, String name, int weight, int weightSupport) {
 		super(uid, name, weight);
@@ -32,6 +34,13 @@ public class Chassis extends Part {
 		List<String> specs = super.getSpecs();
 		String spec = "[weightSupport: " + weightSupport + "]";
 		specs.add(spec);
+		return specs;
+	}
+
+	@Override
+	public Map<String, String> getMappedSpecs() {
+		Map<String, String> specs = super.getMappedSpecs();
+		specs.put("weightSupport", weightSupport + "");
 		return specs;
 	}
 
