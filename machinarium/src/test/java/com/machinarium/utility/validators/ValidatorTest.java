@@ -26,6 +26,8 @@ public class ValidatorTest {
     private static final String VALID = "VALID";
     private static final String INVALID = "INVALID";
 
+    private static final String NON_EMPTY = "*";
+
     @BeforeEach
     void setUp() {
         validatorTestData = new HashMap<>();
@@ -45,7 +47,12 @@ public class ValidatorTest {
                     "The value " + expectedResult + " in test case " + testCase.getID() + " is not a valid expected result.";
 
             if (expectedResult.equals(VALID)) assertNull(validator.on(input));
-            else assertEquals(testCase.get(REJECT_REASON), validator.on(input));
+            else {
+
+                String rejectReason = testCase.get(REJECT_REASON);
+                if(rejectReason.equals(NON_EMPTY)) assertNotEquals(null, validator.on(input));
+                else assertEquals(testCase.get(REJECT_REASON), validator.on(input));
+            }
         });
     }
 

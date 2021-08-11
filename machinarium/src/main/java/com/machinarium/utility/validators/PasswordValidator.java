@@ -5,21 +5,24 @@ import com.machinarium.utility.validators.Validator;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class PasswordValidator extends MappedValidator {
 
     public static final int MIN_PASSWORD_LENGTH = 8;
+    public static final int MAX_PASSWORD_LENGTH = 100;
 
     public static final String VALID_PASSWORD_CHARACTERS = "a-zA-Z\\d\\p{Punct}";
 
-    private static final Map<String, String> PASSWORD_VALIDATIONS = Collections.unmodifiableMap(new HashMap<String, String>() {
+    private static final Map<String, String> PASSWORD_VALIDATIONS = Collections.unmodifiableMap(new HashMap<>() {
         {
             put(".*[a-z].*", "Contains one lower case letter.");
             put(".*[A-Z].*", "Contains one upper case letter.");
             put(".*[\\d].*", "Contains one digit.");
             put(".*[\\p{Punct}].*", "Contains one special character from: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~.");
-            put(".{" + MIN_PASSWORD_LENGTH + ",}", "Contains at least " + MIN_PASSWORD_LENGTH + " characters.");
-            put("^(?!.*[^" + VALID_PASSWORD_CHARACTERS + "]).*", "Doesn't contain invalid characters.");
+            put(".{"+MIN_PASSWORD_LENGTH +",}", "Contains at least "+MIN_PASSWORD_LENGTH +" characters.");
+            put(".{0,"+MAX_PASSWORD_LENGTH +"}", "Doesn't contain more than "+MAX_PASSWORD_LENGTH +" characters.");
+            put("^(?!.*[^"+VALID_PASSWORD_CHARACTERS +"]).*", "Doesn't contain invalid characters.");
         }
     });
 
