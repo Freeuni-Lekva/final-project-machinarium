@@ -32,7 +32,7 @@ public class MappedValidator implements Validator {
     public String on(String input) {
 
         for(String regexp : validationMap.keySet()) {
-            if(!Pattern.compile(regexp).matcher(input).matches()) return validationMap.get(regexp);
+            if(!Pattern.compile(regexp, Pattern.DOTALL).matcher(input).matches()) return validationMap.get(regexp);
         }
         return null;
     };

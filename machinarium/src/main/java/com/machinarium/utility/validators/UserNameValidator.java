@@ -9,10 +9,12 @@ public class UserNameValidator extends MappedValidator {
     public static final String VALID_USER_NAME_CHARACTERS = "a-zA-Z\\d_";
 
     public static final int MIN_USER_NAME_LENGTH = 4;
+    public static final int MAX_USER_NAME_LENGTH = 100;
 
-    private static final Map<String, String> USER_NAME_VALIDATIONS = Collections.unmodifiableMap(new HashMap<String, String>() {
+    private static final Map<String, String> USER_NAME_VALIDATIONS = Collections.unmodifiableMap(new HashMap<>() {
         {
             put(".{" + MIN_USER_NAME_LENGTH + ",}", "Contains at least " + MIN_USER_NAME_LENGTH + " characters.");
+            put(".{0," + MAX_USER_NAME_LENGTH + "}", "Doesn't contain more than " + MAX_USER_NAME_LENGTH + " characters.");
             put("^(?!.*[^" + VALID_USER_NAME_CHARACTERS + "]).*", "Doesn't contain invalid characters.");
         }
     });

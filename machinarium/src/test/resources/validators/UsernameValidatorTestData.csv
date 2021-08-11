@@ -19,3 +19,6 @@ VALUES (""someguyiwannahack"", ""Easy_Password123"");",INVALID,*
 17,select'asdf'as[asdf]into[#MyTable],INVALID,Doesn't contain invalid characters.
 18,DELETE/**/FROM/**/Users,INVALID,Doesn't contain invalid characters.
 19,exec[sp_executesql]N'select''asdf''as[asdf]into[#MyTable]',INVALID,Doesn't contain invalid characters.
+20,madeup_passADWAWDawdawdawdwadwadwadad123131231333333333341241jkfhawdb_vkwda___WD_A_WD_DdawdD_W____a,VALID,
+21,madeup_passADWAWDawdawdawdwadwadwadad123131231333333333341241jkfhawdb_vkwda___WD_A_WD_DdawdD_W____ab,VALID,
+22,madeup_passADWAWDawdawdawdwadwadwadad123131231333333333341241jkfhawdb_vkwda___WD_A_WD_DdawdD_W____abc,INVALID,Doesn't contain more than 100 characters.
