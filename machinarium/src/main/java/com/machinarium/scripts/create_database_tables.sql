@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users(
                       id INT PRIMARY KEY AUTO_INCREMENT,
                       user_name VARCHAR(64) NOT NULL,
-                      user_password VARCHAR(64) NOT NULL,
+                      user_password CHAR(64) NOT NULL,
                       mail VARCHAR(64),
                       CONSTRAINT user_name_unique_constraint UNIQUE(user_name),
                       CONSTRAINT mail_unique_consraint UNIQUE(mail)
