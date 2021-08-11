@@ -1,4 +1,4 @@
-package com.machinarium.dao;
+package com.machinarium.model.user;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

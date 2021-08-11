@@ -1,7 +1,7 @@
 package com.machinarium.model.Item.part;
 
-public class Chassis extends CarPart {
-	private int weightSupport;
+public class Chassis extends Part {
+	private final int weightSupport;
 
 	public Chassis(String name, String nameID, int weight, int weightSupport) {
 		super(name, nameID, weight);

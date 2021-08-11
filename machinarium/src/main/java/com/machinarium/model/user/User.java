@@ -1,4 +1,4 @@
-package com.machinarium.dao;
+package com.machinarium.model.user;
 
 import java.util.Objects;
 

@@ -1,8 +1,8 @@
 package com.machinarium.model.Item;
 
 public class Item {
-	private String name;
-	private String nameID;
+	private final String name;
+	private final String nameID;
 
 	public Item(String name, String nameID) {
 		this.name = name;

@@ -1,7 +1,7 @@
 package com.machinarium.model.Item.part;
 
-public class Engine extends CarPart {
-	private int horsePower;
+public class Engine extends Part {
+	private final int horsePower;
 
 	public Engine(String name, String nameID, int weight, int horsePower) {
 		super(name, nameID, weight);
