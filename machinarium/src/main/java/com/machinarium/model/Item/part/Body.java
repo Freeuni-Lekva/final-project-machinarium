@@ -1,6 +1,10 @@
 package com.machinarium.model.Item.part;
 
+import java.util.List;
+
 public class Body extends Part {
+	public static final int NONE_AERO_DRAG = -1;
+
 	private final int aeroDrag;
 
 	public Body(int uid, String name, int weight, int aeroDrag) {
@@ -8,9 +12,27 @@ public class Body extends Part {
 		this.aeroDrag = aeroDrag;
 	}
 
+	public Body() {
+		super();
+		this.aeroDrag = NONE_AERO_DRAG;
+	}
+
 
 	public int getAeroDrag() {
 		return aeroDrag;
+	}
+
+	@Override
+	public String getType() {
+		return "Body";
+	}
+
+	@Override
+	public List<String> getSpecs() {
+		List<String> specs = super.getSpecs();
+		String spec = "[aeroDrag: " + aeroDrag + "]";
+		specs.add(spec);
+		return specs;
 	}
 
 	@Override

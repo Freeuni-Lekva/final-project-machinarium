@@ -1,7 +1,11 @@
 package com.machinarium.model.Item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Item {
 	public static final int NONE_UID = -1;
+	public static final String NONE_NAME = "";
 
 	private final int uid;
 	private final String name;
@@ -11,6 +15,10 @@ public class Item {
 		this.name = name;
 	}
 
+	public Item() {
+		this(NONE_UID, NONE_NAME);
+	}
+
 
 	public int getUid() {
 		return uid;
@@ -18,6 +26,17 @@ public class Item {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getType() {
+		return "Item";
+	}
+
+	public List<String> getSpecs() {
+		List<String> specs = new ArrayList<>();
+		String spec = "[name: " + name + "]";
+		specs.add(spec);
+		return specs;
 	}
 
 	@Override

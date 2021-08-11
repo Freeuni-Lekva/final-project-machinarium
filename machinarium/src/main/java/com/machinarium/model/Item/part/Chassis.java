@@ -1,6 +1,10 @@
 package com.machinarium.model.Item.part;
 
+import java.util.List;
+
 public class Chassis extends Part {
+	public static final int NONE_WEIGHT_SUPPORT = -1;
+
 	private final int weightSupport;
 
 	public Chassis(int uid, String name, int weight, int weightSupport) {
@@ -8,9 +12,27 @@ public class Chassis extends Part {
 		this.weightSupport = weightSupport;
 	}
 
+	public Chassis() {
+		super();
+		this.weightSupport = NONE_WEIGHT_SUPPORT;
+	}
+
 
 	public int getWeightSupport() {
 		return weightSupport;
+	}
+
+	@Override
+	public String getType() {
+		return "Chassis";
+	}
+
+	@Override
+	public List<String> getSpecs() {
+		List<String> specs = super.getSpecs();
+		String spec = "[weightSupport: " + weightSupport + "]";
+		specs.add(spec);
+		return specs;
 	}
 
 	@Override

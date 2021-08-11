@@ -1,7 +1,7 @@
 package com.machinarium.model.hub;
 
 import com.machinarium.dao.CarDAO;
-import com.machinarium.dao.ItemDAO;
+import com.machinarium.dao.SpareItemDAO;
 import com.machinarium.dao.UserDAO;
 import com.machinarium.model.car.Car;
 
@@ -10,12 +10,12 @@ import java.util.List;
 
 public class CarHub {
 	private UserDAO userDAO;
-	private ItemDAO itemDAO;
+	private SpareItemDAO spareItemDAO;
 	private CarDAO carDAO;
 
-	public CarHub(UserDAO userDAO, ItemDAO itemDAO, CarDAO carDAO) {
+	public CarHub(UserDAO userDAO, SpareItemDAO spareItemDAO, CarDAO carDAO) {
 		this.userDAO = userDAO;
-		this.itemDAO = itemDAO;
+		this.spareItemDAO = spareItemDAO;
 		this.carDAO = carDAO;
 	}
 

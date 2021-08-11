@@ -6,4 +6,14 @@ public class Transmission extends Part {
 		super(uid, name, weight);
 	}
 
+	public Transmission() {
+		super();
+	}
+
+
+	@Override
+	public String getType() {
+		return "Transmission";
+	}
+
 }
