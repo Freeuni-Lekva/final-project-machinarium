@@ -3,8 +3,13 @@ package com.machinarium.dao;
 import com.machinarium.model.Item.Item;
 
 public interface ItemDAO {
-	void makeOrder(String userName, Item item); //ToDo: remove
-	void exchange(String userNameA, String userNameB, Item itemA, Item itemB); //ToDo: remove
 
+	boolean hasNoSpareItem(String userName);
+	int spareItemCount(String userName);
+
+	boolean hasItem(String userName, String itemNameID);
+
+	boolean addItem(String userName, String itemNameID);
+	boolean removeItem(String userName, String itemNameID);
 
 }

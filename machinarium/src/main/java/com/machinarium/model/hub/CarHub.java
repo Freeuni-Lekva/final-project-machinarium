@@ -19,7 +19,7 @@ public class CarHub {
 		this.carDAO = carDAO;
 	}
 
-	public List<Car> getCar(String userName) {
+	public List<Car> getCars(String userName) {
 		List<Car> allCars = new ArrayList<>();
 
 		List<String> allCarsNameID = carDAO.getAllCarsNameID(userName);
@@ -29,6 +29,21 @@ public class CarHub {
 		}
 
 		return allCars;
+	}
+
+	public boolean disassembleCar(String userName, String carNameID) {
+		if (carDAO.hasNoCar(userName)) return false;
+
+		List<String> allItems = carDAO.getAllItems(userName, carNameID);
+		if (allItems == null || allItems.isEmpty()) return false;
+
+		for (String curItem : allItems) {
+			carDAO.takeItem(userName, carNameID, curItem);
+		}
+
+
+
+		return true;
 	}
 
 
