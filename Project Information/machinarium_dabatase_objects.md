@@ -1,8 +1,9 @@
 
 | Tables_in_machinarium_database | Table_type |
 |--------------------------------|------------|
+| car_parts                      | BASE TABLE |
 | cars                           | BASE TABLE |
-| connector                      | BASE TABLE |
+| connectors                     | BASE TABLE |
 | fusion_tools                   | BASE TABLE |
 | game_results                   | BASE TABLE |
 | games                          | BASE TABLE |
@@ -14,6 +15,7 @@
 | items                          | BASE TABLE |
 | order_items                    | BASE TABLE |
 | orders                         | BASE TABLE |
+| reward_item                    | BASE TABLE |
 | rewards                        | BASE TABLE |
 | user_game                      | BASE TABLE |
 | user_garage                    | BASE TABLE |
