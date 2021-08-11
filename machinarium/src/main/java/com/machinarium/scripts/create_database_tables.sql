@@ -2,6 +2,7 @@ CREATE DATABASE IF NOT EXISTS machinarium_database;
 USE machinarium_database;
 
 /* DROP TABLES */
+
 DROP TABLE IF EXISTS user_order;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS orders;
@@ -23,6 +24,7 @@ DROP TABLE IF EXISTS garage;
 DROP TABLE IF EXISTS users;
 
 /* CREATE TABLES */
+
 CREATE TABLE users(
                       id INT PRIMARY KEY AUTO_INCREMENT,
                       user_name VARCHAR(64) NOT NULL,
