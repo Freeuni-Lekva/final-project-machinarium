@@ -10,9 +10,12 @@ Test Case ID,Test Input,Expected Result,Reject Reason
 9,,INVALID,*
 10,SELECT * FROM Users;,INVALID,*
 11,DROP TABLE Users;,INVALID,*
-12,INSERT ,INVALID,*
-13,"INSERT INTO Users(username, password)
+12,"INSERT INTO Users(username, password)
 VALUES (""someguyiwannahack"", ""Easy_Password123"");",INVALID,*
-14,DROP DATABASE Machinarium;,INVALID,*
-15,"UPDATE Users SET password=""c748db15ab47dfba758ceedf0655043585372cf5cc64388cb9710c3e93959544"";",INVALID,*
-16,DELETE FROM Users;,INVALID,*
+13,DROP DATABASE Machinarium;,INVALID,*
+14,"UPDATE Users SET password=""c748db15ab47dfba758ceedf0655043585372cf5cc64388cb9710c3e93959544"";",INVALID,*
+15,DELETE FROM Users;,INVALID,*
+16,SELECT/*avoid-spaces*/password/**/FROM/**/Members,INVALID,Doesn't contain invalid characters.
+17,select'asdf'as[asdf]into[#MyTable],INVALID,Doesn't contain invalid characters.
+18,DELETE/**/FROM/**/Users,INVALID,Doesn't contain invalid characters.
+19,exec[sp_executesql]N'select''asdf''as[asdf]into[#MyTable]',INVALID,Doesn't contain invalid characters.
