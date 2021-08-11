@@ -31,7 +31,7 @@ CREATE TABLE users(
                       user_password CHAR(64) NOT NULL,
                       mail VARCHAR(64),
                       CONSTRAINT user_name_unique_constraint UNIQUE(user_name),
-                      CONSTRAINT mail_unique_consraint UNIQUE(mail)
+                      CONSTRAINT mail_unique_constraint UNIQUE(mail)
 );
 
 
