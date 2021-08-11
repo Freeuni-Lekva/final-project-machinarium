@@ -11,13 +11,16 @@ public class DragCar extends CarAbs {
 	private Transmission transmission;
 	private Wheels wheels;
 
-	//	private Conn<Chassis, Body> chassisBody;
+	////////////////////////////////////// private Conn<Chassis, Body> chassisBody;
+
+
 	private Chassis_Body chassis_body;
 	private Chassis_Transmission chassis_transmission;
 	private Chassis_Wheels chassis_wheels;
 	private Chassis_Engine chassis_engine;
 	private Engine_Transmission engine_transmission;
 	private Transmission_Wheels transmission_wheels;
+
 
 
 	public DragCar(String name, String nameID,
@@ -41,92 +44,6 @@ public class DragCar extends CarAbs {
 		this.chassis_wheels = chassis_wheels;
 		this.chassis_engine = chassis_engine;
 		this.engine_transmission = engine_transmission;
-		this.transmission_wheels = transmission_wheels;
-	}
-
-	public DragCar() {
-		this(null, null,
-				null, null, null, null, null,
-				null, null, null,
-				null, null, null);
-	}
-
-
-	public Chassis getChassis() {
-		return chassis;
-	}
-	public void setChassis(Chassis chassis) {
-		this.chassis = chassis;
-	}
-
-	public Body getBody() {
-		return body;
-	}
-	public void setBody(Body body) {
-		this.body = body;
-	}
-
-	public Engine getEngine() {
-		return engine;
-	}
-	public void setEngine(Engine engine) {
-		this.engine = engine;
-	}
-
-	public Transmission getTransmission() {
-		return transmission;
-	}
-	public void setTransmission(Transmission transmission) {
-		this.transmission = transmission;
-	}
-
-	public Wheels getWheels() {
-		return wheels;
-	}
-	public void setWheels(Wheels wheels) {
-		this.wheels = wheels;
-	}
-
-	public Chassis_Body getChassis_body() {
-		return chassis_body;
-	}
-	public void setChassis_body(Chassis_Body chassis_body) {
-		this.chassis_body = chassis_body;
-	}
-
-	public Chassis_Transmission getChassis_transmission() {
-		return chassis_transmission;
-	}
-	public void setChassis_transmission(Chassis_Transmission chassis_transmission) {
-		this.chassis_transmission = chassis_transmission;
-	}
-
-
-	public Chassis_Wheels getChassis_wheels() {
-		return chassis_wheels;
-	}
-	public void setChassis_wheels(Chassis_Wheels chassis_wheels) {
-		this.chassis_wheels = chassis_wheels;
-	}
-
-	public Chassis_Engine getChassis_engine() {
-		return chassis_engine;
-	}
-	public void setChassis_engine(Chassis_Engine chassis_engine) {
-		this.chassis_engine = chassis_engine;
-	}
-
-	public Engine_Transmission getEngine_transmission() {
-		return engine_transmission;
-	}
-	public void setEngine_transmission(Engine_Transmission engine_transmission) {
-		this.engine_transmission = engine_transmission;
-	}
-
-	public Transmission_Wheels getTransmission_wheels() {
-		return transmission_wheels;
-	}
-	public void setTransmission_wheels(Transmission_Wheels transmission_wheels) {
 		this.transmission_wheels = transmission_wheels;
 	}
 
