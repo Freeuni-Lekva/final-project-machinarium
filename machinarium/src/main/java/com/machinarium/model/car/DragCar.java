@@ -2,7 +2,8 @@ package com.machinarium.model.car;
 
 import com.machinarium.model.Item.connector.*;
 import com.machinarium.model.Item.part.*;
-import java.util.Random;
+
+import java.util.*;
 
 public class DragCar extends Car {
 	private final Chassis chassis;
@@ -137,6 +138,51 @@ public class DragCar extends Car {
 		return time * 100;
 	}
 
+
+	@Override
+	public String getType() {
+		return "DragCar";
+	}
+
+	@Override
+	public List<List<String>> getSpecs() {
+		List<List<String>> fullSpecs = new ArrayList<>();
+
+		fullSpecs.add(chassis.getSpecs());
+		fullSpecs.add(body.getSpecs());
+		fullSpecs.add(engine.getSpecs());
+		fullSpecs.add(transmission.getSpecs());
+		fullSpecs.add(wheels.getSpecs());
+
+		fullSpecs.add(chassisBody.getSpecs());
+		fullSpecs.add(chassisTransmission.getSpecs());
+		fullSpecs.add(chassisWheels.getSpecs());
+		fullSpecs.add(chassisEngine.getSpecs());
+		fullSpecs.add(engineTransmission.getSpecs());
+		fullSpecs.add(transmissionWheels.getSpecs());
+
+		return fullSpecs;
+	}
+
+	@Override
+	public Map<String, Map<String, String>> getMappedSpecs() {
+		Map<String, Map<String, String>> fullSpecs = new HashMap<>();
+
+		fullSpecs.put(chassis.getType(), chassis.getMappedSpecs());
+		fullSpecs.put(body.getType(), body.getMappedSpecs());
+		fullSpecs.put(engine.getType(), engine.getMappedSpecs());
+		fullSpecs.put(transmission.getType(), transmission.getMappedSpecs());
+		fullSpecs.put(wheels.getType(), wheels.getMappedSpecs());
+
+		fullSpecs.put(chassisBody.getType(), chassisBody.getMappedSpecs());
+		fullSpecs.put(chassisTransmission.getType(), chassisTransmission.getMappedSpecs());
+		fullSpecs.put(chassisWheels.getType(), chassisWheels.getMappedSpecs());
+		fullSpecs.put(chassisEngine.getType(), chassisEngine.getMappedSpecs());
+		fullSpecs.put(engineTransmission.getType(), engineTransmission.getMappedSpecs());
+		fullSpecs.put(transmissionWheels.getType(), transmissionWheels.getMappedSpecs());
+
+		return fullSpecs;
+	}
 
 	@Override
 	public String toString() {
