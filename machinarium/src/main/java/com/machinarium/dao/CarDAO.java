@@ -1,6 +1,7 @@
 package com.machinarium.dao;
 
 import com.machinarium.model.car.Car;
+
 import java.util.List;
 
 public interface CarDAO {

@@ -4,7 +4,7 @@ import com.machinarium.model.Item.connector.*;
 import com.machinarium.model.Item.part.*;
 import java.util.Random;
 
-public class DragCar extends CarAbs {
+public class DragCar extends Car {
 	private final Chassis chassis;
 	private final Body body;
 	private final Engine engine;
@@ -109,7 +109,6 @@ public class DragCar extends CarAbs {
 		return fullWeight;
 	}
 
-
 	private double measureRunTime(int effectiveHorsePower, int fullWeight) {
 		double time = (double)effectiveHorsePower / (double)fullWeight;
 		time *= applyWeatherEffect();
@@ -136,6 +135,27 @@ public class DragCar extends CarAbs {
 
 	private double adjustTimer(double time) {
 		return time * 100;
+	}
+
+
+	@Override
+	public String toString() {
+		String str = super.toString();
+
+		str += "[chassis: \n" + chassis.toString() + "\n] \n";
+		str += "[body: \n" + body.toString() + "\n] \n";
+		str += "[engine: \n" + engine.toString() + "\n] \n";
+		str += "[transmission: \n" + transmission.toString() + "\n] \n";
+		str += "[wheels: \n" + wheels.toString() + "\n] \n";
+
+		str += "[chassisBody: \n" + chassisBody.toString() + "\n] \n";
+		str += "[chassisTransmission: \n" + chassisTransmission.toString() + "\n] \n";
+		str += "[chassisWheels: \n" + chassisWheels.toString() + "\n] \n";
+		str += "[chassisEngine: \n" + chassisEngine.toString() + "\n] \n";
+		str += "[engineTransmission: \n" + engineTransmission.toString() + "\n] \n";
+		str += "[transmissionWheels: \n" + transmissionWheels.toString() + "\n] \n";
+
+		return str;
 	}
 
 }
