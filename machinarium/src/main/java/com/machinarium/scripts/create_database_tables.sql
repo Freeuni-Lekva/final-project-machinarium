@@ -1,15 +1,200 @@
-CREATE DATABASE machinarium_database;
+CREATE DATABASE IF NOT EXISTS machinarium_database;
+USE machinarium_database;
 
+/* DROP TABLES */
+DROP TABLE IF EXISTS user_order;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS user_game;
+DROP TABLE IF EXISTS game_results;
+DROP TABLE IF EXISTS rewards;
+DROP TABLE IF EXISTS user_statistics;
+DROP TABLE IF EXISTS garage_item;
+DROP TABLE IF EXISTS garage_car;
+DROP TABLE IF EXISTS cars;
+DROP TABLE IF EXISTS user_garage;
+DROP TABLE IF EXISTS fusion_tools;
+DROP TABLE IF EXISTS connector;
+DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS item_types;
+DROP TABLE IF EXISTS item_categories;
+DROP TABLE IF EXISTS games;
+DROP TABLE IF EXISTS garage;
 DROP TABLE IF EXISTS users;
 
-CREATE TABLE users{
-	id INT,
-    user_name,
-    user_password,
-    mail
-};
+/* CREATE TABLES */
+CREATE TABLE users(
+                      id INT PRIMARY KEY AUTO_INCREMENT,
+                      user_name VARCHAR(64) NOT NULL,
+                      user_password VARCHAR(64) NOT NULL,
+                      mail VARCHAR(64),
+                      CONSTRAINT user_name_unique_constraint UNIQUE(user_name),
+                      CONSTRAINT mail_unique_consraint UNIQUE(mail)
+);
 
-CREATE TABLE item_categories{
-	id INT,
-    
-};
+
+CREATE TABLE garage(
+                       id INT PRIMARY KEY AUTO_INCREMENT,
+                       garage_name VARCHAR(64) UNIQUE
+);
+
+
+CREATE TABLE games(
+                      id INT PRIMARY KEY AUTO_INCREMENT,
+                      game_name VARCHAR(64) UNIQUE,
+                      game_date DATETIME
+);
+
+CREATE TABLE item_categories(
+                                id INT PRIMARY KEY AUTO_INCREMENT,
+                                item_name VARCHAR(64) UNIQUE
+);
+
+CREATE TABLE item_types(
+                           id INT PRIMARY KEY AUTO_INCREMENT,
+                           type_name VARCHAR(64),
+                           item_category_id INT NOT NULL,
+                           connector_id 	INT,
+                           fusion_tool_id 	INT,
+                           FOREIGN KEY (item_category_id) REFERENCES item_categories(id) ON DELETE CASCADE
+);
+
+CREATE TABLE items(
+                      id INT PRIMARY KEY AUTO_INCREMENT,
+                      item_name VARCHAR(64) NOT NULL,
+                      type_id	INT NOT NULL,
+                      weight	INT,
+                      wight_support INT,
+                      aero_drag INT,
+                      horse_power INT,
+                      traction_unit INT,
+                      FOREIGN KEY (type_id) REFERENCES item_types(id) ON DELETE CASCADE
+);
+
+CREATE TABLE connector(
+                          id INT PRIMARY KEY AUTO_INCREMENT,
+                          connector_name VARCHAR(64),
+                          item_type_1_id INT NOT NULL,
+                          item_type_2_id INT NOT NULL,
+                          FOREIGN KEY (item_type_1_id) REFERENCES item_types(id) ON DELETE CASCADE,
+                          FOREIGN KEY (item_type_2_id) REFERENCES item_types(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE fusion_tools(
+                             id INT PRIMARY KEY AUTO_INCREMENT,
+                             fusion_tool_name	VARCHAR(64),
+                             connector_type INT,
+                             FOREIGN KEY (connector_type) REFERENCES connector(id) ON DELETE CASCADE
+);
+
+CREATE TABLE garage_item(
+                            id INT PRIMARY KEY AUTO_INCREMENT,
+                            garage_id INT,
+                            item_id INT,
+                            item_count INT,
+                            CONSTRAINT garage_item_unique UNIQUE (garage_id, item_id),
+                            FOREIGN KEY (garage_id) REFERENCES garage(id) ON DELETE CASCADE,
+                            FOREIGN KEY (item_id) 	REFERENCES items(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_garage(
+                            id INT PRIMARY KEY AUTO_INCREMENT,
+                            user_id INT,
+                            garage_id INT,
+                            CONSTRAINT user_garage_unique UNIQUE (user_id, garage_id),
+                            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                            FOREIGN KEY (garage_id) REFERENCES garage(id) ON DELETE CASCADE
+);
+
+CREATE TABLE cars(
+                     id INT PRIMARY KEY AUTO_INCREMENT,
+                     car_name VARCHAR(64) NOT NULL,
+                     chassis_id INT,
+                     body_id INT,
+                     engine_id INT,
+                     transmission_id INT,
+                     wheel_id INT,
+                     FOREIGN KEY (chassis_id) REFERENCES items(id) ON DELETE CASCADE,
+                     FOREIGN KEY (body_id) REFERENCES items(id) ON DELETE CASCADE,
+                     FOREIGN KEY (engine_id) REFERENCES items(id) ON DELETE CASCADE,
+                     FOREIGN KEY (transmission_id) REFERENCES items(id) ON DELETE CASCADE,
+                     FOREIGN KEY (wheel_id) REFERENCES items(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE garage_car(
+                           id INT PRIMARY KEY AUTO_INCREMENT,
+                           garage_id INT,
+                           car_id INT,
+                           FOREIGN KEY (garage_id) REFERENCES garage(id) ON DELETE CASCADE,
+                           FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_statistics(
+                                id INT PRIMARY KEY AUTO_INCREMENT,
+                                user_id INT UNIQUE,
+                                first_count INT,
+                                second_count INT,
+                                third_count INT,
+                                lose_count INT,
+                                FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE rewards(
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        item_id INT,
+                        item_count INT,
+                        FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
+);
+
+CREATE TABLE game_results(
+                             id INT PRIMARY KEY AUTO_INCREMENT,
+                             game_id INT UNIQUE,
+                             first_place_id INT,
+                             reward1_id INT,
+                             second_place_id INT,
+                             reward2_id INT,
+                             third_place_id INT,
+                             reward3_id INT,
+                             FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE,
+                             FOREIGN KEY (first_place_id) REFERENCES users(id) ON DELETE CASCADE,
+                             FOREIGN KEY (reward1_id) REFERENCES rewards(id) ON DELETE CASCADE,
+                             FOREIGN KEY (second_place_id) REFERENCES users(id) ON DELETE CASCADE,
+                             FOREIGN KEY (reward2_id) REFERENCES rewards(id) ON DELETE CASCADE,
+                             FOREIGN KEY (third_place_id) REFERENCES users(id) ON DELETE CASCADE,
+                             FOREIGN KEY (reward3_id) REFERENCES rewards(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_game(
+                          id INT PRIMARY KEY AUTO_INCREMENT,
+                          user_id INT,
+                          game_id INT,
+                          CONSTRAINT user_game_unique UNIQUE (user_id, game_id),
+                          FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                          FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+);
+
+CREATE TABLE orders(
+                       id INT PRIMARY KEY AUTO_INCREMENT,
+                       order_status VARCHAR(16),
+                       order_date DATETIME
+);
+
+CREATE TABLE order_items(
+                            id INT PRIMARY KEY AUTO_INCREMENT,
+                            order_id INT,
+                            item_id INT,
+                            item_amount INT,
+                            source_destination INT,
+                            FOREIGN KEY (order_id)REFERENCES orders(id) ON DELETE CASCADE,
+                            FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_order(
+                           id INT PRIMARY KEY AUTO_INCREMENT,
+                           user_id INT,
+                           order_id INT UNIQUE,
+                           FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                           FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
