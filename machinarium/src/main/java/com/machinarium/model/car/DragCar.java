@@ -5,31 +5,33 @@ import com.machinarium.model.Item.part.*;
 import java.util.Random;
 
 public class DragCar extends CarAbs {
-	private Chassis chassis;
-	private Body body;
-	private Engine engine;
-	private Transmission transmission;
-	private Wheels wheels;
+	private final Chassis chassis;
+	private final Body body;
+	private final Engine engine;
+	private final Transmission transmission;
+	private final Wheels wheels;
 
-	////////////////////////////////////// private Conn<Chassis, Body> chassisBody;
-
-
-	private Chassis_Body chassis_body;
-	private Chassis_Transmission chassis_transmission;
-	private Chassis_Wheels chassis_wheels;
-	private Chassis_Engine chassis_engine;
-	private Engine_Transmission engine_transmission;
-	private Transmission_Wheels transmission_wheels;
-
-
+	private final Connector<Chassis, Body> chassisBody;
+	private final Connector<Chassis, Transmission> chassisTransmission;
+	private final Connector<Chassis, Wheels> chassisWheels;
+	private final Connector<Chassis, Engine> chassisEngine;
+	private final Connector<Engine, Transmission> engineTransmission;
+	private final Connector<Transmission, Wheels> transmissionWheels;
 
 	public DragCar(String name, String nameID,
-				   Chassis chassis, Body body, Engine engine,
-				   Transmission transmission, Wheels wheels,
-				   Chassis_Body chassis_body, Chassis_Transmission chassis_transmission,
-				   Chassis_Wheels chassis_wheels, Chassis_Engine chassis_engine,
-				   Engine_Transmission engine_transmission,
-				   Transmission_Wheels transmission_wheels) {
+
+				   Chassis chassis,
+				   Body body,
+				   Engine engine,
+				   Transmission transmission,
+				   Wheels wheels,
+
+				   Connector<Chassis, Body> chassisBody,
+				   Connector<Chassis, Transmission> chassisTransmission,
+				   Connector<Chassis, Wheels> chassisWheels,
+				   Connector<Chassis, Engine> chassisEngine,
+				   Connector<Engine, Transmission> engineTransmission,
+				   Connector<Transmission, Wheels> transmissionWheels) {
 
 		super(name, nameID);
 
@@ -39,12 +41,12 @@ public class DragCar extends CarAbs {
 		this.transmission = transmission;
 		this.wheels = wheels;
 
-		this.chassis_body = chassis_body;
-		this.chassis_transmission = chassis_transmission;
-		this.chassis_wheels = chassis_wheels;
-		this.chassis_engine = chassis_engine;
-		this.engine_transmission = engine_transmission;
-		this.transmission_wheels = transmission_wheels;
+		this.chassisBody = chassisBody;
+		this.chassisTransmission = chassisTransmission;
+		this.chassisWheels = chassisWheels;
+		this.chassisEngine = chassisEngine;
+		this.engineTransmission = engineTransmission;
+		this.transmissionWheels = transmissionWheels;
 	}
 
 
@@ -86,12 +88,12 @@ public class DragCar extends CarAbs {
 		if (transmission == null) return false;
 		if (wheels == null) return false;
 
-		if (chassis_body == null) return false;
-		if (chassis_transmission == null) return false;
-		if (chassis_wheels == null) return false;
-		if (chassis_engine == null) return false;
-		if (engine_transmission == null) return false;
-		if (transmission_wheels == null) return false;
+		if (chassisBody == null) return false;
+		if (chassisTransmission == null) return false;
+		if (chassisWheels == null) return false;
+		if (chassisEngine == null) return false;
+		if (engineTransmission == null) return false;
+		if (transmissionWheels == null) return false;
 
 		return true;
 	}
