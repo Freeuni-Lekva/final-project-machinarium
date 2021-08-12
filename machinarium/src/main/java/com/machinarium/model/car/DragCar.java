@@ -27,7 +27,8 @@ public class DragCar extends Car {
 	private final Connector<Engine, Transmission> engineTransmission;
 	private final Connector<Transmission, Wheels> transmissionWheels;
 
-	public DragCar(int uid, String name,
+
+	public DragCar(int ID, String name,
 
 				   Chassis chassis,
 				   Body body,
@@ -42,7 +43,7 @@ public class DragCar extends Car {
 				   Connector<Engine, Transmission> engineTransmission,
 				   Connector<Transmission, Wheels> transmissionWheels) {
 
-		super(uid, name);
+		super(ID, name);
 
 		this.chassis = chassis;
 		this.body = body;
@@ -88,7 +89,7 @@ public class DragCar extends Car {
 
 
 	private boolean allItemsArePresent() {
-		if (getUid() == NONE_UID) return false;
+		if (getID() == NONE_ID) return false;
 		if (getName() == null) return false;
 
 		List<Item> necessaryComponents = List.of(

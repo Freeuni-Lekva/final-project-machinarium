@@ -9,8 +9,8 @@ public class Chassis extends Part {
 	private final int weightSupport;
 
 
-	public Chassis(int uid, String name, int weight, int weightSupport) {
-		super(uid, name, weight);
+	public Chassis(int ID, String name, int weight, int weightSupport) {
+		super(ID, name, weight);
 		this.weightSupport = weightSupport;
 	}
 

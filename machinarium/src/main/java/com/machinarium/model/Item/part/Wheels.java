@@ -9,8 +9,8 @@ public class Wheels extends Part {
 	private final int tractionUnit;
 
 
-	public Wheels(int uid, String nameID, int weight, int tractionUnit) {
-		super(uid, nameID, weight);
+	public Wheels(int ID, String nameID, int weight, int tractionUnit) {
+		super(ID, nameID, weight);
 		this.tractionUnit = tractionUnit;
 	}
 

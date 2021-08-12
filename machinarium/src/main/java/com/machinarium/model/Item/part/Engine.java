@@ -9,8 +9,8 @@ public class Engine extends Part {
 	private final int horsePower;
 
 
-	public Engine(int uid, String name, int weight, int horsePower) {
-		super(uid, name, weight);
+	public Engine(int ID, String name, int weight, int horsePower) {
+		super(ID, name, weight);
 		this.horsePower = horsePower;
 	}
 

@@ -9,8 +9,8 @@ public class Body extends Part {
 	private final int aeroDrag;
 
 
-	public Body(int uid, String name, int weight, int aeroDrag) {
-		super(uid, name, weight);
+	public Body(int ID, String name, int weight, int aeroDrag) {
+		super(ID, name, weight);
 		this.aeroDrag = aeroDrag;
 	}
 

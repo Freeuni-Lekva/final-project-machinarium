@@ -10,8 +10,8 @@ public class Connector<PartA, PartB> extends Item {
 	private final Part partB;
 
 
-	public Connector(int uid, String name, Part partA, Part partB) {
-		super(uid, name);
+	public Connector(int ID, String name, Part partA, Part partB) {
+		super(ID, name);
 		this.partA = partA;
 		this.partB = partB;
 	}

@@ -6,22 +6,22 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Car {
-	public static final int NONE_UID = -1;
+	public static final int NONE_ID = -1;
 	public static final double TIME_NA = -1.0;
 	public static final int TU_TO_HP = 100;
 	public static final int AD_TO_HP = 20;
 
-	private final int uid;
+	private final int ID;
 	private final String name;
 
-	public Car(int uid, String name) {
-		this.uid = uid;
+	public Car(int ID, String name) {
+		this.ID = ID;
 		this.name = name;
 	}
 
 
-	public int getUid() {
-		return uid;
+	public int getID() {
+		return ID;
 	}
 
 	public String getName() {
@@ -62,7 +62,7 @@ public abstract class Car {
 	@Override
 	public String toString() {
 		String str = "";
-		str += "[uid: " + uid + "] \n";
+		str += "[ID: " + ID + "] \n";
 		str += "[name: " + name + "] \n";
 		return str;
 	}

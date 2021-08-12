@@ -7,11 +7,11 @@ public interface SpareItemDAO {
 	boolean hasNoSpareItem(String userName);
 	int spareItemCount(String userName);
 
-	boolean hasItem(String userName, int itemUid);
+	boolean hasItem(String userName, int itemID);
 
-	boolean addItem(String userName, int itemUid);
-	boolean removeItem(String userName, int itemUid);
+	boolean addItem(String userName, int itemID);
+	boolean removeItem(String userName, int itemID);
 
-	List<Integer> getAllSpareItemUid(String userName);
+	List<Integer> getAllSpareItemID(String userName);
 
 }

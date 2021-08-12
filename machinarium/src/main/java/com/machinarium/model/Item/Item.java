@@ -6,25 +6,25 @@ import java.util.List;
 import java.util.Map;
 
 public class Item {
-	public static final int NONE_UID = -1;
+	public static final int NONE_ID = -1;
 	public static final String NONE_NAME = "";
 
-	private final int uid;
+	private final int ID;
 	private final String name;
 
 
-	public Item(int uid, String name) {
-		this.uid = uid;
+	public Item(int ID, String name) {
+		this.ID = ID;
 		this.name = name;
 	}
 
 	public Item() {
-		this(NONE_UID, NONE_NAME);
+		this(NONE_ID, NONE_NAME);
 	}
 
 
-	public int getUid() {
-		return uid;
+	public int getID() {
+		return ID;
 	}
 
 	public String getName() {
@@ -51,7 +51,7 @@ public class Item {
 	@Override
 	public String toString() {
 		String str = "";
-		str += "[uid: " + uid + "] \n";
+		str += "[ID: " + ID + "] \n";
 		str += "[name: " + name + "] \n";
 		return str;
 	}

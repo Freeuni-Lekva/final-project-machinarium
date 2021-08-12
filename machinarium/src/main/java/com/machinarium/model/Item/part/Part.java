@@ -10,8 +10,8 @@ public abstract class Part extends Item {
 	private final int weight;
 
 
-	public Part(int uid, String name, int weight) {
-		super(uid, name);
+	public Part(int ID, String name, int weight) {
+		super(ID, name);
 		this.weight = weight;
 	}
 

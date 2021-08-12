@@ -32,39 +32,39 @@ public class CarHub {
 	public List<Car> getAllCars(String userName) {
 		List<Car> allCars = new ArrayList<>();
 
-		List<Integer> allCarUid = carDAO.getAllCarUid(userName);
-		for (Integer curCarUid : allCarUid) {
-			Car curCar = carDAO.getCar(userName, curCarUid);
+		List<Integer> allCarID = carDAO.getAllCarID(userName);
+		for (Integer curCarID : allCarID) {
+			Car curCar = carDAO.getCar(userName, curCarID);
 			allCars.add(curCar);
 		}
 
 		return allCars;
 	}
 
-	// returns new carUid
-	public int constructCar(String userName, String newCarName, List<Integer> itemUids) {
-		if (userDAO.getUser(userName) == null) return Car.NONE_UID;
-		if (newCarName == null) return Car.NONE_UID;
-		if (itemUids.isEmpty()) return Car.NONE_UID;
+	// returns new carID
+	public int constructCar(String userName, String newCarName, List<Integer> itemIDs) {
+		if (userDAO.getUser(userName) == null) return Car.NONE_ID;
+		if (newCarName == null) return Car.NONE_ID;
+		if (itemIDs.isEmpty()) return Car.NONE_ID;
 
-		int newCarUid = carDAO.declare(userName, newCarName);
-		if (newCarUid == Car.NONE_UID) return Car.NONE_UID;
+		int newCarID = carDAO.declare(userName, newCarName);
+		if (newCarID == Car.NONE_ID) return Car.NONE_ID;
 
-		for (Integer curItemUid : itemUids) {
-			carDAO.putItem(userName, newCarUid, curItemUid);
+		for (Integer curItemID : itemIDs) {
+			carDAO.putItem(userName, newCarID, curItemID);
 		}
 
-		return newCarUid;
+		return newCarID;
 	}
 
-	public boolean disassembleCar(String userName, int carUid) {
+	public boolean disassembleCar(String userName, int carID) {
 		if (userDAO.hasCar(userName)) return false;
 
-		List<Integer> allItemUid = carDAO.getAllItemUid(userName, carUid);
-		if (allItemUid == null || allItemUid.isEmpty()) return false;
+		List<Integer> allItemID = carDAO.getAllItemID(userName, carID);
+		if (allItemID == null || allItemID.isEmpty()) return false;
 
-		for (Integer curItemUid : allItemUid) {
-			carDAO.takeItem(userName, carUid, curItemUid);
+		for (Integer curItemID : allItemID) {
+			carDAO.takeItem(userName, carID, curItemID);
 		}
 
 		return true;

@@ -3,8 +3,9 @@ package com.machinarium.model.userBin;
 import java.util.Map;
 
 public class UserRewards {
-	String userName;
-	Map<String, Integer> rewards;
+	private final String userName;
+	private final Map<String, Integer> rewards;
+
 
 	public UserRewards(String userName, Map<String, Integer> rewards) {
 		this.userName = userName;
