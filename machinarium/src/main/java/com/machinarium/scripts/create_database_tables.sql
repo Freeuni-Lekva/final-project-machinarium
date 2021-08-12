@@ -49,10 +49,12 @@ CREATE TABLE games(
                       game_date DATETIME
 );
 
+
 CREATE TABLE item_categories(
                                 id INT PRIMARY KEY AUTO_INCREMENT,
                                 category_name VARCHAR(64) UNIQUE
 );
+
 
 CREATE TABLE item_types(
                            id INT PRIMARY KEY AUTO_INCREMENT,
@@ -62,6 +64,7 @@ CREATE TABLE item_types(
                            fusion_tool_id 	INT,
                            FOREIGN KEY (item_category_id) REFERENCES item_categories(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE items(
                       id INT PRIMARY KEY AUTO_INCREMENT,
@@ -74,6 +77,7 @@ CREATE TABLE items(
                       traction_unit INT,
                       FOREIGN KEY (type_id) REFERENCES item_types(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE connectors(
                           id INT PRIMARY KEY AUTO_INCREMENT,
@@ -92,6 +96,7 @@ CREATE TABLE fusion_tools(
                              FOREIGN KEY (connector_type) REFERENCES connectors(id) ON DELETE CASCADE
 );
 
+
 CREATE TABLE garage_item(
                             id INT PRIMARY KEY AUTO_INCREMENT,
                             garage_id INT,
@@ -102,6 +107,7 @@ CREATE TABLE garage_item(
                             FOREIGN KEY (item_id) 	REFERENCES items(id) ON DELETE CASCADE
 );
 
+
 CREATE TABLE user_garage(
                             id INT PRIMARY KEY AUTO_INCREMENT,
                             user_id INT,
@@ -111,10 +117,13 @@ CREATE TABLE user_garage(
                             FOREIGN KEY (garage_id) REFERENCES garages(id) ON DELETE CASCADE
 );
 
+
 CREATE TABLE cars(
                      id INT PRIMARY KEY AUTO_INCREMENT,
                      car_name VARCHAR(64) NOT NULL
 );
+
+
 CREATE TABLE car_parts(
                     id INT PRIMARY KEY AUTO_INCREMENT,
                     car_id INT,
@@ -125,6 +134,7 @@ CREATE TABLE car_parts(
                     FOREIGN KEY (connector_id) REFERENCES connectors(id)
 );
 
+
 CREATE TABLE garage_car(
                            id INT PRIMARY KEY AUTO_INCREMENT,
                            garage_id INT,
@@ -132,6 +142,7 @@ CREATE TABLE garage_car(
                            FOREIGN KEY (garage_id) REFERENCES garages(id) ON DELETE CASCADE,
                            FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE user_statistics(
                                 id INT PRIMARY KEY AUTO_INCREMENT,
@@ -143,10 +154,13 @@ CREATE TABLE user_statistics(
                                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+
 CREATE TABLE rewards(
                         id INT PRIMARY KEY AUTO_INCREMENT,
                         reward_name VARCHAR(64)
 );
+
+
 CREATE TABLE reward_item(
                         id INT PRIMARY KEY AUTO_INCREMENT,
                         reward_id INT,
@@ -154,7 +168,6 @@ CREATE TABLE reward_item(
                         item_count INT,
                         FOREIGN KEY (reward_id)REFERENCES rewards(id) ON DELETE CASCADE,
                         FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
-
 );
 
 CREATE TABLE game_results(
