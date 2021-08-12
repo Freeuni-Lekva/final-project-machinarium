@@ -1,11 +1,19 @@
 package com.machinarium.model.car;
 
+import com.machinarium.model.Item.Item;
 import com.machinarium.model.Item.connector.*;
 import com.machinarium.model.Item.part.*;
 
 import java.util.*;
 
 public class DragCar extends Car {
+	private static final int TIME_ADJUSTER = 100;
+	private static final double WEATHER_EFFECT_LO = 0.9;
+	private static final double WEATHER_EFFECT_HI = 1.1;
+	private static final double TARMAC_EFFECT_LO = 0.9;
+	private static final double TARMAC_EFFECT_HI = 1.1;
+
+
 	private final Chassis chassis;
 	private final Body body;
 	private final Engine engine;
@@ -83,18 +91,15 @@ public class DragCar extends Car {
 		if (getUid() == NONE_UID) return false;
 		if (getName() == null) return false;
 
-		if (chassis == null) return false;
-		if (body == null) return false;
-		if (engine == null) return false;
-		if (transmission == null) return false;
-		if (wheels == null) return false;
+		List<Item> necessaryComponents = List.of(
+				chassis, body, engine, transmission, wheels,
+				chassisBody, chassisTransmission, chassisWheels,
+				chassisEngine, engineTransmission, transmissionWheels
+		);
 
-		if (chassisBody == null) return false;
-		if (chassisTransmission == null) return false;
-		if (chassisWheels == null) return false;
-		if (chassisEngine == null) return false;
-		if (engineTransmission == null) return false;
-		if (transmissionWheels == null) return false;
+		for (Item component: necessaryComponents) {
+			if (component == null) return false;
+		}
 
 		return true;
 	}
@@ -119,23 +124,23 @@ public class DragCar extends Car {
 	}
 
 	private double applyWeatherEffect() {
-		double lo = 0.9;
-		double hi = 1.1;
+		double lo = WEATHER_EFFECT_LO;
+		double hi = WEATHER_EFFECT_HI;
 		Random weatherEffectAnalyser = new Random();
 		double weatherEffect = lo + (hi - lo) * weatherEffectAnalyser.nextDouble();
 		return weatherEffect;
 	}
 
 	private double applyTarmacEffect() {
-		double lo = 0.9;
-		double hi = 1.1;
+		double lo = TARMAC_EFFECT_LO;
+		double hi = TARMAC_EFFECT_HI;
 		Random tarmacEffectAnalyser = new Random();
 		double tarmacEffect = lo + (hi - lo) * tarmacEffectAnalyser.nextDouble();
 		return tarmacEffect;
 	}
 
 	private double adjustTimer(double time) {
-		return time * 100;
+		return time * TIME_ADJUSTER;
 	}
 
 
