@@ -11,21 +11,21 @@ public class CarHub {
 	private final SpareItemDAO spareItemDAO;
 	private final ItemDAO itemDAO;
 	private final UserDAO userDAO;
-	private final UserOrderDAO userOrderDAO;
-	private final UserStatsDAO userStatsDAO;
-	private final UserRewardsDAO userRewardsDAO;
+	private final OrderDAO orderDAO;
+	private final StatsDAO statsDAO;
+	private final RewardsDAO rewardsDAO;
 
 
 	public CarHub(CarDAO carDAO, SpareItemDAO spareItemDAO, ItemDAO itemDAO,
-				  UserDAO userDAO, UserOrderDAO userOrderDAO,
-				  UserStatsDAO userStatsDAO, UserRewardsDAO userRewardsDAO) {
+				  UserDAO userDAO, OrderDAO orderDAO,
+				  StatsDAO statsDAO, RewardsDAO rewardsDAO) {
 		this.carDAO = carDAO;
 		this.spareItemDAO = spareItemDAO;
 		this.itemDAO = itemDAO;
 		this.userDAO = userDAO;
-		this.userOrderDAO = userOrderDAO;
-		this.userStatsDAO = userStatsDAO;
-		this.userRewardsDAO = userRewardsDAO;
+		this.orderDAO = orderDAO;
+		this.statsDAO = statsDAO;
+		this.rewardsDAO = rewardsDAO;
 	}
 
 

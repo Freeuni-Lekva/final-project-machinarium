@@ -1,4 +1,4 @@
 package com.machinarium.dao;
 
-public interface UserStatsDAO {
+public interface StatsDAO {
 }
