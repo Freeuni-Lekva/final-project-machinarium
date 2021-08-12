@@ -1,25 +1,35 @@
 package com.machinarium.model.hub;
 
-import com.machinarium.dao.CarDAO;
-import com.machinarium.dao.SpareItemDAO;
-import com.machinarium.dao.UserDAO;
+import com.machinarium.dao.*;
 import com.machinarium.model.car.Car;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarHub {
-	private UserDAO userDAO;
-	private SpareItemDAO spareItemDAO;
-	private CarDAO carDAO;
+	private final CarDAO carDAO;
+	private final SpareItemDAO spareItemDAO;
+	private final ItemDAO itemDAO;
+	private final UserDAO userDAO;
+	private final UserOrderDAO userOrderDAO;
+	private final UserStatsDAO userStatsDAO;
+	private final UserRewardsDAO userRewardsDAO;
 
-	public CarHub(UserDAO userDAO, SpareItemDAO spareItemDAO, CarDAO carDAO) {
-		this.userDAO = userDAO;
-		this.spareItemDAO = spareItemDAO;
+
+	public CarHub(CarDAO carDAO, SpareItemDAO spareItemDAO, ItemDAO itemDAO,
+				  UserDAO userDAO, UserOrderDAO userOrderDAO,
+				  UserStatsDAO userStatsDAO, UserRewardsDAO userRewardsDAO) {
 		this.carDAO = carDAO;
+		this.spareItemDAO = spareItemDAO;
+		this.itemDAO = itemDAO;
+		this.userDAO = userDAO;
+		this.userOrderDAO = userOrderDAO;
+		this.userStatsDAO = userStatsDAO;
+		this.userRewardsDAO = userRewardsDAO;
 	}
 
-	public List<Car> getCars(String userName) {
+
+	public List<Car> getAllCars(String userName) {
 		List<Car> allCars = new ArrayList<>();
 
 		List<Integer> allCarUid = carDAO.getAllCarUid(userName);
