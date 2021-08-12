@@ -47,29 +47,27 @@ public class CarHub {
 		if (newCarName == null) return Car.NONE_ID;
 		if (itemIDs.isEmpty()) return Car.NONE_ID;
 
-		int newCarID = carDAO.declare(userName, newCarName);
+		int newCarID = carDAO.addEmptyCar(userName, newCarName);
 		if (newCarID == Car.NONE_ID) return Car.NONE_ID;
 
 		for (Integer curItemID : itemIDs) {
-			carDAO.putItem(userName, newCarID, curItemID);
+			carDAO.addItem(userName, newCarID, curItemID);
 		}
 
 		return newCarID;
 	}
 
 	public boolean disassembleCar(String userName, int carID) {
-		if (userDAO.hasCar(userName)) return false;
+		if (carDAO.hasCar(userName)) return false;
 
 		List<Integer> allItemID = carDAO.getAllItemID(userName, carID);
 		if (allItemID == null || allItemID.isEmpty()) return false;
 
 		for (Integer curItemID : allItemID) {
-			carDAO.takeItem(userName, carID, curItemID);
+			carDAO.removeItem(userName, carID, curItemID);
 		}
 
 		return true;
 	}
-
-
 
 }

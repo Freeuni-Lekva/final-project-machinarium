@@ -1,10 +1,12 @@
 package com.machinarium.dao;
 
+import com.machinarium.model.Item.Item;
+
 import java.util.List;
 
 public interface SpareItemDAO {
 
-	boolean hasNoSpareItem(String userName);
+	boolean hasSpareItem(String userName);
 	int spareItemCount(String userName);
 
 	boolean hasItem(String userName, int itemID);
@@ -13,5 +15,6 @@ public interface SpareItemDAO {
 	boolean removeItem(String userName, int itemID);
 
 	List<Integer> getAllSpareItemID(String userName);
+	List<Item> getAllSpareItem(String userName); //++ //ToDo: Review
 
 }

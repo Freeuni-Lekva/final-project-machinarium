@@ -39,10 +39,4 @@ public interface UserDAO {
      */
     boolean updateEmail(String userName, String newEmail);
 
-
-
-    boolean hasCar(String userName);  //++ //imported from CarDAO
-
-    int carCount(String userName);  //++ //imported from CarDAO
-
 }
