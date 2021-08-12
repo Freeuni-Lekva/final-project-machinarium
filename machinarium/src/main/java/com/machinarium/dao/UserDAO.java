@@ -38,4 +38,11 @@ public interface UserDAO {
      * @return True if the entry for the specified user was successfully updated, false otherwise.
      */
     boolean updateEmail(String userName, String newEmail);
+
+
+
+    boolean hasCar(String userName);  //++ //imported from CarDAO
+
+    int carCount(String userName);  //++ //imported from CarDAO
+
 }

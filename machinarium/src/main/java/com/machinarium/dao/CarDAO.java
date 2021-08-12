@@ -5,10 +5,7 @@ import java.util.List;
 
 public interface CarDAO {
 
-	boolean hasNoCar(String userName);
-	int carCount(String userName);
-
-	boolean rename(String userName, int carUid, String newCarName);
+	boolean updateCarName(String userName, int carUid, String newCarName);
 	int declare(String userName, String carName); // returns carUid
 	boolean unDeclare(String userName, int carUid); // removes empty car from garage
 

@@ -58,7 +58,7 @@ public class CarHub {
 	}
 
 	public boolean disassembleCar(String userName, int carUid) {
-		if (carDAO.hasNoCar(userName)) return false;
+		if (userDAO.hasCar(userName)) return false;
 
 		List<Integer> allItemUid = carDAO.getAllItemUid(userName, carUid);
 		if (allItemUid == null || allItemUid.isEmpty()) return false;
