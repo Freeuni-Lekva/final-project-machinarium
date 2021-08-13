@@ -1,5 +1,6 @@
 package com.machinarium.model.car;
 
+import com.machinarium.model.globals.CarLib;
 import com.machinarium.model.globals.ID;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,14 +36,14 @@ public abstract class Car {
 
 
 	public String getType() {
-		return "Car";
+		return CarLib.CAR_TYPE;
 	}
 
 	public List<List<String>> getSpecs() {
 		List<List<String>> fullSpecs = new ArrayList<>();
 
 		List<String> specs = new ArrayList<>();
-		String spec = "[name: " + name + "]";
+		String spec = "[" + CarLib.NAME + ": " + name + "]";
 		specs.add(spec);
 
 		fullSpecs.add(specs);
@@ -53,17 +54,17 @@ public abstract class Car {
 		Map<String,  Map<String, String>> fullSpecs = new HashMap<>();
 
 		Map<String, String> specs = new HashMap<>();
-		specs.put("name", name);
+		specs.put(CarLib.NAME, name);
 
-		fullSpecs.put("String", specs);
+		fullSpecs.put(CarLib.NAME, specs);
 		return fullSpecs;
 	}
 
 	@Override
 	public String toString() {
 		String str = "";
-		str += "[iD: " + iD + "] \n";
-		str += "[name: " + name + "] \n";
+		str += "[" + CarLib.ITEM_ID + ": " + iD + "] \n";
+		str += "[" + CarLib.NAME + ": " + name + "] \n";
 		return str;
 	}
 

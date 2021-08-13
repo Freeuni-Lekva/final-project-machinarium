@@ -1,6 +1,7 @@
 package com.machinarium.model.Item.part;
 
 import com.machinarium.model.globals.ID;
+import com.machinarium.model.globals.ItemLib;
 
 import java.util.List;
 import java.util.Map;
@@ -26,13 +27,13 @@ public class Engine extends Part {
 
 	@Override
 	public String getType() {
-		return "Engine";
+		return ItemLib.ENGINE_TYPE;
 	}
 
 	@Override
 	public List<String> getSpecs() {
 		List<String> specs = super.getSpecs();
-		String spec = "[horsePower: " + horsePower + "]";
+		String spec = "[" + ItemLib.HORSE_POWER + ": " + horsePower + "]";
 		specs.add(spec);
 		return specs;
 	}
@@ -40,14 +41,14 @@ public class Engine extends Part {
 	@Override
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = super.getMappedSpecs();
-		specs.put("horsePower", horsePower + "");
+		specs.put(ItemLib.HORSE_POWER, horsePower + "");
 		return specs;
 	}
 
 	@Override
 	public String toString() {
 		String str = super.toString();
-		str += "[horsePower: " + horsePower + "] \n";
+		str += "[" + ItemLib.HORSE_POWER + ": " + horsePower + "] \n";
 		return str;
 	}
 

@@ -2,6 +2,7 @@ package com.machinarium.model.Item.part;
 
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.globals.ID;
+import com.machinarium.model.globals.ItemLib;
 
 import java.util.List;
 import java.util.Map;
@@ -27,13 +28,13 @@ public abstract class Part extends Item {
 
 	@Override
 	public String getType() {
-		return "Part";
+		return ItemLib.PART_TYPE;
 	}
 
 	@Override
 	public List<String> getSpecs() {
 		List<String> specs = super.getSpecs();
-		String spec = "[weight: " + weight + "]";
+		String spec = "[" + ItemLib.WEIGHT + ": " + weight + "]";
 		specs.add(spec);
 		return specs;
 	}
@@ -41,14 +42,14 @@ public abstract class Part extends Item {
 	@Override
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = super.getMappedSpecs();
-		specs.put("weight", weight + "");
+		specs.put(ItemLib.WEIGHT, weight + "");
 		return specs;
 	}
 
 	@Override
 	public String toString() {
 		String str = super.toString();
-		str += "[weight: " + weight + "] \n";
+		str += "[" + ItemLib.WEIGHT + ": " + weight + "] \n";
 		return str;
 	}
 

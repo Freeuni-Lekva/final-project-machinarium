@@ -3,6 +3,7 @@ package com.machinarium.model.Item.connector;
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.Item.part.Part;
 import com.machinarium.model.globals.ID;
+import com.machinarium.model.globals.ItemLib;
 
 import java.util.List;
 import java.util.Map;
@@ -28,14 +29,14 @@ public class Connector<PartA, PartB> extends Item {
 
 	@Override
 	public String getType() {
-		return "Connector";
+		return ItemLib.CONNECTOR_TYPE;
 	}
 
 	@Override
 	public List<String> getSpecs() {
 		List<String> specs = super.getSpecs();
-		String spec = "[Connector: <" + partA.getType() + ", " +
-				                        partB.getType() + ">]";
+		String spec = "[" + ItemLib.CONNECTOR_TYPE + ": <" + partA.getType() + ", " +
+				                                             partB.getType() + ">]";
 		specs.add(spec);
 		return specs;
 	}
@@ -43,17 +44,16 @@ public class Connector<PartA, PartB> extends Item {
 	@Override
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = super.getMappedSpecs();
-		String spec = "[Connector: <" + partA.getType() + ", " +
-				                        partB.getType() + ">]";
-		specs.put("Connector", spec);
+		String spec = "<" + partA.getType() + ", " + partB.getType() + ">";
+		specs.put(ItemLib.CONNECTOR_TYPE, spec);
 		return specs;
 	}
 
 	@Override
 	public String toString() {
 		String str = super.toString();
-		str += "[Connector: <" + partA.getType() + ", " +
-				                 partB.getType() + ">] \n";
+		str += "[" + ItemLib.CONNECTOR_TYPE + ": <" + partA.getType() + ", " +
+				                                      partB.getType() + ">] \n";
 		return str;
 	}
 
