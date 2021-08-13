@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 class UserDAOClass implements UserDAO {
@@ -95,5 +97,27 @@ class UserDAOClass implements UserDAO {
         }
         connectionPool.releaseConnection(con);
         return updateEmailBoolean;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        Connection con = connectionPool.acquireConnection();
+        String getAllUsersQuery = "SELECT * FROM " + USERS_TABLE;
+        List<User> allUsers = new ArrayList<>();
+        try {
+            Statement getAllUsersStat = con.createStatement();
+            ResultSet res = getAllUsersStat.executeQuery(getAllUsersQuery);
+            while (res.next()){
+                User user = new User(res.getString("user_name"),
+                        EncryptedPassword.of(res.getString("password")),
+                        res.getString("mail"));
+                allUsers.add(user);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        connectionPool.releaseConnection(con);
+        return allUsers;
     }
 }
