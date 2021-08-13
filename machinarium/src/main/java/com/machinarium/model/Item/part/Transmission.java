@@ -5,7 +5,7 @@ import com.machinarium.model.globals.ItemLib;
 
 public class Transmission extends Part {
 
-	public Transmission(ID iD, String name, int weight) {
+	public Transmission(ID iD, String name, Integer weight) {
 		super(iD, name, weight);
 	}
 

@@ -7,16 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Wheels extends Part {
-	private final int tractionUnit;
+	private final Integer tractionUnit;
 
 
-	public Wheels(ID iD, String nameID, int weight, int tractionUnit) {
+	public Wheels(ID iD, String nameID, Integer weight, Integer tractionUnit) {
 		super(iD, nameID, weight);
 		this.tractionUnit = tractionUnit;
 	}
 
 
-	public int getTractionUnit() {
+	public Integer getTractionUnit() {
 		return tractionUnit;
 	}
 
@@ -36,7 +36,7 @@ public class Wheels extends Part {
 	@Override
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = super.getMappedSpecs();
-		specs.put(ItemLib.TRACTION_UNIT, tractionUnit + "");
+		specs.put(ItemLib.TRACTION_UNIT, tractionUnit.toString());
 		return specs;
 	}
 

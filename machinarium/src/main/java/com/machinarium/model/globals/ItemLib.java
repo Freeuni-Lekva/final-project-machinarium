@@ -27,11 +27,4 @@ public class ItemLib {
 	public static final String HORSE_POWER = "horsePower";
 	public static final String TRACTION_UNIT = "tractionUnit";
 
-
-	public static final int NULL_WEIGHT = -1;
-	public static final int NULL_AERO_DRAG = -1;
-	public static final int NULL_WEIGHT_SUPPORT = -1;
-	public static final int NULL_HORSE_POWER = -1;
-	public static final int NULL_TRACTION_UNIT = -1;
-
 }

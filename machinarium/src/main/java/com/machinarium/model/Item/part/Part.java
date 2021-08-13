@@ -3,21 +3,20 @@ package com.machinarium.model.Item.part;
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.globals.ID;
 import com.machinarium.model.globals.ItemLib;
-
 import java.util.List;
 import java.util.Map;
 
 public abstract class Part extends Item {
-	private final int weight;
+	private final Integer weight;
 
 
-	public Part(ID iD, String name, int weight) {
+	public Part(ID iD, String name, Integer weight) {
 		super(iD, name);
 		this.weight = weight;
 	}
 
 
-	public int getWeight() {
+	public Integer getWeight() {
 		return weight;
 	}
 
@@ -37,7 +36,7 @@ public abstract class Part extends Item {
 	@Override
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = super.getMappedSpecs();
-		specs.put(ItemLib.WEIGHT, weight + "");
+		specs.put(ItemLib.WEIGHT, weight.toString());
 		return specs;
 	}
 

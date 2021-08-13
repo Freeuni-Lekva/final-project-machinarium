@@ -2,21 +2,20 @@ package com.machinarium.model.Item.part;
 
 import com.machinarium.model.globals.ID;
 import com.machinarium.model.globals.ItemLib;
-
 import java.util.List;
 import java.util.Map;
 
 public class Chassis extends Part {
-	private final int weightSupport;
+	private final Integer weightSupport;
 
 
-	public Chassis(ID iD, String name, int weight, int weightSupport) {
+	public Chassis(ID iD, String name, Integer weight, Integer weightSupport) {
 		super(iD, name, weight);
 		this.weightSupport = weightSupport;
 	}
 
 
-	public int getWeightSupport() {
+	public Integer getWeightSupport() {
 		return weightSupport;
 	}
 
@@ -36,7 +35,7 @@ public class Chassis extends Part {
 	@Override
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = super.getMappedSpecs();
-		specs.put(ItemLib.WEIGHT_SUPPORT, weightSupport + "");
+		specs.put(ItemLib.WEIGHT_SUPPORT, weightSupport.toString());
 		return specs;
 	}
 

@@ -7,16 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Engine extends Part {
-	private final int horsePower;
+	private final Integer horsePower;
 
 
-	public Engine(ID iD, String name, int weight, int horsePower) {
+	public Engine(ID iD, String name, Integer weight, Integer horsePower) {
 		super(iD, name, weight);
 		this.horsePower = horsePower;
 	}
 
 
-	public int getHorsePower() {
+	public Integer getHorsePower() {
 		return horsePower;
 	}
 
@@ -36,7 +36,7 @@ public class Engine extends Part {
 	@Override
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = super.getMappedSpecs();
-		specs.put(ItemLib.HORSE_POWER, horsePower + "");
+		specs.put(ItemLib.HORSE_POWER, horsePower.toString());
 		return specs;
 	}
 

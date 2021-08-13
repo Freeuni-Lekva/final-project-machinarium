@@ -2,21 +2,20 @@ package com.machinarium.model.Item.part;
 
 import com.machinarium.model.globals.ID;
 import com.machinarium.model.globals.ItemLib;
-
 import java.util.List;
 import java.util.Map;
 
 public class Body extends Part {
-	private final int aeroDrag;
+	private final Integer aeroDrag;
 
 
-	public Body(ID iD, String name, int weight, int aeroDrag) {
+	public Body(ID iD, String name, Integer weight, Integer aeroDrag) {
 		super(iD, name, weight);
 		this.aeroDrag = aeroDrag;
 	}
 
 
-	public int getAeroDrag() {
+	public Integer getAeroDrag() {
 		return aeroDrag;
 	}
 
@@ -36,7 +35,7 @@ public class Body extends Part {
 	@Override
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = super.getMappedSpecs();
-		specs.put(ItemLib.AERO_DRAG, aeroDrag + "");
+		specs.put(ItemLib.AERO_DRAG, aeroDrag.toString());
 		return specs;
 	}
 
