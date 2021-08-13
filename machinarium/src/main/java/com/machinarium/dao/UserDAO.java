@@ -15,10 +15,9 @@ public interface UserDAO {
     /**
      * Adds the specified user to the database.
      *
-     * @param newUser The new user as a {@link User} object.
      * @return True if the user was successfully added, false if one with the same username already exists.
      */
-    boolean addUser(User newUser); //todo change
+    boolean addUser(String userName, EncryptedPassword password, String email); //todo change
 
     /**
      * Updates the password for the specified user.
