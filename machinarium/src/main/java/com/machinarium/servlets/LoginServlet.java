@@ -1,7 +1,9 @@
 package com.machinarium.servlets;
 
+import com.machinarium.common.RequestBody;
 import com.machinarium.utility.EncryptedPassword;
 import com.machinarium.dao.UserDAO;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +23,17 @@ public class LoginServlet extends HttpServlet {
 
 		ServletContext contextListener = request.getServletContext();
 
-		String userName = request.getParameter(PARAMETER_USER_NAME);
-		String password = request.getParameter(PARAMETER_PASSWORD);
+		JSONObject data = RequestBody.parse(request);
+
+		if(data == null) {
+			response.sendError(response.SC_BAD_REQUEST);
+			return;
+		}
+
+		String userName = (String) data.get(PARAMETER_USER_NAME);
+		String password = (String) data.get(PARAMETER_PASSWORD);
+
+		System.out.println("Username: " + userName + "\nPassword: " + password);
 
 		UserDAO userDao = (UserDAO) contextListener.getAttribute(Listener.ATTRIBUTE_USER_DAO);
 
