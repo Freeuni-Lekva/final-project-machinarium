@@ -5,8 +5,7 @@ import java.sql.Connection;
 public interface ConnectionPool extends AutoCloseable {
 
     /**
-     * Returns a connection from the specified pool if one is available, otherwise the {@link Thread} is
-     * blocked until another releases a connection.
+     * Returns a connection from the specified pool.
      *
      * @return The DB connection as a {@link Connection} object.
      */
