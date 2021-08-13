@@ -20,12 +20,6 @@ public class Connector<PartA, PartB> extends Item {
 		this.partB = Objects.requireNonNull(partB);
 	}
 
-//	public Connector() { //todo remove
-//		super();
-//		this.partA = null;
-//		this.partB = null;
-//	}
-
 
 	@Override
 	public String getType() {

@@ -15,11 +15,6 @@ public class Chassis extends Part {
 		this.weightSupport = weightSupport;
 	}
 
-	public Chassis() { //todo remove
-		super();
-		this.weightSupport = -1;
-	}
-
 
 	public int getWeightSupport() {
 		return weightSupport;

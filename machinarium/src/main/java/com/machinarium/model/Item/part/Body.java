@@ -15,11 +15,6 @@ public class Body extends Part {
 		this.aeroDrag = aeroDrag;
 	}
 
-	public Body() { //todo remove
-		super();
-		this.aeroDrag = -1;
-	}
-
 
 	public int getAeroDrag() {
 		return aeroDrag;

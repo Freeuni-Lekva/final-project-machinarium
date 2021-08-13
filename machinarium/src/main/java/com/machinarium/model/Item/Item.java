@@ -2,7 +2,6 @@ package com.machinarium.model.Item;
 
 import com.machinarium.model.globals.ID;
 import com.machinarium.model.globals.ItemLib;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +15,6 @@ public class Item {
 	public Item(ID iD, String name) {
 		this.iD = iD;
 		this.name = name;
-	}
-
-
-	public Item() { //todo remove
-		this(null, null);
 	}
 
 

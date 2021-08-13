@@ -9,10 +9,6 @@ public class Transmission extends Part {
 		super(iD, name, weight);
 	}
 
-	public Transmission() {
-		super();
-	}
-
 
 	@Override
 	public String getType() {

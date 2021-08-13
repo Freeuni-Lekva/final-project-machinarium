@@ -15,11 +15,6 @@ public class Engine extends Part {
 		this.horsePower = horsePower;
 	}
 
-	public Engine() { //todo remove
-		super();
-		this.horsePower = -1;
-	}
-
 
 	public int getHorsePower() {
 		return horsePower;

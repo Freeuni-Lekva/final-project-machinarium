@@ -16,11 +16,6 @@ public abstract class Part extends Item {
 		this.weight = weight;
 	}
 
-	public Part() { //todo remove
-		super();
-		this.weight = -1;
-	}
-
 
 	public int getWeight() {
 		return weight;

@@ -15,11 +15,6 @@ public class Wheels extends Part {
 		this.tractionUnit = tractionUnit;
 	}
 
-	public Wheels() { //todo remove
-		super();
-		this.tractionUnit = -1;
-	}
-
 
 	public int getTractionUnit() {
 		return tractionUnit;
