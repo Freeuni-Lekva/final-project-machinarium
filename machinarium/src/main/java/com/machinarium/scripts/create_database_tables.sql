@@ -4,7 +4,7 @@ USE machinarium_database;
 /* DROP TABLES */
 
 DROP TABLE IF EXISTS user_order;
-DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS order_item;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS user_game;
 DROP TABLE IF EXISTS game_results;
