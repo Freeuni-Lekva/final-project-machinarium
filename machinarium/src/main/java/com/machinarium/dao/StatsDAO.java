@@ -6,4 +6,6 @@ public interface StatsDAO {
 	boolean updateStats(String userName, int firstCountIncr, int secondCountIncr,
 						                 int thirdCountIncr, int loseCountIncr);
 	UserStats getStats(String userName);
+
+	boolean incrFirstCount(String userName);
 }

@@ -18,7 +18,7 @@ public interface UserDAO {
      * @param newUser The new user as a {@link User} object.
      * @return True if the user was successfully added, false if one with the same username already exists.
      */
-    boolean addUser(User newUser);
+    boolean addUser(User newUser); //todo change
 
     /**
      * Updates the password for the specified user.

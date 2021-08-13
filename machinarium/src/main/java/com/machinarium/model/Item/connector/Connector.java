@@ -16,11 +16,11 @@ public class Connector<PartA, PartB> extends Item {
 		this.partB = partB;
 	}
 
-	public Connector() {
-		super();
-		this.partA = null;
-		this.partB = null;
-	}
+//	public Connector() {
+//		super();
+//		this.partA = null;
+//		this.partB = null;
+//	}
 
 
 	@Override
