@@ -46,7 +46,7 @@ class UserDAOClass implements UserDAO {
         Connection con = connectionPool.acquireConnection();
         boolean addBoolean = false;
         String addUserQuery = "INSERT INTO " + USERS_TABLE + "\n"
-                            + "VALUES (" + userName + "," + encryptedPassword + email + ");";
+                            + "VALUES (" + userName + "," + encryptedPassword + "," + email + ");";
         try {
             Statement addUserStat = con.createStatement();
             if(addUserStat.executeUpdate(addUserQuery) > 0){
