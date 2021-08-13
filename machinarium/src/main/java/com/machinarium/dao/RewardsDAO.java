@@ -1,7 +1,6 @@
 package com.machinarium.dao;
 
-import com.machinarium.model.userBin.Rewards;
-
+import com.machinarium.model.history.Rewards;
 import java.util.Map;
 
 public interface RewardsDAO {

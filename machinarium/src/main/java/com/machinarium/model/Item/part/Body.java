@@ -1,22 +1,22 @@
 package com.machinarium.model.Item.part;
 
+import com.machinarium.model.globals.ID;
+
 import java.util.List;
 import java.util.Map;
 
 public class Body extends Part {
-	public static final int NONE_AERO_DRAG = -1;
-
 	private final int aeroDrag;
 
 
-	public Body(int ID, String name, int weight, int aeroDrag) {
-		super(ID, name, weight);
+	public Body(ID iD, String name, int weight, int aeroDrag) {
+		super(iD, name, weight);
 		this.aeroDrag = aeroDrag;
 	}
 
-	public Body() {
+	public Body() { //todo remove
 		super();
-		this.aeroDrag = NONE_AERO_DRAG;
+		this.aeroDrag = -1;
 	}
 
 

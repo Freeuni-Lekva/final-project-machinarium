@@ -1,22 +1,22 @@
 package com.machinarium.model.Item.part;
 
+import com.machinarium.model.globals.ID;
+
 import java.util.List;
 import java.util.Map;
 
 public class Engine extends Part {
-	public static final int NONE_HORSE_POWER = -1;
-
 	private final int horsePower;
 
 
-	public Engine(int ID, String name, int weight, int horsePower) {
-		super(ID, name, weight);
+	public Engine(ID iD, String name, int weight, int horsePower) {
+		super(iD, name, weight);
 		this.horsePower = horsePower;
 	}
 
-	public Engine() {
+	public Engine() { //todo remove
 		super();
-		this.horsePower = NONE_HORSE_POWER;
+		this.horsePower = -1;
 	}
 
 

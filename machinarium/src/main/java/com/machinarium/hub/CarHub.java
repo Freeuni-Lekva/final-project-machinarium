@@ -1,10 +1,4 @@
-package com.machinarium.model.hub;
-
-import com.machinarium.dao.*;
-import com.machinarium.model.car.Car;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.machinarium.hub;
 
 public class CarHub {
 //	private final CarDAO carDAO;

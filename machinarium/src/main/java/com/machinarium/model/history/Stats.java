@@ -1,4 +1,4 @@
-package com.machinarium.model.userBin;
+package com.machinarium.model.history;
 
 public class Stats {
 	private final String userName;

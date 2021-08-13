@@ -1,22 +1,22 @@
 package com.machinarium.model.Item.part;
 
+import com.machinarium.model.globals.ID;
+
 import java.util.List;
 import java.util.Map;
 
 public class Chassis extends Part {
-	public static final int NONE_WEIGHT_SUPPORT = -1;
-
 	private final int weightSupport;
 
 
-	public Chassis(int ID, String name, int weight, int weightSupport) {
-		super(ID, name, weight);
+	public Chassis(ID iD, String name, int weight, int weightSupport) {
+		super(iD, name, weight);
 		this.weightSupport = weightSupport;
 	}
 
-	public Chassis() {
+	public Chassis() { //todo remove
 		super();
-		this.weightSupport = NONE_WEIGHT_SUPPORT;
+		this.weightSupport = -1;
 	}
 
 

@@ -1,9 +1,11 @@
 package com.machinarium.model.Item.part;
 
+import com.machinarium.model.globals.ID;
+
 public class Transmission extends Part {
 
-	public Transmission(int ID, String name, int weight) {
-		super(ID, name, weight);
+	public Transmission(ID iD, String name, int weight) {
+		super(iD, name, weight);
 	}
 
 	public Transmission() {

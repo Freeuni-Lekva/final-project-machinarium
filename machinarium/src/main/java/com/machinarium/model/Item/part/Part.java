@@ -1,23 +1,23 @@
 package com.machinarium.model.Item.part;
 
 import com.machinarium.model.Item.Item;
+import com.machinarium.model.globals.ID;
+
 import java.util.List;
 import java.util.Map;
 
 public abstract class Part extends Item {
-	public static final int NONE_WEIGHT = -1;
-
 	private final int weight;
 
 
-	public Part(int ID, String name, int weight) {
-		super(ID, name);
+	public Part(ID iD, String name, int weight) {
+		super(iD, name);
 		this.weight = weight;
 	}
 
-	public Part() {
+	public Part() { //todo remove
 		super();
-		this.weight = NONE_WEIGHT;
+		this.weight = -1;
 	}
 
 

@@ -1,7 +1,7 @@
 package com.machinarium.dao;
 
 
-import com.machinarium.model.user.EncryptedPassword;
+import com.machinarium.utility.EncryptedPassword;
 import com.machinarium.model.user.User;
 
 public interface UserDAO {

@@ -1,6 +1,6 @@
 package com.machinarium.servlets;
 
-import com.machinarium.model.user.EncryptedPassword;
+import com.machinarium.utility.EncryptedPassword;
 import com.machinarium.dao.UserDAO;
 
 import javax.servlet.ServletContext;

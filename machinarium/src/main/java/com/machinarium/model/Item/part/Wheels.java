@@ -1,22 +1,22 @@
 package com.machinarium.model.Item.part;
 
+import com.machinarium.model.globals.ID;
+
 import java.util.List;
 import java.util.Map;
 
 public class Wheels extends Part {
-	public static final int NONE_TRACTION_UNIT = -1;
-
 	private final int tractionUnit;
 
 
-	public Wheels(int ID, String nameID, int weight, int tractionUnit) {
-		super(ID, nameID, weight);
+	public Wheels(ID iD, String nameID, int weight, int tractionUnit) {
+		super(iD, nameID, weight);
 		this.tractionUnit = tractionUnit;
 	}
 
-	public Wheels() {
+	public Wheels() { //todo remove
 		super();
-		this.tractionUnit = NONE_TRACTION_UNIT;
+		this.tractionUnit = -1;
 	}
 
 

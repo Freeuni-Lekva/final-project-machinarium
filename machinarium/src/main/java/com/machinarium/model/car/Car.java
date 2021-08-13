@@ -1,27 +1,27 @@
 package com.machinarium.model.car;
 
+import com.machinarium.model.globals.ID;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class Car {
-	public static final int NONE_ID = -1;
 	public static final double TIME_NA = -1.0;
 	public static final int TU_TO_HP = 100;
 	public static final int AD_TO_HP = 20;
 
-	private final int ID;
+	private final ID iD;
 	private final String name;
 
-	public Car(int ID, String name) {
-		this.ID = ID;
+	public Car(ID iD, String name) {
+		this.iD = iD;
 		this.name = name;
 	}
 
 
-	public int getID() {
-		return ID;
+	public ID getID() {
+		return iD;
 	}
 
 	public String getName() {
@@ -62,7 +62,7 @@ public abstract class Car {
 	@Override
 	public String toString() {
 		String str = "";
-		str += "[ID: " + ID + "] \n";
+		str += "[iD: " + iD + "] \n";
 		str += "[name: " + name + "] \n";
 		return str;
 	}

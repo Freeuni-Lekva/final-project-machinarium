@@ -1,4 +1,4 @@
-package com.machinarium.model.userBin;
+package com.machinarium.model.history;
 
 import java.util.Map;
 

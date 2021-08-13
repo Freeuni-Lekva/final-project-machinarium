@@ -2,21 +2,24 @@ package com.machinarium.model.Item.connector;
 
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.Item.part.Part;
+import com.machinarium.model.globals.ID;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Connector<PartA, PartB> extends Item {
 	private final Part partA;
 	private final Part partB;
 
 
-	public Connector(int ID, String name, Part partA, Part partB) {
-		super(ID, name);
-		this.partA = partA;
-		this.partB = partB;
+	public Connector(ID iD, String name, Part partA, Part partB) {
+		super(iD, name);
+		this.partA = Objects.requireNonNull(partA);
+		this.partB = Objects.requireNonNull(partB);
 	}
 
-//	public Connector() {
+//	public Connector() { //todo remove
 //		super();
 //		this.partA = null;
 //		this.partB = null;
@@ -31,7 +34,8 @@ public class Connector<PartA, PartB> extends Item {
 	@Override
 	public List<String> getSpecs() {
 		List<String> specs = super.getSpecs();
-		String spec = nextSpecValidated();
+		String spec = "[Connector: <" + partA.getType() + ", " +
+				                        partB.getType() + ">]";
 		specs.add(spec);
 		return specs;
 	}
@@ -39,7 +43,8 @@ public class Connector<PartA, PartB> extends Item {
 	@Override
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = super.getMappedSpecs();
-		String spec = nextSpecValidated();
+		String spec = "[Connector: <" + partA.getType() + ", " +
+				                        partB.getType() + ">]";
 		specs.put("Connector", spec);
 		return specs;
 	}
@@ -47,23 +52,9 @@ public class Connector<PartA, PartB> extends Item {
 	@Override
 	public String toString() {
 		String str = super.toString();
-		str += nextSpecValidated() + " \n";
+		str += "[Connector: <" + partA.getType() + ", " +
+				                 partB.getType() + ">] \n";
 		return str;
-	}
-
-
-	private String nextSpecValidated() {
-		String nextSpec = "";
-
-		if (partA == null || partB == null) {
-			nextSpec = "[Connector: <PartA, PartB>]";
-
-		} else {
-			nextSpec = "[Connector: <" + partA.getType() + ", " +
-										 partB.getType() + ">]";
-		}
-
-		return nextSpec;
 	}
 
 }

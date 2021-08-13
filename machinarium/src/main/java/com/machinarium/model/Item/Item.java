@@ -1,30 +1,30 @@
 package com.machinarium.model.Item;
 
+import com.machinarium.model.globals.ID;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Item {
-	public static final int NONE_ID = -1;
-	public static final String NONE_NAME = "";
-
-	private final int ID;
+	private final ID iD;
 	private final String name;
 
 
-	public Item(int ID, String name) {
-		this.ID = ID;
+	public Item(ID iD, String name) {
+		this.iD = iD;
 		this.name = name;
 	}
 
-	public Item() {
-		this(NONE_ID, NONE_NAME);
+
+	public Item() { //todo remove
+		this(null, null);
 	}
 
 
-	public int getID() {
-		return ID;
+	public ID getID() {
+		return iD;
 	}
 
 	public String getName() {
@@ -51,7 +51,7 @@ public class Item {
 	@Override
 	public String toString() {
 		String str = "";
-		str += "[ID: " + ID + "] \n";
+		str += "[iD: " + iD + "] \n";
 		str += "[name: " + name + "] \n";
 		return str;
 	}

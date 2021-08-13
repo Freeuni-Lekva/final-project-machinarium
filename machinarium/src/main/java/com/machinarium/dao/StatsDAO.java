@@ -1,6 +1,6 @@
 package com.machinarium.dao;
 
-import com.machinarium.model.userBin.Stats;
+import com.machinarium.model.history.Stats;
 
 public interface StatsDAO {
 	Stats getStats(String userName);

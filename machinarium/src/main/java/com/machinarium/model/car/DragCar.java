@@ -3,6 +3,7 @@ package com.machinarium.model.car;
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.Item.connector.*;
 import com.machinarium.model.Item.part.*;
+import com.machinarium.model.globals.ID;
 
 import java.util.*;
 
@@ -12,7 +13,6 @@ public class DragCar extends Car {
 	private static final double WEATHER_EFFECT_HI = 1.1;
 	private static final double TARMAC_EFFECT_LO = 0.9;
 	private static final double TARMAC_EFFECT_HI = 1.1;
-
 
 	private final Chassis chassis;
 	private final Body body;
@@ -28,7 +28,7 @@ public class DragCar extends Car {
 	private final Connector<Transmission, Wheels> transmissionWheels;
 
 
-	public DragCar(int ID, String name,
+	public DragCar(ID iD, String name,
 
 				   Chassis chassis,
 				   Body body,
@@ -43,7 +43,7 @@ public class DragCar extends Car {
 				   Connector<Engine, Transmission> engineTransmission,
 				   Connector<Transmission, Wheels> transmissionWheels) {
 
-		super(ID, name);
+		super(iD, name);
 
 		this.chassis = chassis;
 		this.body = body;
@@ -89,7 +89,7 @@ public class DragCar extends Car {
 
 
 	private boolean allItemsArePresent() {
-		if (getID() == NONE_ID) return false;
+		if (getID() == null) return false;
 		if (getName() == null) return false;
 
 		List<Item> necessaryComponents = List.of(
