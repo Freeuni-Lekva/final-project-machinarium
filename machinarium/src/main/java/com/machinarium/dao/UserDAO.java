@@ -1,6 +1,5 @@
 package com.machinarium.dao;
 
-
 import com.machinarium.utility.EncryptedPassword;
 import com.machinarium.model.user.User;
 
