@@ -71,7 +71,7 @@ CREATE TABLE items(
                       item_name VARCHAR(64) NOT NULL,
                       type_id	INT NOT NULL,
                       weight	INT,
-                      wight_support INT,
+                      weight_support INT,
                       aero_drag INT,
                       horse_power INT,
                       traction_unit INT,
