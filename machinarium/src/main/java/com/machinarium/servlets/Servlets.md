@@ -44,7 +44,7 @@ Return:
 * email - ელ-ფოსტა.
 * first_place_count - მოგებული პირველი ადგილების რ-ბა.
 * second_place_count - მოგებული მეორე ადგილების რ-ბა.
-* thid_place_count - მოგებული მესამე ადგილების რ-ბა.
+* third_place_count - მოგებული მესამე ადგილების რ-ბა.
 * loss_count - წაგებების რ-ბა.
 
 ___
