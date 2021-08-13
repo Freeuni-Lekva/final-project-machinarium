@@ -129,9 +129,9 @@ CREATE TABLE car_parts(
                     car_id INT,
                     item_id INT,
                     connector_id INT,
-                    FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE ,
-                    FOREIGN KEY (item_id) REFERENCES items(id),
-                    FOREIGN KEY (connector_id) REFERENCES connectors(id)
+                    FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE,
+                    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
+                    FOREIGN KEY (connector_id) REFERENCES connectors(id) ON DELETE CASCADE
 );
 
 
