@@ -1,12 +1,10 @@
-package com.machinarium.dao;
+package com.machinarium.model.user;
+
+import com.machinarium.utility.EncryptedPassword;
 
 import java.util.Objects;
 
 public class User {
-
-    public User(String userName, String password, String email) {
-        this(userName, EncryptedPassword.of(password), email);
-    }
 
     public User(String userName, EncryptedPassword password, String email) {
 
@@ -40,4 +38,5 @@ public class User {
     private final String userName;
     private final EncryptedPassword password;
     private final String email;
+
 }
