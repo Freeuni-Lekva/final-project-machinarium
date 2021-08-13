@@ -2,12 +2,12 @@ package com.machinarium.model.userBin;
 
 import java.util.Map;
 
-public class UserRewards {
+public class Rewards {
 	private final String userName;
 	private final Map<String, Integer> rewards;
 
 
-	public UserRewards(String userName, Map<String, Integer> rewards) {
+	public Rewards(String userName, Map<String, Integer> rewards) {
 		this.userName = userName;
 		this.rewards = rewards;
 	}

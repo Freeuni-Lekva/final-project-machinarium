@@ -1,13 +1,15 @@
 package com.machinarium.model.userBin;
 
-public class UserStats {
+public class Stats {
 	private final String userName;
 	private final int firstCount;
 	private final int secondCount;
 	private final int thirdCount;
 	private final int loseCount;
 
-	public UserStats(String userName, int firstCount, int secondCount, int thirdCount, int loseCount) {
+
+	public Stats(String userName, int firstCount, int secondCount,
+				                  int thirdCount, int loseCount) {
 		this.userName = userName;
 		this.firstCount = firstCount;
 		this.secondCount = secondCount;
