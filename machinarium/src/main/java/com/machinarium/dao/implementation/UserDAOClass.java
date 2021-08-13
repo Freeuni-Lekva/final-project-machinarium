@@ -64,7 +64,7 @@ class UserDAOClass implements UserDAO {
         Connection con = connectionPool.acquireConnection();
         boolean updatePasswordBoolean = false;
         String updatePasswordQuery = "UPDATE " + USERS_TABLE + "\n"
-                                    + "SET password = " + newEncryptedPassword.toString() + "\n"
+                                    + "SET user_password = " + newEncryptedPassword.toString() + "\n"
                                     + "WHERE user_name = " + userName + ";" ;
         try {
             Statement updatePasswordStat = con.createStatement();
@@ -83,7 +83,7 @@ class UserDAOClass implements UserDAO {
         Connection con = connectionPool.acquireConnection();
         boolean updateEmailBoolean = false;
         String updateEmailQuery = "UPDATE " + USERS_TABLE + "\n"
-                + "SET email = " + newEmail + "\n"
+                + "SET mail = " + newEmail + "\n"
                 + "WHERE user_name = " + userName + ";" ;
         try {
             Statement updateEmailStat = con.createStatement();
