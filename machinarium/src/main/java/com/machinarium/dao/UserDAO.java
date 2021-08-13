@@ -13,6 +13,7 @@ public interface UserDAO {
 
     /**
      * Adds the specified user to the database.
+     *
      * @param userName The user name of the user.
      * @param encryptedPassword The password as an {@link EncryptedPassword}.
      * @param email The email.
@@ -31,7 +32,6 @@ public interface UserDAO {
 
     /**
      * Updates the email for the specified user.
-     *
      *
      * @param userName The user name of the user to be updated.
      * @param newEmail The new email.
