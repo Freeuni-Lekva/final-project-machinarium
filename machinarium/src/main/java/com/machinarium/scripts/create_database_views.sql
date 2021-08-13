@@ -53,7 +53,7 @@ CREATE OR REPLACE VIEW see_user_cars AS
     FROM users u
     LEFT JOIN user_garage ug
     ON u.id = ug.user_id
-    LEFT JOIN garage g
+    LEFT JOIN garages g
     ON ug.garage_id = g.id
     LEFT JOIN garage_car gc
     ON g.id = gc.garage_id
@@ -83,7 +83,7 @@ CREATE OR REPLACE VIEW see_user_items AS
     FROM users u
     LEFT JOIN user_garage ug
     ON u.id = ug.user_id
-    LEFT JOIN garage g
+    LEFT JOIN garages g
     ON ug.garage_id = g.id
     LEFT JOIN garage_item gi
     ON g.id = gi.garage_id
