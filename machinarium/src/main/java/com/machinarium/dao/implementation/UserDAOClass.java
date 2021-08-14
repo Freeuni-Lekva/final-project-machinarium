@@ -108,7 +108,7 @@ class UserDAOClass implements UserDAO {
             ResultSet res = getAllUsersStat.executeQuery(getAllUsersQuery);
             while (res.next()){
                 User user = new User(res.getString("user_name"),
-                        EncryptedPassword.of(res.getString("password")),
+                        EncryptedPassword.of(res.getString("user_password")),
                         res.getString("mail"));
                 allUsers.add(user);
             }
