@@ -1,13 +1,13 @@
 package com.machinarium.dao;
 
-import com.machinarium.model.history.Stats;
+import com.machinarium.model.history.Statistics;
 
-public interface StatsDAO {
-	Stats getStats(String userName);
+public interface StatisticsDAO {
+	Statistics getStatistics(String userName);
 
-	boolean incrFirstCount(String userName);
-	boolean incrSecondCount(String userName);
-	boolean incrThirdCount(String userName);
-	boolean incrLoseCount(String userName);
+	boolean incrementFirstCount(String userName);
+	boolean incrementSecondCount(String userName);
+	boolean incrementThirdCount(String userName);
+	boolean incrementLoseCount(String userName);
 
 }
