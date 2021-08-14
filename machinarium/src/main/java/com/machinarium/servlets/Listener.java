@@ -9,10 +9,10 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
+import static com.machinarium.utility.constants.RequestConstants.ATTRIBUTE_USER_DAO;
+
 @WebListener
 public class Listener implements ServletContextListener, HttpSessionListener, HttpSessionAttributeListener {
-
-    public static final String ATTRIBUTE_USER_DAO = "user_dao";
 
     private static final int N_CONNECTIONS = 10;
 

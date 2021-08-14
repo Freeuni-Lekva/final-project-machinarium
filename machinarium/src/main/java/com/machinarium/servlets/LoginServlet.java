@@ -16,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.machinarium.utility.constants.RequestConstants.PARAMETER_PASSWORD;
-import static com.machinarium.utility.constants.RequestConstants.PARAMETER_USER_NAME;
+import static com.machinarium.utility.constants.RequestConstants.*;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -40,7 +39,7 @@ public class LoginServlet extends HttpServlet {
 		String userName = (String) data.get(PARAMETER_USER_NAME);
 		String password = (String) data.get(PARAMETER_PASSWORD);
 
-		UserDAO userDao = (UserDAO) contextListener.getAttribute(Listener.ATTRIBUTE_USER_DAO);
+		UserDAO userDao = (UserDAO) contextListener.getAttribute(ATTRIBUTE_USER_DAO);
 
 		logger.log(Level.INFO, "Username: " + userName + "\nPassword: " + password);
 

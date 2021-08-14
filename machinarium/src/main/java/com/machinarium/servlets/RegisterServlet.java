@@ -56,7 +56,7 @@ public class RegisterServlet extends HttpServlet {
                     "The password fails the condition: " + passwordValidator.on(password));
 
         } else {
-            UserDAO userDao = (UserDAO) contextListener.getAttribute(Listener.ATTRIBUTE_USER_DAO);
+            UserDAO userDao = (UserDAO) contextListener.getAttribute(ATTRIBUTE_USER_DAO);
 
             if (userDao.getUser(userName) != null) {
                 wrappedResponse.setError(response.SC_CONFLICT,

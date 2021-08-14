@@ -40,4 +40,3 @@ public class ConfiguredLogger {
     /* An instance of this class should not be created */
     private ConfiguredLogger() {}
 }
-
