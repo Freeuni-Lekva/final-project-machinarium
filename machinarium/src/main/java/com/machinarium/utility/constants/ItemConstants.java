@@ -19,7 +19,7 @@ public final class ItemConstants {
 	public static final String ENGINE_TRANSMISSION_TYPE = "engineTransmission";
 	public static final String TRANSMISSION_WHEELS_TYPE = "transmissionWheels";
 
-	public static final String ITEM_ID = "iD";
+	public static final String ITEM_ID = "id";
 	public static final String NAME = "name";
 	public static final String WEIGHT = "weight";
 	public static final String WEIGHT_SUPPORT = "weightSupport";
