@@ -4,6 +4,7 @@ import com.machinarium.model.Item.Item;
 import com.machinarium.model.car.Car;
 import com.machinarium.utility.common.ID;
 import java.util.List;
+import java.util.Map;
 
 public interface GarageDAO {
 	//********** Car **********//
@@ -34,6 +35,6 @@ public interface GarageDAO {
 	boolean addSpareItem(String userName, ID itemID);
 	boolean removeSpareItem(String userName, ID itemID);
 
-	List<Item> getAllSpareItems(String userName);
+	Map<Item, Integer> getAllSpareItems(String userName);
 
 }
