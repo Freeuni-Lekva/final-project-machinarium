@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.machinarium.utility.constants.RequestConstants.*;
+import static com.machinarium.utility.constants.ServletConstants.*;
 
 @WebServlet(name = "RegisterServlet", value = "/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
@@ -69,6 +69,8 @@ public class RegisterServlet extends HttpServlet {
                 if(!userDao.addUser(userName, EncryptedPassword.of(password), email)) {
                     throw new RuntimeException("Failed to add a new user.");
                 }
+
+                request.getSession().setAttribute(ATTRIBUTE_USER, userDao.getUser(userName));
                 wrappedResponse.setStatus(response.SC_CREATED);
             }
         }

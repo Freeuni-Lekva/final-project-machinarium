@@ -21,7 +21,7 @@ loginButton.onclick = function() {
         if(request.status === 401) {
             errorMessage.innerHTML = JSON.parse(response).message;
         } else if(request.status === 303) {
-            window.location.href = "https://www.youtube.com/watch?v=TwTj0226zm4";
+            window.location.href = "/profile";
         }
     }
 

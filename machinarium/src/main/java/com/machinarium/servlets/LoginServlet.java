@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.machinarium.utility.constants.RequestConstants.*;
+import static com.machinarium.utility.constants.ServletConstants.*;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -55,6 +55,8 @@ public class LoginServlet extends HttpServlet {
 			if(user == null || !user.getPassword().equals(EncryptedPassword.of(password))) {
 				wrappedResponse.setError(response.SC_UNAUTHORIZED, "The specified user name or password is incorrect.");
 			} else {
+
+				request.getSession().setAttribute(ATTRIBUTE_USER, user);
 				wrappedResponse.setStatus(response.SC_SEE_OTHER);
 			}
 		}

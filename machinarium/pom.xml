@@ -81,6 +81,7 @@
 				<configuration>
 					<port>8081</port>
 					<path>/</path>
+<!--					<goal>run-war-only</goal>-->
 				</configuration>
 			</plugin>
 			<plugin>

@@ -23,7 +23,7 @@ registerButton.onclick = function() {
         if(request.status === 409) {
             errorMessage.innerHTML = JSON.parse(response).message;
         } else if(request.status === 201) {
-            window.location.href = "https://www.youtube.com/watch?v=TwTj0226zm4";
+            window.location.href = "/profile";
         }
     }
 

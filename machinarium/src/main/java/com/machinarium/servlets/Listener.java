@@ -4,12 +4,14 @@ import com.machinarium.dao.ConnectionPool;
 import com.machinarium.dao.UserDAO;
 import com.machinarium.dao.implementation.BlockingConnectionPool;
 import com.machinarium.dao.implementation.UserDAOClass;
+import com.machinarium.model.user.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-import static com.machinarium.utility.constants.RequestConstants.ATTRIBUTE_USER_DAO;
+import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER;
+import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER_DAO;
 
 @WebListener
 public class Listener implements ServletContextListener, HttpSessionListener, HttpSessionAttributeListener {
@@ -28,17 +30,22 @@ public class Listener implements ServletContextListener, HttpSessionListener, Ht
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        /* This method is called when the servlet Context is undeployed or Application Server shuts down. */
+
+        try {
+            connectionPool.close();
+        } catch (Exception e) {e.printStackTrace();        }
     }
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
-        /* Session is created. */
+
+        sessionUser = null;
+        se.getSession().setAttribute(ATTRIBUTE_USER, sessionUser);
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        /* Session is destroyed. */
+        sessionUser = null;
     }
 
     @Override
@@ -58,4 +65,6 @@ public class Listener implements ServletContextListener, HttpSessionListener, Ht
 
     private ConnectionPool connectionPool;
     private UserDAO userDao;
+
+    private User sessionUser;
 }
