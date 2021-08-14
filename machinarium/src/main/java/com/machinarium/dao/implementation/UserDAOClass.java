@@ -31,7 +31,7 @@ class UserDAOClass implements UserDAO {
             ResultSet res =  getUserStat.executeQuery(selectUserQuery);
             if(res.next()){
                 user = new User(res.getString("user_name"),
-                        EncryptedPassword.of(res.getString("password")),
+                        EncryptedPassword.of(res.getString("user_password")),
                         res.getString("mail"));
             }
         } catch (SQLException throwables) {
