@@ -1,5 +1,6 @@
 package com.machinarium.dao;
 
+import com.machinarium.utility.common.Email;
 import com.machinarium.utility.common.EncryptedPassword;
 import com.machinarium.model.user.User;
 
@@ -12,6 +13,12 @@ public interface UserDAO {
      * @return The user with the specified user name as a {@link User} object or null if one doesn't exist.
      */
     User getUser(String userName);
+
+    /**
+     * @param email The email of the user as an {@link Email} object.
+     * @return The user with the specified email as a {@link User} object or null if one doesn't exist.
+     */
+    User getUser(Email email);
 
     /**
      * Adds the specified user to the database.

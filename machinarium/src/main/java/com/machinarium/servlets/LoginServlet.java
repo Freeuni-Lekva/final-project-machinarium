@@ -1,41 +1,64 @@
 package com.machinarium.servlets;
 
+import com.machinarium.model.user.User;
+import com.machinarium.utility.common.ConfiguredLogger;
 import com.machinarium.utility.common.EncryptedPassword;
 import com.machinarium.dao.UserDAO;
+import com.machinarium.utility.common.JSONRequest;
+import com.machinarium.utility.common.JSONResponse;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import static com.machinarium.utility.constants.RequestConstants.PARAMETER_PASSWORD;
-import static com.machinarium.utility.constants.RequestConstants.PARAMETER_USER_NAME;
+import static com.machinarium.utility.constants.ServletConstants.*;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
+	private final static Logger logger = ConfiguredLogger.getLogger("LoginServlet");
+
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
 		ServletContext contextListener = request.getServletContext();
 
-		String userName = request.getParameter(PARAMETER_USER_NAME);
-		String password = request.getParameter(PARAMETER_PASSWORD);
+		JSONObject data = JSONRequest.parse(request);
+		JSONResponse wrappedResponse = new JSONResponse(response);
 
-		UserDAO userDao = (UserDAO) contextListener.getAttribute(Listener.ATTRIBUTE_USER_DAO);
+		if(data == null) {
+			wrappedResponse.setStatus(response.SC_BAD_REQUEST);
+			return;
+		}
+
+		String userName = (String) data.get(PARAMETER_USER_NAME);
+		String password = (String) data.get(PARAMETER_PASSWORD);
+
+		UserDAO userDao = (UserDAO) contextListener.getAttribute(ATTRIBUTE_USER_DAO);
+
+		logger.log(Level.INFO, "Username: " + userName + "\nPassword: " + password);
 
 		if (userName == null) {
-			response.sendError(response.SC_UNAUTHORIZED, "The user name must be specified to authenticate.");
+			wrappedResponse.setError(response.SC_UNAUTHORIZED, "The user name must be specified to authenticate.");
 		}
 		else if(password == null) {
-			response.sendError(response.SC_UNAUTHORIZED, "The password must be specified to authenticate.");
+			wrappedResponse.setError(response.SC_UNAUTHORIZED, "The password must be specified to authenticate.");
 		}
-		else if(!userDao.getUser(userName).getPassword().equals(EncryptedPassword.of(password))) {
-			response.sendError(response.SC_UNAUTHORIZED, "The specified user name or password is incorrect.");
-		} else {
-			response.setStatus(response.SC_SEE_OTHER);
+		else{
+			User user = userDao.getUser(userName);
+
+			if(user == null || !user.getPassword().equals(EncryptedPassword.of(password))) {
+				wrappedResponse.setError(response.SC_UNAUTHORIZED, "The specified user name or password is incorrect.");
+			} else {
+
+				request.getSession().setAttribute(ATTRIBUTE_USER, user);
+				wrappedResponse.setStatus(response.SC_SEE_OTHER);
+			}
 		}
 	}
 }

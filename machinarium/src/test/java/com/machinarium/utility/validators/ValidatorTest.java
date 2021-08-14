@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ValidatorTest {
 
-    private static final String PASSWORD_VALIDATOR_TEST_DATA_PATH = "./src/test/resources/validators/PasswordValidatorTestData.csv";
-    private static final String USERNAME_VALIDATOR_TEST_DATA_PATH = "./src/test/resources/validators/UsernameValidatorTestData.csv";
+    private static final String PASSWORD_VALIDATOR_TEST_DATA_PATH = "./src/test/resources/com/machinarium/utility/validators/PasswordValidatorTestData.csv";
+    private static final String USERNAME_VALIDATOR_TEST_DATA_PATH = "./src/test/resources/com/machinarium/utility/validators/UsernameValidatorTestData.csv";
 
     private static final String INPUT = "Test Input";
     private static final String EXPECTED_RESULT = "Expected Result";

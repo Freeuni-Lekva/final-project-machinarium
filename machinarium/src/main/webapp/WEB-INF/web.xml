@@ -3,4 +3,32 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 		 version="4.0">
+
+	<servlet>
+		<servlet-name>LoginPage</servlet-name>
+		<jsp-file>/login/login.jsp</jsp-file>
+	</servlet>
+	<servlet>
+		<servlet-name>RegisterPage</servlet-name>
+		<jsp-file>/register/register.jsp</jsp-file>
+	</servlet>
+	<servlet>
+		<servlet-name>ProfilePage</servlet-name>
+		<jsp-file>/profile/profile.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>LoginPage</servlet-name>
+		<url-pattern>/login</url-pattern>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RegisterPage</servlet-name>
+		<url-pattern>/register</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProfilePage</servlet-name>
+		<url-pattern>/profile</url-pattern>
+	</servlet-mapping>
+
 </web-app>

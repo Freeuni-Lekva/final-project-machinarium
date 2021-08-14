@@ -1,0 +1,31 @@
+div {
+    text-align: center;
+}
+
+.button {
+    background-color: #041405;
+    border: none;
+    color: white;
+    padding: 6px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 12px;
+}
+
+.button:hover, .button:focus {
+    background-color: #2f009c;
+    cursor: pointer;
+}
+
+input[type=text], input[type=password] {
+    background-color: rgba(0, 0, 0, 0.048);
+    border-radius: 6px;
+}
+
+input[type=text]:focus, input[type=password]:focus,
+input[type=text]:hover, input[type=password]:hover {
+    background-color: rgb(255, 255, 255);
+    border-radius: 6px;
+}
