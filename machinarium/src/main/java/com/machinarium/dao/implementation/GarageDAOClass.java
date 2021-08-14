@@ -13,20 +13,25 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GarageDAOClass implements GarageDAO {
     private final String USER_CARS_VIEW = "see_user_cars";
-    private final String CAR_PARTS_VIEW = "car_parts";
-    private final String USERS_TABLE = "users";
+    private final String CAR_PARTS_VIEW = "see_car_parts";
+    private final String USER_ITEMS_VIEW = "see_user_items";
+    private final String GARAGE_ITEM_TABLE = "garage_item";
     private final String CARS_TABLE = "cars";
-    private ConnectionPool connectionPool;
+    private final String USERS_TABLE = "users";
+    private final String CAR_PARTS_TABLE = "car_parts";
+    private final String USER_GARAGE_TABLE = "user_garage";
+    private final ConnectionPool connectionPool;
+
     public GarageDAOClass(ConnectionPool connectionPool){
         this.connectionPool = connectionPool;
     }
 
-    private ID getUserID(String userName){
-        Connection con = connectionPool.acquireConnection();
+    private ID getUserID(String userName, Connection con){
         ID id = null;
         String getUserIDQuery = "SELECT id FROM " + USERS_TABLE + "\n"
                                 + "WHERE user_name = '" + userName + "';";
@@ -39,15 +44,47 @@ public class GarageDAOClass implements GarageDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        connectionPool.releaseConnection(con);
         return id;
+    }
+
+    private boolean updateQuery(Connection con, String query) {
+        boolean updateBoolean = false;
+        try {
+            Statement addItemToCarStatement = con.createStatement();
+            if(addItemToCarStatement.executeUpdate(query) > 0){
+                updateBoolean = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        connectionPool.releaseConnection(con);
+        return updateBoolean;
+    }
+    private ID addUserGarage(ID userID, Connection con){
+        String garageNameGenerator = "garage_" + userID.getID();
+        String addUserGarageQuery = "INSERT INTO garages(garage_name) VALUES " + garageNameGenerator + ";";
+        ID garageID = null;
+        try {
+            Statement addUserGarageStat = con.createStatement();
+            if (addUserGarageStat.executeUpdate(addUserGarageQuery) > 0){
+                String getGarageIDQuery = "SELECT id FROM garages WHERE garage_name = '" + garageNameGenerator + "';";
+                Statement getGarageIDStat = con.createStatement();
+                ResultSet res = getGarageIDStat.executeQuery(getGarageIDQuery);
+                res.next();
+                garageID = new ID(res.getInt("id"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return garageID;
     }
 
     @Override
     public boolean hasCar(String userName) {
         Connection con = connectionPool.acquireConnection();
-        ID userID = getUserID(userName);
-        Boolean hasCarBoolean = false;
+        ID userID = getUserID(userName, con);
+        boolean hasCarBoolean = false;
         if (userID != null){
             String hasCarQuery = "SELECT * FROM " + USER_CARS_VIEW + "\n"
                                 + "WHERE user_id = " + userID.getID() + ";";
@@ -70,7 +107,7 @@ public class GarageDAOClass implements GarageDAO {
     @Override
     public int getCarCount(String userName) {
         Connection con = connectionPool.acquireConnection();
-        ID userID = getUserID(userName);
+        ID userID = getUserID(userName, con);
         int carCount = 0;
         if(userID != null){
             String getCarCountQuery = "SELECT * FROM " + USER_CARS_VIEW + "\n"
@@ -92,20 +129,10 @@ public class GarageDAOClass implements GarageDAO {
     @Override
     public boolean updateCarName(ID carID, String newCarName) {
         Connection con = connectionPool.acquireConnection();
-        boolean updateCarNameBoolean = false;
         String updateCarNameQuery = "UPDATE " + CARS_TABLE + "\n"
                                     + "SET car_name = '" + newCarName + "'" + "\n"
                                     + "WHERE id = " + carID.getID() + ";";
-        try {
-            Statement updateCarNameStat = con.createStatement();
-            if (updateCarNameStat.executeUpdate(updateCarNameQuery) > 0){
-                updateCarNameBoolean = true;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        connectionPool.releaseConnection(con);
-        return updateCarNameBoolean;
+        return updateQuery(con, updateCarNameQuery);
     }
 
     @Override
@@ -120,18 +147,7 @@ public class GarageDAOClass implements GarageDAO {
         Connection con = connectionPool.acquireConnection();
         String removeCarQuery = "DELETE FROM " + CARS_TABLE + "\n"
                                 + "WHERE id = " + carID.getID() + ";";
-        boolean removeCarBoolean = false;
-        try {
-            Statement removeCarStat = con.createStatement();
-            if(removeCarStat.executeUpdate(removeCarQuery) > 0){
-                removeCarBoolean = true;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        connectionPool.releaseConnection(con);
-        return removeCarBoolean;
+        return updateQuery(con, removeCarQuery);
     }
 
     @Override
@@ -279,77 +295,250 @@ public class GarageDAOClass implements GarageDAO {
     @Override
     public List<Item> getAllCarItems(ID carID) {
         Connection con = connectionPool.acquireConnection();
+        String getAllCarItemsQuery = "SELECT * FROM " + CAR_PARTS_VIEW + "\n"
+                        + "WHERE car_id = " + carID.getID() + ";";
+
+        List<Item> allCarItems = new ArrayList<>();
+        try {
+            Statement allCarItemsStat = con.createStatement();
+            ResultSet res = allCarItemsStat.executeQuery(getAllCarItemsQuery);
+            while(res.next()){
+                Item item = new Item(new ID(res.getInt("item_id")),
+                                    res.getString("item_name"));
+                allCarItems.add(item);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         connectionPool.releaseConnection(con);
-        return null;
+        return allCarItems;
     }
 
     @Override
     public List<Car> getAllCars(String userName) {
         Connection con = connectionPool.acquireConnection();
+        ID userID = getUserID(userName, con);
+        String getAllCarsQuery = "SELECT * FROM "+ USER_CARS_VIEW + "\n"
+                                + "WHERE user_id = " + userID.getID() + ";";
+        List<Car> allCars = new ArrayList<>();
+        try {
+            Statement getAllCarsStat = con.createStatement();
+            ResultSet res = getAllCarsStat.executeQuery(getAllCarsQuery);
+            while (res.next()){
+                allCars.add(getCar(new ID(res.getInt("car_id"))));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         connectionPool.releaseConnection(con);
-        return null;
+        return allCars;
     }
 
     @Override
     public boolean carHasItem(ID carID, ID itemID) {
         Connection con = connectionPool.acquireConnection();
+        String carHasItemQuery = "SELECT * FROM " + CAR_PARTS_VIEW + "\n"
+                                +"WHERE car_id = " + carID.getID() + ";";
+        boolean carHasItemBoolean = false;
+        try {
+            Statement carHasItemStat = con.createStatement();
+            ResultSet res = carHasItemStat.executeQuery(carHasItemQuery);
+            while(res.next()){
+                if(res.getInt("item_id") == itemID.getID()){
+                    carHasItemBoolean = true;
+                    break;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         connectionPool.releaseConnection(con);
-        return false;
+        return carHasItemBoolean;
     }
 
     @Override
     public boolean addItemToCar(ID carID, ID itemID) {
         Connection con = connectionPool.acquireConnection();
-        connectionPool.releaseConnection(con);
-        return false;
+        String addItemToCarQuery = "INSERT INTO " + CAR_PARTS_TABLE + "(car_id, item_id)"+ "\n"
+                                    +"VALUES (" + carID.getID() + ", " + itemID.getID()+");";
+        return updateQuery(con, addItemToCarQuery);
     }
+
 
     @Override
     public boolean removeItemFromCar(ID carID, ID itemID) {
         Connection con = connectionPool.acquireConnection();
-        connectionPool.releaseConnection(con);
-        return false;
+        String removeItemFromCarQuery = "DELETE FROM " + CAR_PARTS_TABLE + "\n" +
+                                        "WHERE car_id = " + carID.getID()
+                                        + " AND item_id = " + itemID.getID() + ";";
+        return updateQuery(con, removeItemFromCarQuery);
     }
 
     @Override
     public boolean hasSpareItem(String userName) {
         Connection con = connectionPool.acquireConnection();
+        String hasSpareItemQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
+                                    +"WHERE user_name = '" + userName + "';";
+
+        boolean hasSpareItemBoolean = false;
+        try {
+            Statement hasSpareItemStat = con.createStatement();
+            ResultSet res = hasSpareItemStat.executeQuery(hasSpareItemQuery);
+            while (res.next()){
+                if(res.getInt("item_count") > 0){
+                    hasSpareItemBoolean = true;
+                    break;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         connectionPool.releaseConnection(con);
-        return false;
+        return hasSpareItemBoolean;
     }
 
     @Override
     public int getSpareItemCount(String userName) {
         Connection con = connectionPool.acquireConnection();
+        String getSpareItemCountQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
+                                        +"WHERE user_name = '" + userName + "';";
+        int spareItemCount = 0;
+        try {
+            Statement getSpareItemCountStat = con.createStatement();
+            ResultSet res = getSpareItemCountStat.executeQuery(getSpareItemCountQuery);
+            while (res.next()){
+                spareItemCount += res.getInt("item_count");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         connectionPool.releaseConnection(con);
-        return 0;
+        return spareItemCount;
     }
 
     @Override
     public boolean hasThisSpareItem(String userName, ID itemID) {
         Connection con = connectionPool.acquireConnection();
+        String hasThisSpareItemQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
+                                    + "WHERE user_name = '" + userName + "' "
+                                    + "AND item_id = " + itemID.getID() + ";";
+        boolean hasThisSpareItemBoolean = false;
+        try {
+            Statement hasThisSpareItemStat = con.createStatement();
+            ResultSet res = hasThisSpareItemStat.executeQuery(hasThisSpareItemQuery);
+            if(res.next()){
+                if(res.getInt("item_count") > 0){
+                    hasThisSpareItemBoolean = true;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         connectionPool.releaseConnection(con);
-        return false;
+        return hasThisSpareItemBoolean;
     }
 
     @Override
     public boolean addSpareItem(String userName, ID itemID) {
         Connection con = connectionPool.acquireConnection();
-        connectionPool.releaseConnection(con);
-        return false;
+        boolean hasSpareItemAddBoolean = false;
+        String hasSpareItemAddQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
+                                    + "WHERE user_name = '" + userName + "' "
+                                    + "AND item_id = " + itemID.getID() + ";";
+        ID userID = getUserID(userName, con);
+        int garage_id = 0;
+        int item_count = 0;
+        try {
+            Statement hasSpareItemAddStat = con.createStatement();
+            ResultSet res = hasSpareItemAddStat.executeQuery(hasSpareItemAddQuery);
+            if(res.next()){
+                hasSpareItemAddBoolean = true;
+                garage_id = res.getInt("garage_id");
+                item_count = res.getInt("item_count");
+            }else {
+                String userGarageIDQuery = "SELECT garage_id FROM " + USER_GARAGE_TABLE + "\n"
+                                        + "WHERE user_id = " + userID.getID() + ";";
+                Statement userGarageIDStat = con.createStatement();
+                ResultSet resGarageID = userGarageIDStat.executeQuery(userGarageIDQuery);
+                if(resGarageID.next()){
+                    garage_id = resGarageID.getInt("garage_id");
+                }else{
+                    // add garage for user
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        String addSpareItemQuery;
+        if (hasSpareItemAddBoolean){
+            addSpareItemQuery = "UPDATE " + GARAGE_ITEM_TABLE + "\n"
+                            + "SET item_count = " + (item_count + 1) + "\n"
+                            + "WHERE garage_id = " + garage_id
+                            + " AND item_id = " + itemID.getID() + ";";
+        }else {
+            addSpareItemQuery = "INSERT INTO " + GARAGE_ITEM_TABLE + "(garage_id, item_id, item_count)\n"
+                                + "VALUES (" + garage_id + " ," + itemID.getID() + ", 1);";
+        }
+
+        return updateQuery(con, addSpareItemQuery);
     }
 
     @Override
     public boolean removeSpareItem(String userName, ID itemID) {
         Connection con = connectionPool.acquireConnection();
-        connectionPool.releaseConnection(con);
-        return false;
+        String garageIdQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
+                            + "WHERE user_name = '" + userName + "' "
+                            + "AND item_id = " + itemID.getID() + ";";
+        int garage_id = -1;
+        int item_count = -1;
+        try {
+            Statement hasSpareItemAddStat = con.createStatement();
+            ResultSet res = hasSpareItemAddStat.executeQuery(garageIdQuery);
+            if(res.next()){
+                garage_id = res.getInt("garage_id");
+                item_count = res.getInt("item_count");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        String removeSpareItemQuery;
+        if(item_count > 0){
+            removeSpareItemQuery = "UPDATE " + GARAGE_ITEM_TABLE + "\n"
+                                    + "SET item_count = " + (item_count-1) + "\n"
+                                    + "WHERE garage_id = " + garage_id
+                                    + " AND item_id = " + itemID.getID() + ";";
+
+        }else{
+            removeSpareItemQuery = "DELETE FROM " + GARAGE_ITEM_TABLE + " \n"
+                                + "WHERE garage_id = " + garage_id + " AND item_id = " + itemID.getID() + ";";
+        }
+
+        return updateQuery(con, removeSpareItemQuery);
     }
 
     @Override
     public List<Item> getAllSpareItems(String userName) {
         Connection con = connectionPool.acquireConnection();
+        String getAllSpareItemsQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
+                                    + "WHERE user_name = '" + userName + "';";
+
+        List<Item> allSpareItems = new ArrayList<>();
+        try {
+            Statement getAllSpareItemsStat = con.createStatement();
+            ResultSet res = getAllSpareItemsStat.executeQuery(getAllSpareItemsQuery);
+            while (res.next()){
+                Item item = new Item(new ID(res.getInt("item_id")), res.getString("item_name"));
+                allSpareItems.add(item);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         connectionPool.releaseConnection(con);
-        return null;
+        return allSpareItems;
     }
 }
