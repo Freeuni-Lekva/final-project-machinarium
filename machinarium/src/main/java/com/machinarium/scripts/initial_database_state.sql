@@ -44,4 +44,3 @@ select * from item_types order by id asc;
 select * from connectors order by id asc;
 select * from items order by id asc; 
 */
-        
