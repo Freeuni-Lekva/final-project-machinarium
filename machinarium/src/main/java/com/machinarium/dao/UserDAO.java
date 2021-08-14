@@ -3,6 +3,8 @@ package com.machinarium.dao;
 import com.machinarium.utility.EncryptedPassword;
 import com.machinarium.model.user.User;
 
+import java.util.List;
+
 public interface UserDAO {
 
     /**
@@ -39,4 +41,10 @@ public interface UserDAO {
      */
     boolean updateEmail(String userName, String newEmail);
 
+    /**
+     * Returns all users from database
+     *
+     * @return The list of registered users as a List of {@link User} class objects
+     */
+    List<User> getAllUsers();
 }
