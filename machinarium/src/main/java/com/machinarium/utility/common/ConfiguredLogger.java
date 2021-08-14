@@ -30,9 +30,10 @@ public class ConfiguredLogger {
             }
         });
 
+        consoleHandler.setLevel(Level.ALL);
+
         logger.setUseParentHandlers(false);
         logger.addHandler(consoleHandler);
-        logger.setLevel(Level.ALL);
 
         return logger;
     }

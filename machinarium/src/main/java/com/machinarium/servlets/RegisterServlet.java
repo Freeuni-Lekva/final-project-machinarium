@@ -21,12 +21,10 @@ import static com.machinarium.utility.constants.ServletConstants.*;
 @WebServlet(name = "RegisterServlet", value = "/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 
-    private final static Logger logger = ConfiguredLogger.getLogger("LoginServlet");
+    private final static Logger logger = ConfiguredLogger.getLogger("RegisterServlet");
 
     private static final Validator userNameValidator = UserNameValidator.getInstance();
     private static final Validator passwordValidator = PasswordValidator.getInstance();
-
-    private static final String DATA_FIELD_MESSAGE = "message";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -56,21 +54,21 @@ public class RegisterServlet extends HttpServlet {
                     "The password fails the condition: " + passwordValidator.on(password));
 
         } else {
-            UserDAO userDao = (UserDAO) contextListener.getAttribute(ATTRIBUTE_USER_DAO);
+            UserDAO userDAO = (UserDAO) contextListener.getAttribute(ATTRIBUTE_USER_DAO);
 
-            if (userDao.getUser(userName) != null) {
+            if (userDAO.getUser(userName) != null) {
                 wrappedResponse.setError(response.SC_CONFLICT,
                         "The user name \"" + userName + "\" is already used.");
-            } else if (userDao.getUser(Email.of(email)) != null) {
+            } else if (userDAO.getUser(Email.of(email)) != null) {
                 wrappedResponse.setError(response.SC_CONFLICT,
                         "The email \"" + email + "\" is already used.");
             } else {
 
-                if(!userDao.addUser(userName, EncryptedPassword.of(password), email)) {
+                if(!userDAO.addUser(userName, EncryptedPassword.of(password), email)) {
                     throw new RuntimeException("Failed to add a new user.");
                 }
 
-                request.getSession().setAttribute(ATTRIBUTE_USER, userDao.getUser(userName));
+                SessionManager.createLoginSession(request, userDAO.getUser(userName));
                 wrappedResponse.setStatus(response.SC_CREATED);
             }
         }
