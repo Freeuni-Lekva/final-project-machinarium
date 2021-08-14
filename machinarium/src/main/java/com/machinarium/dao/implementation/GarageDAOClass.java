@@ -14,17 +14,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GarageDAOClass implements GarageDAO {
     private final String USER_CARS_VIEW = "see_user_cars";
     private final String CAR_PARTS_VIEW = "see_car_parts";
     private final String USER_ITEMS_VIEW = "see_user_items";
-    private final String GARAGE_ITEM_TABLE = "garage_item";
     private final String CARS_TABLE = "cars";
     private final String USERS_TABLE = "users";
     private final String CAR_PARTS_TABLE = "car_parts";
     private final String USER_GARAGE_TABLE = "user_garage";
+    private final String GARAGE_ITEM_TABLE = "garage_item";
     private final ConnectionPool connectionPool;
 
     public GarageDAOClass(ConnectionPool connectionPool){
@@ -138,8 +140,46 @@ public class GarageDAOClass implements GarageDAO {
     @Override
     public ID addEmptyCar(String userName, String carName) {
         Connection con = connectionPool.acquireConnection();
+        ID userID = getUserID(userName, con);
+        String getGarageIDQuery = "SELECT * FROM " + USER_GARAGE_TABLE
+                                + " WHERE user_id = " + userID.getID() + ";";
+        int garage_id = 0;
+        try {
+            Statement getGarageIDStat = con.createStatement();
+            ResultSet res = getGarageIDStat.executeQuery(getGarageIDQuery);
+            if(res.next()){
+                garage_id = res.getInt("garage_id");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        String addEmptyCarQuery = "INSERT INTO " + CARS_TABLE + "(car_name)\n" + "VALUES('" + carName + "');";
+        boolean addEmptyCarBoolean = false;
+        ID carID = null;
+        try {
+            Statement addEmptyCarStat = con.createStatement();
+            if(addEmptyCarStat.executeUpdate(addEmptyCarQuery) > 0){
+                addEmptyCarBoolean = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        // COMMIT; DDL
+        if(addEmptyCarBoolean){
+            String getCarIDQuery = "SELECT id FROM " + CARS_TABLE + " WHERE car_name = '" + carName + "';";
+            try {
+                Statement getCarIDStat = con.createStatement();
+                ResultSet res = getCarIDStat.executeQuery(getCarIDQuery);
+                if(res.next()){
+                    carID = new ID(res.getInt("id"));
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
         connectionPool.releaseConnection(con);
-        return null;
+        return carID;
     }
 
     @Override
@@ -296,15 +336,15 @@ public class GarageDAOClass implements GarageDAO {
     public List<Item> getAllCarItems(ID carID) {
         Connection con = connectionPool.acquireConnection();
         String getAllCarItemsQuery = "SELECT * FROM " + CAR_PARTS_VIEW + "\n"
-                        + "WHERE car_id = " + carID.getID() + ";";
+                                    + "WHERE car_id = " + carID.getID() + ";";
 
         List<Item> allCarItems = new ArrayList<>();
         try {
             Statement allCarItemsStat = con.createStatement();
             ResultSet res = allCarItemsStat.executeQuery(getAllCarItemsQuery);
+            ItemDAOClass itemDAO = new ItemDAOClass(connectionPool);
             while(res.next()){
-                Item item = new Item(new ID(res.getInt("item_id")),
-                                    res.getString("item_name"));
+                Item item = itemDAO.getItem(new ID(res.getInt("item_id")));
                 allCarItems.add(item);
             }
         } catch (SQLException throwables) {
@@ -466,7 +506,7 @@ public class GarageDAOClass implements GarageDAO {
                 if(resGarageID.next()){
                     garage_id = resGarageID.getInt("garage_id");
                 }else{
-                    // add garage for user
+                    garage_id = addUserGarage(userID, con).getID();
                 }
             }
         } catch (SQLException throwables) {
@@ -520,19 +560,19 @@ public class GarageDAOClass implements GarageDAO {
     }
 
     @Override
-    public List<Item> getAllSpareItems(String userName) {
+    public Map<Item, Integer> getAllSpareItems(String userName) {
         Connection con = connectionPool.acquireConnection();
         String getAllSpareItemsQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
                                     + "WHERE user_name = '" + userName + "';";
 
-        List<Item> allSpareItems = new ArrayList<>();
+        Map<Item, Integer> allSpareItems = new HashMap<>();
         try {
             Statement getAllSpareItemsStat = con.createStatement();
             ResultSet res = getAllSpareItemsStat.executeQuery(getAllSpareItemsQuery);
+            ItemDAOClass itemDAO = new ItemDAOClass(connectionPool);
             while (res.next()){
-                Item item = new Item(new ID(res.getInt("item_id")), res.getString("item_name"));
-                allSpareItems.add(item);
-
+                Item item = itemDAO.getItem(new ID(res.getInt("item_id")));
+                allSpareItems.put(item, res.getInt("count_item"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
