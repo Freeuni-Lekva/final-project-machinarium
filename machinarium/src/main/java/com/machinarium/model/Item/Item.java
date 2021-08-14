@@ -1,7 +1,7 @@
 package com.machinarium.model.Item;
 
-import com.machinarium.model.globals.ID;
-import com.machinarium.model.globals.ItemLib;
+import com.machinarium.utility.common.ID;
+import com.machinarium.utility.constants.ItemConstants;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,27 +27,27 @@ public class Item {
 	}
 
 	public String getType() {
-		return ItemLib.ITEM_TYPE;
+		return ItemConstants.ITEM_TYPE;
 	}
 
 	public List<String> getSpecs() {
 		List<String> specs = new ArrayList<>();
-		String spec = "[" + ItemLib.NAME + ": " + name + "]";
+		String spec = "[" + ItemConstants.NAME + ": " + name + "]";
 		specs.add(spec);
 		return specs;
 	}
 
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = new HashMap<>();
-		specs.put(ItemLib.NAME, name);
+		specs.put(ItemConstants.NAME, name);
 		return specs;
 	}
 
 	@Override
 	public String toString() {
 		String str = "";
-		str += "[" + ItemLib.ITEM_ID + ": " + iD + "] \n";
-		str += "[" + ItemLib.NAME + ": " + name + "] \n";
+		str += "[" + ItemConstants.ITEM_ID + ": " + iD + "] \n";
+		str += "[" + ItemConstants.NAME + ": " + name + "] \n";
 		return str;
 	}
 

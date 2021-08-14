@@ -1,4 +1,4 @@
-package com.machinarium.model.globals;
+package com.machinarium.utility.common;
 
 public class ID {
 	private final int iD;

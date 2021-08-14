@@ -1,6 +1,6 @@
 package com.machinarium.dao;
 
-import com.machinarium.model.globals.ID;
+import com.machinarium.utility.common.ID;
 import com.machinarium.model.history.Reward;
 
 import java.util.List;

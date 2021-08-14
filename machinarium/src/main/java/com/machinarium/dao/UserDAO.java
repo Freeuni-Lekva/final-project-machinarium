@@ -1,6 +1,6 @@
 package com.machinarium.dao;
 
-import com.machinarium.utility.EncryptedPassword;
+import com.machinarium.utility.common.EncryptedPassword;
 import com.machinarium.model.user.User;
 
 import java.util.List;
@@ -40,11 +40,11 @@ public interface UserDAO {
      * @return True if the entry for the specified user was successfully updated, false otherwise.
      */
     boolean updateEmail(String userName, String newEmail);
-
+  
     /**
-     * Returns all users from database
+     * Returns all users from database.
      *
-     * @return The list of registered users as a List of {@link User} class objects
+     * @return The list of registered users as a {@link List} of {@link User} class objects.
      */
     List<User> getAllUsers();
 }

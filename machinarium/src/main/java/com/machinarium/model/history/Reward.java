@@ -1,6 +1,6 @@
 package com.machinarium.model.history;
 
-import com.machinarium.model.globals.ID;
+import com.machinarium.utility.common.ID;
 import java.util.Map;
 
 public class Reward {

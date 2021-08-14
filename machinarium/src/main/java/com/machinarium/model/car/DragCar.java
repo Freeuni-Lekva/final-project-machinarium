@@ -3,9 +3,9 @@ package com.machinarium.model.car;
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.Item.connector.*;
 import com.machinarium.model.Item.part.*;
-import com.machinarium.model.globals.CarLib;
-import com.machinarium.model.globals.ID;
-import com.machinarium.model.globals.ItemLib;
+import com.machinarium.utility.constants.CarConstants;
+import com.machinarium.utility.common.ID;
+import com.machinarium.utility.constants.ItemConstants;
 
 import java.util.*;
 
@@ -149,7 +149,7 @@ public class DragCar extends Car {
 
 	@Override
 	public String getType() {
-		return CarLib.DRAG_CAR_TYPE;
+		return CarConstants.DRAG_CAR_TYPE;
 	}
 
 	@Override
@@ -196,18 +196,18 @@ public class DragCar extends Car {
 	public String toString() {
 		String str = super.toString();
 
-		str += "[" + ItemLib.CHASSIS_TYPE + ": \n" + chassis.toString() + "\n] \n";
-		str += "[" + ItemLib.BODY_TYPE + ": \n" + body.toString() + "\n] \n";
-		str += "[" + ItemLib.ENGINE_TYPE + ": \n" + engine.toString() + "\n] \n";
-		str += "[" + ItemLib.TRANSMISSION_TYPE + ": \n" + transmission.toString() + "\n] \n";
-		str += "[" + ItemLib.WHEELS_TYPE + ": \n" + wheels.toString() + "\n] \n";
+		str += "[" + ItemConstants.CHASSIS_TYPE + ": \n" + chassis.toString() + "\n] \n";
+		str += "[" + ItemConstants.BODY_TYPE + ": \n" + body.toString() + "\n] \n";
+		str += "[" + ItemConstants.ENGINE_TYPE + ": \n" + engine.toString() + "\n] \n";
+		str += "[" + ItemConstants.TRANSMISSION_TYPE + ": \n" + transmission.toString() + "\n] \n";
+		str += "[" + ItemConstants.WHEELS_TYPE + ": \n" + wheels.toString() + "\n] \n";
 
-		str += "[" + ItemLib.CHASSIS_BODY_TYPE + ": \n" + chassisBody.toString() + "\n] \n";
-		str += "[" + ItemLib.CHASSIS_TRANSMISSION_TYPE + ": \n" + chassisTransmission.toString() + "\n] \n";
-		str += "[" + ItemLib.CHASSIS_WHEELS_TYPE + ": \n" + chassisWheels.toString() + "\n] \n";
-		str += "[" + ItemLib.CHASSIS_ENGINE_TYPE + ": \n" + chassisEngine.toString() + "\n] \n";
-		str += "[" + ItemLib.ENGINE_TRANSMISSION_TYPE + ": \n" + engineTransmission.toString() + "\n] \n";
-		str += "[" + ItemLib.TRANSMISSION_WHEELS_TYPE + ": \n" + transmissionWheels.toString() + "\n] \n";
+		str += "[" + ItemConstants.CHASSIS_BODY_TYPE + ": \n" + chassisBody.toString() + "\n] \n";
+		str += "[" + ItemConstants.CHASSIS_TRANSMISSION_TYPE + ": \n" + chassisTransmission.toString() + "\n] \n";
+		str += "[" + ItemConstants.CHASSIS_WHEELS_TYPE + ": \n" + chassisWheels.toString() + "\n] \n";
+		str += "[" + ItemConstants.CHASSIS_ENGINE_TYPE + ": \n" + chassisEngine.toString() + "\n] \n";
+		str += "[" + ItemConstants.ENGINE_TRANSMISSION_TYPE + ": \n" + engineTransmission.toString() + "\n] \n";
+		str += "[" + ItemConstants.TRANSMISSION_WHEELS_TYPE + ": \n" + transmissionWheels.toString() + "\n] \n";
 
 		return str;
 	}

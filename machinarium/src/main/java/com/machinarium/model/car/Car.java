@@ -1,7 +1,7 @@
 package com.machinarium.model.car;
 
-import com.machinarium.model.globals.CarLib;
-import com.machinarium.model.globals.ID;
+import com.machinarium.utility.constants.CarConstants;
+import com.machinarium.utility.common.ID;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,14 +36,14 @@ public abstract class Car {
 
 
 	public String getType() {
-		return CarLib.CAR_TYPE;
+		return CarConstants.CAR_TYPE;
 	}
 
 	public List<List<String>> getSpecs() {
 		List<List<String>> fullSpecs = new ArrayList<>();
 
 		List<String> specs = new ArrayList<>();
-		String spec = "[" + CarLib.NAME + ": " + name + "]";
+		String spec = "[" + CarConstants.NAME + ": " + name + "]";
 		specs.add(spec);
 
 		fullSpecs.add(specs);
@@ -54,17 +54,17 @@ public abstract class Car {
 		Map<String,  Map<String, String>> fullSpecs = new HashMap<>();
 
 		Map<String, String> specs = new HashMap<>();
-		specs.put(CarLib.NAME, name);
+		specs.put(CarConstants.NAME, name);
 
-		fullSpecs.put(CarLib.NAME, specs);
+		fullSpecs.put(CarConstants.NAME, specs);
 		return fullSpecs;
 	}
 
 	@Override
 	public String toString() {
 		String str = "";
-		str += "[" + CarLib.ITEM_ID + ": " + iD + "] \n";
-		str += "[" + CarLib.NAME + ": " + name + "] \n";
+		str += "[" + CarConstants.ITEM_ID + ": " + iD + "] \n";
+		str += "[" + CarConstants.NAME + ": " + name + "] \n";
 		return str;
 	}
 

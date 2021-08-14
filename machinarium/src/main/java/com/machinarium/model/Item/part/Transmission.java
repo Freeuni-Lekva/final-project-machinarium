@@ -1,7 +1,7 @@
 package com.machinarium.model.Item.part;
 
-import com.machinarium.model.globals.ID;
-import com.machinarium.model.globals.ItemLib;
+import com.machinarium.utility.common.ID;
+import com.machinarium.utility.constants.ItemConstants;
 
 public class Transmission extends Part {
 
@@ -12,7 +12,7 @@ public class Transmission extends Part {
 
 	@Override
 	public String getType() {
-		return ItemLib.TRANSMISSION_TYPE;
+		return ItemConstants.TRANSMISSION_TYPE;
 	}
 
 }
