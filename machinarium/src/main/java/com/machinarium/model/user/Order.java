@@ -1,4 +1,4 @@
-package com.machinarium.model.history;
+package com.machinarium.model.user;
 
 import com.machinarium.model.Item.Item;
 import com.machinarium.utility.common.ID;
@@ -6,8 +6,9 @@ import com.machinarium.utility.common.ID;
 import java.util.Map;
 
 public class Order {
+
 	private final String userName;
-	private final ID iD;
+	private final ID id;
 
 	private final String status;
 	private final String date;
@@ -16,10 +17,10 @@ public class Order {
 	private final Map<Item, Integer> userTakes;
 
 
-	public Order(String userName, ID iD, String status, String date,
+	public Order(String userName, ID id, String status, String date,
 				 Map<Item, Integer> userGives, Map<Item, Integer> userTakes) {
 		this.userName = userName;
-		this.iD = iD;
+		this.id = id;
 
 		this.status = status;
 		this.date = date;
@@ -34,7 +35,7 @@ public class Order {
 	}
 
 	public ID getID() {
-		return iD;
+		return id;
 	}
 
 

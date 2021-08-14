@@ -1,13 +1,15 @@
 package com.machinarium.model.car;
 
 import com.machinarium.model.Item.Item;
-import com.machinarium.model.Item.connector.*;
+import com.machinarium.model.Item.connector.Connector;
 import com.machinarium.model.Item.part.*;
-import com.machinarium.utility.constants.CarConstants;
 import com.machinarium.utility.common.ID;
-import com.machinarium.utility.constants.ItemConstants;
+import com.machinarium.utility.constants.CarConstants;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Stream;
 
 public class DragCar extends Car {
 	private static final int TIME_ADJUSTER = 100;
@@ -29,6 +31,7 @@ public class DragCar extends Car {
 	private final Connector<Engine, Transmission> engineTransmission;
 	private final Connector<Transmission, Wheels> transmissionWheels;
 
+	private final List<Item> components;
 
 	public DragCar(ID iD, String name,
 
@@ -59,23 +62,37 @@ public class DragCar extends Car {
 		this.chassisEngine = chassisEngine;
 		this.engineTransmission = engineTransmission;
 		this.transmissionWheels = transmissionWheels;
+
+		this.components = new ArrayList<>() {{
+			add(chassis); add(body); add(engine); add(transmission); add(wheels);
+			add(chassisBody); add(chassisTransmission); add(chassisWheels);
+			add(chassisEngine); add(engineTransmission); add(transmissionWheels);
+		}};
 	}
 
+	@Override
+	public String getType() {
+		return CarConstants.DRAG_CAR_TYPE;
+	}
+
+	@Override
+	public List<Item> getComponents() {return this.components;}
 
 	@Override
 	public boolean isValid() {
-		if (! allItemsArePresent()) return false;
+
+		if (!allItemsArePresent()) return false;
 
 		int weightSupport = chassis.getWeightSupport();
 		weightSupport -= calcFullWeight();
-		if (weightSupport < 0) return false;
 
-		return true;
+		return weightSupport >= 0;
 	}
 
 	@Override
 	public double quarterMileTime() {
-		if (! isValid()) return TIME_NA;
+
+		if (!isValid()) return TIME_NA;
 		double runTime = 0;
 
 		int engineHorsePower = engine.getHorsePower();
@@ -89,127 +106,44 @@ public class DragCar extends Car {
 		return runTime;
 	}
 
-
 	private boolean allItemsArePresent() {
+
 		if (getID() == null) return false;
 		if (getName() == null) return false;
 
-		List<Item> necessaryComponents = List.of(
-				chassis, body, engine, transmission, wheels,
-				chassisBody, chassisTransmission, chassisWheels,
-				chassisEngine, engineTransmission, transmissionWheels
-		);
-
-		for (Item component: necessaryComponents) {
-			if (component == null) return false;
-		}
-
-		return true;
+		return !components.contains(null);
 	}
 
 	private int calcFullWeight() {
-		int fullWeight = 0;
-		fullWeight += chassis.getWeightSupport();
-		fullWeight += chassis.getWeight();
-		fullWeight += body.getWeight();
-		fullWeight += engine.getWeight();
-		fullWeight += transmission.getWeight();
-		fullWeight += wheels.getWeight();
-		return fullWeight;
+
+		return Stream.of(chassis, body, engine, transmission, wheels).mapToInt(Part::getWeight).sum();
 	}
 
 	private double measureRunTime(int effectiveHorsePower, int fullWeight) {
+
 		double time = (double)effectiveHorsePower / (double)fullWeight;
 		time *= applyWeatherEffect();
 		time *= applyTarmacEffect();
 		time = adjustTimer(time);
+
 		return time;
 	}
 
 	private double applyWeatherEffect() {
-		double lo = WEATHER_EFFECT_LO;
-		double hi = WEATHER_EFFECT_HI;
+
 		Random weatherEffectAnalyser = new Random();
-		double weatherEffect = lo + (hi - lo) * weatherEffectAnalyser.nextDouble();
-		return weatherEffect;
+
+		return WEATHER_EFFECT_LO + (WEATHER_EFFECT_HI - WEATHER_EFFECT_LO) * weatherEffectAnalyser.nextDouble();
 	}
 
 	private double applyTarmacEffect() {
-		double lo = TARMAC_EFFECT_LO;
-		double hi = TARMAC_EFFECT_HI;
+
 		Random tarmacEffectAnalyser = new Random();
-		double tarmacEffect = lo + (hi - lo) * tarmacEffectAnalyser.nextDouble();
-		return tarmacEffect;
+
+		return TARMAC_EFFECT_LO + (TARMAC_EFFECT_HI - TARMAC_EFFECT_LO) * tarmacEffectAnalyser.nextDouble();
 	}
 
 	private double adjustTimer(double time) {
 		return time * TIME_ADJUSTER;
 	}
-
-
-	@Override
-	public String getType() {
-		return CarConstants.DRAG_CAR_TYPE;
-	}
-
-	@Override
-	public List<List<String>> getSpecs() {
-		List<List<String>> fullSpecs = new ArrayList<>();
-
-		fullSpecs.add(chassis.getSpecs());
-		fullSpecs.add(body.getSpecs());
-		fullSpecs.add(engine.getSpecs());
-		fullSpecs.add(transmission.getSpecs());
-		fullSpecs.add(wheels.getSpecs());
-
-		fullSpecs.add(chassisBody.getSpecs());
-		fullSpecs.add(chassisTransmission.getSpecs());
-		fullSpecs.add(chassisWheels.getSpecs());
-		fullSpecs.add(chassisEngine.getSpecs());
-		fullSpecs.add(engineTransmission.getSpecs());
-		fullSpecs.add(transmissionWheels.getSpecs());
-
-		return fullSpecs;
-	}
-
-	@Override
-	public Map<String, Map<String, String>> getMappedSpecs() {
-		Map<String, Map<String, String>> fullSpecs = new HashMap<>();
-
-		fullSpecs.put(chassis.getType(), chassis.getMappedSpecs());
-		fullSpecs.put(body.getType(), body.getMappedSpecs());
-		fullSpecs.put(engine.getType(), engine.getMappedSpecs());
-		fullSpecs.put(transmission.getType(), transmission.getMappedSpecs());
-		fullSpecs.put(wheels.getType(), wheels.getMappedSpecs());
-
-		fullSpecs.put(chassisBody.getType(), chassisBody.getMappedSpecs());
-		fullSpecs.put(chassisTransmission.getType(), chassisTransmission.getMappedSpecs());
-		fullSpecs.put(chassisWheels.getType(), chassisWheels.getMappedSpecs());
-		fullSpecs.put(chassisEngine.getType(), chassisEngine.getMappedSpecs());
-		fullSpecs.put(engineTransmission.getType(), engineTransmission.getMappedSpecs());
-		fullSpecs.put(transmissionWheels.getType(), transmissionWheels.getMappedSpecs());
-
-		return fullSpecs;
-	}
-
-	@Override
-	public String toString() {
-		String str = super.toString();
-
-		str += "[" + ItemConstants.CHASSIS_TYPE + ": \n" + chassis.toString() + "\n] \n";
-		str += "[" + ItemConstants.BODY_TYPE + ": \n" + body.toString() + "\n] \n";
-		str += "[" + ItemConstants.ENGINE_TYPE + ": \n" + engine.toString() + "\n] \n";
-		str += "[" + ItemConstants.TRANSMISSION_TYPE + ": \n" + transmission.toString() + "\n] \n";
-		str += "[" + ItemConstants.WHEELS_TYPE + ": \n" + wheels.toString() + "\n] \n";
-
-		str += "[" + ItemConstants.CHASSIS_BODY_TYPE + ": \n" + chassisBody.toString() + "\n] \n";
-		str += "[" + ItemConstants.CHASSIS_TRANSMISSION_TYPE + ": \n" + chassisTransmission.toString() + "\n] \n";
-		str += "[" + ItemConstants.CHASSIS_WHEELS_TYPE + ": \n" + chassisWheels.toString() + "\n] \n";
-		str += "[" + ItemConstants.CHASSIS_ENGINE_TYPE + ": \n" + chassisEngine.toString() + "\n] \n";
-		str += "[" + ItemConstants.ENGINE_TRANSMISSION_TYPE + ": \n" + engineTransmission.toString() + "\n] \n";
-		str += "[" + ItemConstants.TRANSMISSION_WHEELS_TYPE + ": \n" + transmissionWheels.toString() + "\n] \n";
-
-		return str;
-	}
-
 }

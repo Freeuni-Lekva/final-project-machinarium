@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 public class Item {
-	private final ID iD;
+	private final ID id;
 	private final String name;
 
 
-	public Item(ID iD, String name) {
-		this.iD = iD;
+	public Item(ID id, String name) {
+		this.id = id;
 		this.name = name;
 	}
 
 
 	public ID getID() {
-		return iD;
+		return id;
 	}
 
 	public String getName() {
@@ -32,23 +32,28 @@ public class Item {
 
 	public List<String> getSpecs() {
 		List<String> specs = new ArrayList<>();
-		String spec = "[" + ItemConstants.NAME + ": " + name + "]";
+		String spec = "[" + ItemConstants.NAME + ": " + getName() + "]";
 		specs.add(spec);
 		return specs;
 	}
 
 	public Map<String, String> getMappedSpecs() {
 		Map<String, String> specs = new HashMap<>();
-		specs.put(ItemConstants.NAME, name);
+		specs.put(ItemConstants.NAME, getName());
 		return specs;
 	}
 
 	@Override
 	public String toString() {
 		String str = "";
-		str += "[" + ItemConstants.ITEM_ID + ": " + iD + "] \n";
-		str += "[" + ItemConstants.NAME + ": " + name + "] \n";
+		str += "[" + ItemConstants.ID + ": " + getID() + "] \n";
+		str += "[" + ItemConstants.NAME + ": " + getName() + "] \n";
 		return str;
 	}
 
+	public Map<String, String> toMap() {
+
+		return Map.of(ItemConstants.ID, getID().toString(),
+				      ItemConstants.NAME, getName());
+	}
 }

@@ -19,9 +19,16 @@ public final class ServletConstants {
     public static final String PARAMETER_CARS = "cars";
     public static final String PARAMETER_SPARE_ITEMS = "spare_items";
 
+    public static final String PARAMETER_CAR_NAME = "car_name";
+
+    public static final String PARAMETER_USER_ORDERS = "user_orders";
+    public static final String PARAMETER_ORDERS = "orders";
 
     public static final String ATTRIBUTE_USER_DAO = "user_dao";
     public static final String ATTRIBUTE_USER = "user";
+    public static final String ATTRIBUTE_GARAGE_DAO = "garage_dao";
+    public static final String ATTRIBUTE_STATISTICS_DAO = "statistics_dao";
+    public static final String ATTRIBUTE_ORDER_DAO = "order_dao";
 
 
     /* This class is meant for holding constants. */
