@@ -2,7 +2,7 @@ package com.machinarium.dao;
 
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.car.Car;
-import com.machinarium.model.globals.ID;
+import com.machinarium.utility.common.ID;
 import java.util.List;
 
 public interface GarageDAO {

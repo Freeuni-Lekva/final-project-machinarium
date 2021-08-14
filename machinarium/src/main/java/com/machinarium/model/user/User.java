@@ -1,6 +1,6 @@
 package com.machinarium.model.user;
 
-import com.machinarium.utility.EncryptedPassword;
+import com.machinarium.utility.common.EncryptedPassword;
 
 import java.util.Objects;
 

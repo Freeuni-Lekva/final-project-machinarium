@@ -1,11 +1,14 @@
-package com.machinarium.model.globals;
+package com.machinarium.utility.constants;
 
-public class CarLib {
+public final class CarConstants {
+
 	public static final String CAR_TYPE = "Car";
 
 	public static final String DRAG_CAR_TYPE = "DragCar";
 
-
 	public static final String ITEM_ID = "iD";
 	public static final String NAME = "name";
+
+	/* This class is meant for holding constants. */
+	private CarConstants() {}
 }

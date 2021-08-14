@@ -1,7 +1,7 @@
 package com.machinarium.servlets;
 
 import com.machinarium.dao.UserDAO;
-import com.machinarium.utility.EncryptedPassword;
+import com.machinarium.utility.common.EncryptedPassword;
 import com.machinarium.utility.validators.PasswordValidator;
 import com.machinarium.utility.validators.UserNameValidator;
 import com.machinarium.utility.validators.Validator;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import static com.machinarium.servlets.RequestConstants.*;
+import static com.machinarium.utility.constants.RequestConstants.*;
 
 @WebServlet(name = "RegisterServlet", value = "/RegisterServlet")
 public class RegisterServlet extends HttpServlet {

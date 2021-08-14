@@ -1,6 +1,6 @@
 package com.machinarium.servlets;
 
-import com.machinarium.utility.EncryptedPassword;
+import com.machinarium.utility.common.EncryptedPassword;
 import com.machinarium.dao.UserDAO;
 
 import javax.servlet.ServletContext;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.machinarium.servlets.RequestConstants.PARAMETER_PASSWORD;
-import static com.machinarium.servlets.RequestConstants.PARAMETER_USER_NAME;
+import static com.machinarium.utility.constants.RequestConstants.PARAMETER_PASSWORD;
+import static com.machinarium.utility.constants.RequestConstants.PARAMETER_USER_NAME;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {

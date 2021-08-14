@@ -1,6 +1,6 @@
 package com.machinarium.dao;
 
-import com.machinarium.utility.EncryptedPassword;
+import com.machinarium.utility.common.EncryptedPassword;
 import com.machinarium.model.user.User;
 
 public interface UserDAO {
@@ -38,5 +38,4 @@ public interface UserDAO {
      * @return True if the entry for the specified user was successfully updated, false otherwise.
      */
     boolean updateEmail(String userName, String newEmail);
-
 }

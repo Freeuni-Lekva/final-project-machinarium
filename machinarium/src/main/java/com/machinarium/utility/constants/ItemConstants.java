@@ -1,6 +1,7 @@
-package com.machinarium.model.globals;
+package com.machinarium.utility.constants;
 
-public class ItemLib {
+public final class ItemConstants {
+
 	public static final String ITEM_TYPE = "Item";
 
 	public static final String PART_TYPE = "Part";
@@ -18,7 +19,6 @@ public class ItemLib {
 	public static final String ENGINE_TRANSMISSION_TYPE = "engineTransmission";
 	public static final String TRANSMISSION_WHEELS_TYPE = "transmissionWheels";
 
-
 	public static final String ITEM_ID = "iD";
 	public static final String NAME = "name";
 	public static final String WEIGHT = "weight";
@@ -27,4 +27,6 @@ public class ItemLib {
 	public static final String HORSE_POWER = "horsePower";
 	public static final String TRACTION_UNIT = "tractionUnit";
 
+	/* This class is meant for holding constants. */
+	private ItemConstants() {}
 }
