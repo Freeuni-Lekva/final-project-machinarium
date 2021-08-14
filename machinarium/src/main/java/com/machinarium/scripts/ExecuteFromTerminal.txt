@@ -1,0 +1,7 @@
+// Execute from terminal
+
+mysql --user="root" --database="machinarium_database" --password="Data_base1" < "create_database_tables.sql"
+
+mysql --user="root" --database="machinarium_database" --password="Data_base1" < "create_database_views.sql"
+
+mysql --user="root" --database="machinarium_database" --password="Data_base1" < "initial_database_state.sql"
