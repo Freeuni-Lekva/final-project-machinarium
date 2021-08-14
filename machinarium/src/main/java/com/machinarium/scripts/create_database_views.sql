@@ -65,7 +65,15 @@ CREATE OR REPLACE VIEW see_car_parts AS
 	SELECT c.id car_id, c.car_name car_name, i.id item_id, 
 			i.item_name, i.type_id, it.type_name, i.weight, i.weight_support, 
             i.aero_drag, i.horse_power, i.traction_unit, 
-            cp.connector_id, con.item_type_1_id, con.item_type_2_id            
+            cp.connector_id, con.connector_name connector_name, 
+            con.item_type_1_id, 
+            it1.item_name it1_item_name, it1.weight it1_weight, 
+            it1.weight_support it1_weight_support, it1.aero_drag it1_aero_drag, 
+            it1.horse_power it1_horse_power, it1.traction_unit it1_traction_unit,
+            con.item_type_2_id,
+			it2.item_name it2_item_name, it2.weight it2_weight, 
+            it2.weight_support it2_weight_support, it2.aero_drag it2_aero_drag, 
+            it2.horse_power it2_horse_power, it2.traction_unit it2_traction_unit
     FROM car_parts cp
     LEFT JOIN cars c
     ON cp.car_id = c.id
@@ -74,7 +82,11 @@ CREATE OR REPLACE VIEW see_car_parts AS
     LEFT JOIN connectors con
     ON cp.connector_id = con.id
     LEFT JOIN item_types it
-    ON i.type_id = it.id;
+    ON i.type_id = it.id
+    LEFT JOIN items it1
+    ON con.item_type_1_id = it1.id
+    LEFT JOIN items it2
+    ON con.item_type_2_id = it2.id;
     
 /* view for user spare items full information */    
 CREATE OR REPLACE VIEW see_user_items AS
