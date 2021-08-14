@@ -2,6 +2,8 @@ package com.machinarium.servlets;
 
 import com.machinarium.dao.ConnectionPool;
 import com.machinarium.dao.UserDAO;
+import com.machinarium.dao.implementation.BlockingConnectionPool;
+import com.machinarium.dao.implementation.UserDAOClass;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -12,12 +14,16 @@ public class Listener implements ServletContextListener, HttpSessionListener, Ht
 
     public static final String ATTRIBUTE_USER_DAO = "user_dao";
 
+    private static final int N_CONNECTIONS = 10;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        // TODO connPool will be initialized here.
-        // TODO UserDAO will be initialized here.
 
-//        sce.getServletContext().setAttribute(ATTRIBUTE_USER_DAO, userDao);
+        connectionPool = BlockingConnectionPool.getInstance(N_CONNECTIONS);
+
+        userDao = new UserDAOClass(connectionPool);
+
+        sce.getServletContext().setAttribute(ATTRIBUTE_USER_DAO, userDao);
     }
 
     @Override
@@ -50,6 +56,6 @@ public class Listener implements ServletContextListener, HttpSessionListener, Ht
         /* This method is called when an attribute is replaced in a session. */
     }
 
-//    private final ConnectionPool connPool;
-//    private final UserDAO userDao;
+    private ConnectionPool connectionPool;
+    private UserDAO userDao;
 }

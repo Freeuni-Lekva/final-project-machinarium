@@ -11,7 +11,8 @@ Sent Attributes:
 * user_name - მომხარებლის სახელი.
 * password - პაროლი.
 
-Return: 
+Return:
+* Status 400 - ცუდი მოთხოვნა.
 * Status 401 - წარუმატებელი აუთენტიკაცია.
 * Status 303 - წარმატებული აუთენტიკაცია.
 
@@ -27,7 +28,8 @@ Sent Attributes:
 * password - პაროლი.
 * email - ელ-ფოსტა.
 
-Return: 
+Return:
+* Status 400 - ცუდი მოთხოვნა.
 * Status 409 - წარუმატებელი რეგისტრაცია.
 * Status 201 - წარმატებული რეგისტრაცია.
 
