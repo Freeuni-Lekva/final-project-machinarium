@@ -1,12 +1,11 @@
-package com.machinarium.dao;
+package com.machinarium.dao.implementations;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import com.machinarium.dao.ConnectionPool;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class BlockingConnectionPool implements ConnectionPool {
@@ -53,8 +52,22 @@ public class BlockingConnectionPool implements ConnectionPool {
         return null;
     }
 
+    /**
+     * Releases a connection back to the connection pool.
+     *
+     * @param connection The {@link Connection} to be released.
+     *
+     * @throws RuntimeException If the connection has already been released.
+     */
     @Override
-    public void releaseConnection(Connection connection) {this.connections.add(connection);}
+    public void releaseConnection(Connection connection) {
+
+        if(this.connections.contains(connection)) {
+            throw new RuntimeException("You cannot release the same connection twice.");
+        }
+
+        this.connections.add(connection);
+    }
 
     /**
      * Waits for all connections to be returned to the pool and closes them.
