@@ -1,4 +1,4 @@
-package com.machinarium.utility;
+package com.machinarium.utility.common;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -51,6 +51,9 @@ public class EncryptedPassword {
 
         return false;
     }
+
+    @Override
+    public String toString() {return encryptedPassword;}
 
     private EncryptedPassword(String encryptedPassword) {this.encryptedPassword = encryptedPassword;}
 
