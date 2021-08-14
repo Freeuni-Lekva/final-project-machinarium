@@ -14,7 +14,7 @@ import java.util.List;
 
 
 class UserDAOClass implements UserDAO {
-    private String USERS_TABLE = "users";
+    private final String  USERS_TABLE = "users";
     private ConnectionPool connectionPool;
     public UserDAOClass(ConnectionPool connectionPool){
         this.connectionPool = connectionPool;
@@ -29,14 +29,13 @@ class UserDAOClass implements UserDAO {
         try {
             Statement getUserStat = con.createStatement();
             ResultSet res =  getUserStat.executeQuery(selectUserQuery);
-            if(res != null){
+            if(res.next()){
                 user = new User(res.getString("user_name"),
                         EncryptedPassword.of(res.getString("password")),
                         res.getString("mail"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            connectionPool.releaseConnection(con);
         }
 
         connectionPool.releaseConnection(con);
@@ -66,7 +65,7 @@ class UserDAOClass implements UserDAO {
         Connection con = connectionPool.acquireConnection();
         boolean updatePasswordBoolean = false;
         String updatePasswordQuery = "UPDATE " + USERS_TABLE + "\n"
-                                    + "SET user_password = " + newEncryptedPassword.toString() + "\n"
+                                    + "SET user_password = " + newEncryptedPassword + "\n"
                                     + "WHERE user_name = " + userName + ";" ;
         try {
             Statement updatePasswordStat = con.createStatement();
@@ -85,8 +84,8 @@ class UserDAOClass implements UserDAO {
         Connection con = connectionPool.acquireConnection();
         boolean updateEmailBoolean = false;
         String updateEmailQuery = "UPDATE " + USERS_TABLE + "\n"
-                + "SET mail = " + newEmail + "\n"
-                + "WHERE user_name = " + userName + ";" ;
+                                + "SET mail = " + newEmail + "\n"
+                                + "WHERE user_name = " + userName + ";" ;
         try {
             Statement updateEmailStat = con.createStatement();
             if(updateEmailStat.executeUpdate(updateEmailQuery) > 0){
