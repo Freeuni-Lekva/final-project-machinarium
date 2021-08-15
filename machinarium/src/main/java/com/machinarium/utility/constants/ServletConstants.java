@@ -16,6 +16,7 @@ public final class ServletConstants {
     public static final String PARAMETER_THIRD_PLACE_COUNT = "third_place_count";
     public static final String PARAMETER_LOSS_COUNT = "loss_count";
 
+<<<<<<< HEAD
     public static final String PARAMETER_STATUS = "status";
     public static final String PARAMETER_USERS = "users";
     public static final String PARAMETER_ROLE = "role";
@@ -25,6 +26,14 @@ public final class ServletConstants {
 
     public static final String PARAMETER_CAR_NAME = "car_name";
 
+=======
+    public static final String PARAMETER_USERS = "users";
+    public static final String PARAMETER_CARS = "cars";
+    public static final String PARAMETER_ITEMS = "items";
+
+    public static final String PARAMETER_CAR_NAME = "car_name";
+
+>>>>>>> დამატება #60, #61, #62 (#63): დაამატეთ სერვლეტები
     public static final String PARAMETER_USER_ORDERS = "user_orders";
     public static final String PARAMETER_ORDERS = "orders";
 
@@ -33,8 +42,11 @@ public final class ServletConstants {
     public static final String ATTRIBUTE_GARAGE_DAO = "garage_dao";
     public static final String ATTRIBUTE_STATISTICS_DAO = "statistics_dao";
     public static final String ATTRIBUTE_ORDER_DAO = "order_dao";
+<<<<<<< HEAD
     public static final String ATTRIBUTE_GAME_DAO = "game_dao";
 
+=======
+>>>>>>> დამატება #60, #61, #62 (#63): დაამატეთ სერვლეტები
 
     public static final String VALUE_HOST = "host";
     public static final String VALUE_GUEST = "guest";
