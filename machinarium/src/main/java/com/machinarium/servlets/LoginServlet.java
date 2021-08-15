@@ -1,11 +1,8 @@
 package com.machinarium.servlets;
 
 import com.machinarium.model.user.User;
-import com.machinarium.utility.common.ConfiguredLogger;
-import com.machinarium.utility.common.EncryptedPassword;
+import com.machinarium.utility.common.*;
 import com.machinarium.dao.UserDAO;
-import com.machinarium.utility.common.JSONRequest;
-import com.machinarium.utility.common.JSONResponse;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletContext;
@@ -39,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 		String userName = (String) data.get(PARAMETER_USER_NAME);
 		String password = (String) data.get(PARAMETER_PASSWORD);
 
-		UserDAO userDao = (UserDAO) contextListener.getAttribute(ATTRIBUTE_USER_DAO);
+		UserDAO userDAO = (UserDAO) contextListener.getAttribute(ATTRIBUTE_USER_DAO);
 
 		logger.log(Level.INFO, "Username: " + userName + "\nPassword: " + password);
 
@@ -50,13 +47,13 @@ public class LoginServlet extends HttpServlet {
 			wrappedResponse.setError(response.SC_UNAUTHORIZED, "The password must be specified to authenticate.");
 		}
 		else{
-			User user = userDao.getUser(userName);
+			User user = userDAO.getUser(userName);
 
 			if(user == null || !user.getPassword().equals(EncryptedPassword.of(password))) {
 				wrappedResponse.setError(response.SC_UNAUTHORIZED, "The specified user name or password is incorrect.");
 			} else {
 
-				request.getSession().setAttribute(ATTRIBUTE_USER, user);
+				SessionManager.createLoginSession(request, user);
 				wrappedResponse.setStatus(response.SC_SEE_OTHER);
 			}
 		}

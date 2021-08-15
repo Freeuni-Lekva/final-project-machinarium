@@ -3,7 +3,7 @@ package com.machinarium.dao.implementation;
 import com.machinarium.dao.ConnectionPool;
 import com.machinarium.dao.OrderDAO;
 import com.machinarium.model.Item.Item;
-import com.machinarium.model.history.Order;
+import com.machinarium.model.user.Order;
 import com.machinarium.utility.common.ID;
 
 import java.sql.Connection;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderDAOClass implements OrderDAO {
+
     private final String USERS_TABLE = "users";
     private final String USER_ORDERS_VIEW = "see_user_orders";
     private final String ORDERS_TABLE = "orders";
@@ -23,10 +24,13 @@ public class OrderDAOClass implements OrderDAO {
     private final String USER_ORDER_TABLE = "user_order";
     private final String SOURCE_STR = "source";
     private final String DESTINATION_STR = "destination";
+
     private final ConnectionPool connectionPool;
+
     public OrderDAOClass (ConnectionPool connectionPool){
         this.connectionPool = connectionPool;
     }
+
     private ID getUserID(String userName, Connection con){
         ID id = null;
         String getUserIDQuery = "SELECT id FROM " + USERS_TABLE + "\n"
@@ -35,17 +39,18 @@ public class OrderDAOClass implements OrderDAO {
             Statement getUserIDStat = con.createStatement();
             ResultSet res = getUserIDStat.executeQuery(getUserIDQuery);
             if(res.next()){
-                id = new ID(res.getInt("id"));
+                id = ID.of(res.getInt("id"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return id;
     }
+
     @Override
     public Order getOrder(ID orderID) {
         Connection con = connectionPool.acquireConnection();
-        String getOrderQuery = "SELECT * FROM " + USER_ORDERS_VIEW
+        String getOrderQuery = "SELECT * FROM " + USER_ORDERS_VIEW + " "
                         + "WHERE order_id = " + orderID.getID() + ";";
         Map<Item, Integer> userGives = new HashMap<>();
         Map<Item, Integer> userTakes = new HashMap<>();
@@ -66,7 +71,7 @@ public class OrderDAOClass implements OrderDAO {
                     userName = res.getString("user_name");
                 }
                 ItemDAOClass itemDAOClass = new ItemDAOClass(connectionPool);
-                Item item =  itemDAOClass.getItem(new ID(res.getInt("item_id")));;
+                Item item =  itemDAOClass.getItem(ID.of(res.getInt("item_id")));;
                 int itemCount = res.getInt("item_count");
                 String givesTakes = res.getString("source_destination");
                 if(givesTakes.equals(SOURCE_STR)){
@@ -94,7 +99,7 @@ public class OrderDAOClass implements OrderDAO {
             Statement getAllOrdersStat = con.createStatement();
             ResultSet res = getAllOrdersStat.executeQuery(getAllOrdersIDQuery);
             while (res.next()){
-                Order order = getOrder(new ID(res.getInt("order_id")));
+                Order order = getOrder(ID.of(res.getInt("order_id")));
                 allOrders.add(order);
             }
         } catch (SQLException throwables) {
@@ -115,7 +120,7 @@ public class OrderDAOClass implements OrderDAO {
             if(addOrderInTableStat.executeUpdate(addOrderInTableQuery, Statement.RETURN_GENERATED_KEYS) > 0){
                 ResultSet generatedID = addOrderInTableStat.getGeneratedKeys();
                 if(generatedID.next()){
-                    orderID = new ID(generatedID.getInt(1));
+                    orderID = ID.of(generatedID.getInt(1));
                 }
             }
         } catch (SQLException throwables) {
@@ -135,8 +140,7 @@ public class OrderDAOClass implements OrderDAO {
         String addItemsInOrderQuery = "INSERT INTO " + ORDER_ITEM_TABLE +
                                         "(order_id, item_id, item_amount, source_destination)\n"
                                         +"VALUES (%s, %s, %s, '%s');";
-        for (ID i: userGives.keySet()
-             ) {
+        for (ID i: userGives.keySet()) {
             String addItemsInOrderSourceQuery = String.format(addItemsInOrderQuery,
                                                                 orderID.getID(),
                                                                 i.getID(),
@@ -150,8 +154,7 @@ public class OrderDAOClass implements OrderDAO {
             }
 
         }
-        for (ID i: userTakes.keySet()
-        ) {
+        for (ID i: userTakes.keySet()) {
             String addItemsInOrderDestinationeQuery = String.format(addItemsInOrderQuery,
                                                                     orderID.getID(),
                                                                     i.getID(),

@@ -1,6 +1,6 @@
 package com.machinarium.model.history;
 
-public class Stats {
+public class Statistics {
 	private final String userName;
 	private final int firstCount;
 	private final int secondCount;
@@ -8,8 +8,8 @@ public class Stats {
 	private final int loseCount;
 
 
-	public Stats(String userName, int firstCount, int secondCount,
-				                  int thirdCount, int loseCount) {
+	public Statistics(String userName, int firstCount, int secondCount,
+					  int thirdCount, int loseCount) {
 		this.userName = userName;
 		this.firstCount = firstCount;
 		this.secondCount = secondCount;
@@ -38,4 +38,13 @@ public class Stats {
 		return loseCount;
 	}
 
+	@Override
+	public String toString() {
+		return "{\n" +
+				"First Place: " + firstCount + ",\n" +
+				"Second Place: " + secondCount + ",\n" +
+				"Third Place: " + thirdCount + ",\n" +
+				"Loss: " + loseCount + "\n" +
+				"}";
+	}
 }

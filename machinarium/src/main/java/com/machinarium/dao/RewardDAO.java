@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface RewardDAO {
+
 	Reward getReward(ID rewardID);
+
 	List<Reward> getRewards(String userName);
 
 }

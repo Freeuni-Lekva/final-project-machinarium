@@ -10,14 +10,12 @@ var itemsLst = [];
 // creates connection with UserServlet and collects information about authorized user
 function getUserInfo() {
     var URL = "/UserServlet";
-    
+
     var request = new XMLHttpRequest();
     request.open("GET", URL);
 
     request.onload = () => {
         var response = JSON.parse(request.response);
-
-        console.log(response);
 
         username = response.user_name;
         email = response.email;
@@ -35,18 +33,15 @@ function getUserInfo() {
 // creates connection with GarageServlet and collects information about authorized user's garage
 function getGarageInfo() {
     var URL = "/GarageServlet";
-    
+
     var request = new XMLHttpRequest();
     request.open("GET", URL);
 
     request.onload = () => {
         var response = JSON.parse(request.response);
 
-        console.log(response);
-
         carsLst = response.cars;
         itemsLst = response.spare_items;
-
         buildPage();
     }
 
@@ -60,10 +55,13 @@ function buildPage() {
 
     var pageEmail = document.getElementById("email");
     pageEmail.innerHTML =  "<b>email: " + email + "</b>";
-    
+
     var userStats = document.getElementById("statistics");
-    userStats.innerHTML = "<b>First Place: " + firstPlaceCount + "<br>Second Place: "
-                            + secondPlaceCount + "<br>Third Place: " + thirdPlaceCount + "<br></br>Lost: " + lossCount + "</b>";
+    userStats.innerHTML = "<b>Statistics:</b><br>" +
+        "First place: <i>" + firstPlaceCount +
+        "</i><br>Second place: <i>" + secondPlaceCount +
+        "</i><br>Third place <i>"+ thirdPlaceCount +
+        "</i><br> Lost <i>" + lossCount + "</i>";
 
     var pageCars = document.getElementById("cars");
     var carsAsString = "Cars:";
@@ -75,16 +73,17 @@ function buildPage() {
     pageCars.innerHTML = "<b>" + carsAsString + "</b>";
 
     var pageItems = document.getElementById("items");
-    var itemsAsString = "Items:";
-    
-    for(var i = 0; i < itemsLst.length; i++) {
-        itemsAsString = itemsAsString + " " + itemsLst[i].name;
-    }
 
-    pageItems.innerHTML = "<b>" + itemsAsString + "</b>";
+    for(var j = 0; j < itemsLst.length; j++) {
+        var row = pageItems.insertRow(1);
+        var itemType = row.insertCell(0);
+        var amount = row.insertCell(1);
+        itemType.innerHTML = itemsLst[i].name;
+        amount.innerHTML = itemsLst[i].amount;
+    }
 }
 
-// when the page is loaded, all information will be collected and page will be generated.
+// when the page is loaded, all information will be collected and page will be generated correspondly
 window.onload = function() {
     getUserInfo();
     getGarageInfo();
