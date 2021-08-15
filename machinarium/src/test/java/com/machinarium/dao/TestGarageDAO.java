@@ -56,7 +56,6 @@ public class TestGarageDAO {
 //		ID carAiD = garageDAO.addEmptyCar("luka", "carA");
 //		assertEquals(1, garageDAO.getCarCount("luka"));
 //		assertEquals(1, garageDAO.getAllCars("luka").size());
-//
 //		assertTrue(garageDAO.removeCar(carAiD));
 //	}
 
