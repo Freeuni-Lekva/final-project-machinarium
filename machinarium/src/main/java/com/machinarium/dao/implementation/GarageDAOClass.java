@@ -319,9 +319,13 @@ public class GarageDAOClass implements GarageDAO {
                 }
 
             }
-            car = new DragCar(id, name, chassis, body, engine, transmission, wheels,
-                    chassisBody, chassisTransmission, chassisWheels, chassisEngine,
-                    engineTransmission, transmissionWheels);
+
+            if (id != null) {
+                car = new DragCar(id, name, chassis, body, engine, transmission, wheels,
+                        chassisBody, chassisTransmission, chassisWheels, chassisEngine,
+                        engineTransmission, transmissionWheels);
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
