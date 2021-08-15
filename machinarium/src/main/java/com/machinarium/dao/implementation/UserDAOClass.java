@@ -87,10 +87,22 @@ public class UserDAOClass implements UserDAO {
 
         logger.log(Level.FINE, "Query: " + selectUserQuery);
 
+        return getUserBy(con, selectUserQuery);
+    }
+
+    @Override
+    public User getUser(Email email) {
+        Connection con = connectionPool.acquireConnection();
+        String getUserQuery = "SELECT * FROM " + USERS_TABLE + "\n"
+                                + "WHERE  mail = '" + email + "';";
+        return getUserBy(con, getUserQuery);
+    }
+
+    private User getUserBy(Connection con, String getUserQuery) {
         User user = null;
         try {
-            Statement getUserStat = con.createStatement();
-            ResultSet res =  getUserStat.executeQuery(selectUserQuery);
+            Statement getUserStatement = con.createStatement();
+            ResultSet res = getUserStatement.executeQuery(getUserQuery);
             if(res.next()){
                 user = new User(res.getString("user_name"),
                         EncryptedPassword.from(res.getString("user_password")),
@@ -102,11 +114,6 @@ public class UserDAOClass implements UserDAO {
 
         connectionPool.releaseConnection(con);
         return user;
-    }
-
-    @Override
-    public User getUser(Email email) { // TODO: Change this implementation
-        return getAllUsers().stream().filter(user -> user.getEmail() == email).findFirst().orElse(null);
     }
 
     @Override
