@@ -129,11 +129,15 @@ public class TestGarageDAO {
 
 	@Test
 	public void getCar_addEmptyCar() {
-		System.out.println("************" + garageDAO.getCar(ID.of(33333)));
-//		assertEquals(null, garageDAO.getCar(ID.of(33333)));
-
+		assertEquals(null, garageDAO.getCar(ID.of(333333)));
 		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
+		System.out.println(lukaCar1.getID() + " *** " + garageDAO.getCar(lukaCar1));
+
+
+		assertNotEquals(null, garageDAO.getCar(lukaCar1));
 		ID lukaCar2 = garageDAO.addEmptyCar("luka", "lukaCar2");
+		assertNotEquals(null, garageDAO.getCar(lukaCar2));
+
 	}
 
 
