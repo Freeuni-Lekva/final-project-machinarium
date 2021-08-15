@@ -87,7 +87,8 @@ public class OrderDAOClass implements OrderDAO {
     public List<Order> getAllOrders(String userName) {
         Connection con = connectionPool.acquireConnection();
         String getAllOrdersIDQuery = "SELECT DISTINCT (order_id) FROM "
-                            + USER_ORDERS_VIEW + "WHERE user_name = '" + userName + "';";
+                            + USER_ORDERS_VIEW + "WHERE user_name = '" + userName
+                            + "' AND order_status ='" + ORDER_ACTIVE + "';";
         List<Order> allOrders = new ArrayList<>();
         try {
             Statement getAllOrdersStat = con.createStatement();
