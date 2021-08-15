@@ -60,7 +60,7 @@ function setButtonState() {
 // build page using current information
 function buildCurrentPage() {
     // if game is start, all users will be redirected to the game page
-    if(status === "started") {
+    if(status === "Production") {
         window.location.href = "/game";
     }
 
