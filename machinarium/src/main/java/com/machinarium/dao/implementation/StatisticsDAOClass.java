@@ -1,8 +1,8 @@
 package com.machinarium.dao.implementation;
 
 import com.machinarium.dao.ConnectionPool;
-import com.machinarium.dao.StatsDAO;
-import com.machinarium.model.history.Stats;
+import com.machinarium.dao.StatisticsDAO;
+import com.machinarium.model.history.Statistics;
 import com.machinarium.utility.common.ID;
 
 import java.sql.Connection;
@@ -10,25 +10,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class StatsDAOClass implements StatsDAO {
+public class StatisticsDAOClass implements StatisticsDAO {
+
     private String USER_STATS_TABLE = "user_statistics";
     private String USER_RESULTS_VIEW = "see_user_results";
+
     private ConnectionPool connectionPool;
 
-    public StatsDAOClass(ConnectionPool connectionPool){
+    public StatisticsDAOClass(ConnectionPool connectionPool){
         this.connectionPool = connectionPool;
     }
+
     @Override
-    public Stats getStats(String userName) {
+    public Statistics getStatistics(String userName) {
         Connection con = connectionPool.acquireConnection();
         String getStatsQuery = "SELECT * FROM " + USER_RESULTS_VIEW + "\n"
                             + "WHERE user_name = '" + userName + "';";
-        Stats userStats = null;
+        Statistics userStats = null;
         try {
             Statement getStatsStat = con.createStatement();
             ResultSet res = getStatsStat.executeQuery(getStatsQuery);
             if(res.next()){
-                userStats = new Stats(userName, res.getInt("first_count"),
+                userStats = new Statistics(userName, res.getInt("first_count"),
                                                 res.getInt("second_count"),
                                                 res.getInt("third_count"),
                                                 res.getInt("lose_count"));
@@ -41,7 +44,7 @@ public class StatsDAOClass implements StatsDAO {
     }
 
     @Override
-    public boolean incrFirstCount(String userName) {
+    public boolean incrementFirstCount(String userName) {
         Connection con = connectionPool.acquireConnection();
         ID userID = null;
         int firsCount = 0;
@@ -51,7 +54,7 @@ public class StatsDAOClass implements StatsDAO {
             Statement seeFirstCountStat = con.createStatement();
             ResultSet res = seeFirstCountStat.executeQuery(seeFirstCountQuery);
             if(res.next()){
-                userID = new ID(res.getInt("user_id"));
+                userID = ID.of(res.getInt("user_id"));
                 firsCount = res.getInt("first_count");
             }
         } catch (SQLException throwables) {
@@ -75,7 +78,7 @@ public class StatsDAOClass implements StatsDAO {
     }
 
     @Override
-    public boolean incrSecondCount(String userName) {
+    public boolean incrementSecondCount(String userName) {
         Connection con = connectionPool.acquireConnection();
         ID userID = null;
         int secondCount = 0;
@@ -85,7 +88,7 @@ public class StatsDAOClass implements StatsDAO {
             Statement seeSecondCountStat = con.createStatement();
             ResultSet res = seeSecondCountStat.executeQuery(seeSecondCountQuery);
             if(res.next()){
-                userID = new ID(res.getInt("user_id"));
+                userID = ID.of(res.getInt("user_id"));
                 secondCount = res.getInt("second_count");
             }
         } catch (SQLException throwables) {
@@ -108,7 +111,7 @@ public class StatsDAOClass implements StatsDAO {
     }
 
     @Override
-    public boolean incrThirdCount(String userName) {
+    public boolean incrementThirdCount(String userName) {
         Connection con = connectionPool.acquireConnection();
         ID userID = null;
         int thirdCount = 0;
@@ -118,7 +121,7 @@ public class StatsDAOClass implements StatsDAO {
             Statement seeThirdCountStat = con.createStatement();
             ResultSet res = seeThirdCountStat.executeQuery(seeThirdCountQuery);
             if(res.next()){
-                userID = new ID(res.getInt("user_id"));
+                userID = ID.of(res.getInt("user_id"));
                 thirdCount = res.getInt("third_count");
             }
         } catch (SQLException throwables) {
@@ -141,7 +144,7 @@ public class StatsDAOClass implements StatsDAO {
     }
 
     @Override
-    public boolean incrLoseCount(String userName) {
+    public boolean incrementLoseCount(String userName) {
         Connection con = connectionPool.acquireConnection();
         ID userID = null;
         int loseCount = 0;
@@ -151,7 +154,7 @@ public class StatsDAOClass implements StatsDAO {
             Statement seeLoseCountStat = con.createStatement();
             ResultSet res = seeLoseCountStat.executeQuery(seeLoseCountQuery);
             if(res.next()){
-                userID = new ID(res.getInt("user_id"));
+                userID = ID.of(res.getInt("user_id"));
                 loseCount = res.getInt("lose_count");
             }
         } catch (SQLException throwables) {

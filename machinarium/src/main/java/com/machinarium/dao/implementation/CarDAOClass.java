@@ -37,7 +37,7 @@ public class CarDAOClass implements CarDAO {
             Statement getUserIDStat = con.createStatement();
             ResultSet res = getUserIDStat.executeQuery(getUserIDQuery);
             if(res.next()){
-                id = new ID(res.getInt("id"));
+                id = ID.of(res.getInt("id"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -86,105 +86,105 @@ public class CarDAOClass implements CarDAO {
 
             while(res.next()){
                 if(id == null){
-                    id = new ID(res.getInt("car_id"));
+                    id = ID.of(res.getInt("car_id"));
                     name = res.getString("car_name");
                 }
                 if(res.getString("item_name").equals("CHASSIS")){
-                    chassis = new Chassis(new ID(res.getInt("item_id")),
+                    chassis = new Chassis(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("weight_support"));
                 }
                 if(res.getString("item_name").equals("BODY")){
-                    body = new Body(new ID(res.getInt("item_id")),
+                    body = new Body(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("aero_drag"));
                 }
                 if(res.getString("item_name").equals("ENGINE")){
-                    engine = new Engine(new ID(res.getInt("item_id")),
+                    engine = new Engine(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("horse_power"));
                 }
                 if(res.getString("item_name").equals("TRANSMISSION")){
-                    transmission = new Transmission(new ID(res.getInt("item_id")),
+                    transmission = new Transmission(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"));
                 }
                 if(res.getString("item_name").equals("WHEELS")){
-                    wheels = new Wheels(new ID(res.getInt("item_id")),
+                    wheels = new Wheels(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("traction_unit"));
                 }
                 if(res.getString("connector_name").equals("Body Mount")){
-                    chassisBody = new Connector<>(new ID(res.getInt("connector_id")),
+                    chassisBody = new Connector<>(ID.of(res.getInt("connector_id")),
                             res.getString("connector_name"),
-                            new Chassis(new ID(res.getInt("item_type_1_id")),
+                            new Chassis(ID.of(res.getInt("item_type_1_id")),
                                     res.getString("it1_item_name"),
                                     res.getInt("it1_weight"),
                                     res.getInt("it1_weight_support")),
-                            new Body(new ID(res.getInt("item_type_2_id")),
+                            new Body(ID.of(res.getInt("item_type_2_id")),
                                     res.getString("it2_item_name"),
                                     res.getInt("it2_weight"),
                                     res.getInt("it2_aero_drag")));
                 }
                 if(res.getString("connector_name").equals("Transmission Mount")){
-                    chassisTransmission = new Connector<>(new ID(res.getInt("connector_id")),
+                    chassisTransmission = new Connector<>(ID.of(res.getInt("connector_id")),
                             res.getString("connector_name"),
-                            new Chassis(new ID(res.getInt("item_type_1_id")),
+                            new Chassis(ID.of(res.getInt("item_type_1_id")),
                                     res.getString("it1_item_name"),
                                     res.getInt("it1_weight"),
                                     res.getInt("it1_weight_support")),
-                            new Transmission(new ID(res.getInt("item_type_2_id")),
+                            new Transmission(ID.of(res.getInt("item_type_2_id")),
                                     res.getString("it2_item_name"),
                                     res.getInt("it2_weight")));
 
                 }
                 if(res.getString("connector_name").equals("Suspension")){
-                    chassisWheels = new Connector<>(new ID(res.getInt("connector_id")),
+                    chassisWheels = new Connector<>(ID.of(res.getInt("connector_id")),
                             res.getString("connector_name"),
-                            new Chassis(new ID(res.getInt("item_type_1_id")),
+                            new Chassis(ID.of(res.getInt("item_type_1_id")),
                                     res.getString("it1_item_name"),
                                     res.getInt("it1_weight"),
                                     res.getInt("it1_weight_support")),
-                            new Wheels(new ID(res.getInt("item_type_2_id")),
+                            new Wheels(ID.of(res.getInt("item_type_2_id")),
                                     res.getString("it2_item_name"),
                                     res.getInt("it2_weight"),
                                     res.getInt("it2_traction_unit")));
 
                 }
                 if(res.getString("connector_name").equals("Engine Bolts")){
-                    chassisEngine = new Connector<>(new ID(res.getInt("connector_id")),
+                    chassisEngine = new Connector<>(ID.of(res.getInt("connector_id")),
                             res.getString("connector_name"),
-                            new Chassis(new ID(res.getInt("item_type_1_id")),
+                            new Chassis(ID.of(res.getInt("item_type_1_id")),
                                     res.getString("it1_item_name"),
                                     res.getInt("it1_weight"),
                                     res.getInt("it1_weight_support")),
-                            new Engine(new ID(res.getInt("item_type_2_id")),
+                            new Engine(ID.of(res.getInt("item_type_2_id")),
                                     res.getString("it2_item_name"),
                                     res.getInt("it2_weight"),
                                     res.getInt("it2_horse_power")));
                 }
                 if(res.getString("connector_name").equals("Friction Plate")){
-                    engineTransmission = new Connector<>(new ID(res.getInt("connector_id")),
+                    engineTransmission = new Connector<>(ID.of(res.getInt("connector_id")),
                             res.getString("connector_name"),
-                            new Engine(new ID(res.getInt("item_type_1_id")),
+                            new Engine(ID.of(res.getInt("item_type_1_id")),
                                     res.getString("it1_item_name"),
                                     res.getInt("it1_weight"),
                                     res.getInt("it1_horse_power")),
-                            new Transmission(new ID(res.getInt("item_type_2_id")),
+                            new Transmission(ID.of(res.getInt("item_type_2_id")),
                                     res.getString("it2_item_name"),
                                     res.getInt("it2_weight")));
                 }
                 if(res.getString("connector_name").equals("Differential")){
-                    transmissionWheels = new Connector<>(new ID(res.getInt("connector_id")),
+                    transmissionWheels = new Connector<>(ID.of(res.getInt("connector_id")),
                             res.getString("connector_name"),
-                            new Transmission(new ID(res.getInt("item_type_1_id")),
+                            new Transmission(ID.of(res.getInt("item_type_1_id")),
                                     res.getString("it1_item_name"),
                                     res.getInt("it1_weight")),
-                            new Wheels(new ID(res.getInt("item_type_2_id")),
+                            new Wheels(ID.of(res.getInt("item_type_2_id")),
                                     res.getString("it2_item_name"),
                                     res.getInt("it2_weight"),
                                     res.getInt("it2_traction_unit")));
@@ -212,7 +212,7 @@ public class CarDAOClass implements CarDAO {
             Statement allCarItemsStat = con.createStatement();
             ResultSet res = allCarItemsStat.executeQuery(getAllCarItemsQuery);
             while(res.next()){
-                Item item = new Item(new ID(res.getInt("item_id")),
+                Item item = new Item(ID.of(res.getInt("item_id")),
                         res.getString("item_name"));
                 allCarItems.add(item);
             }
@@ -234,7 +234,7 @@ public class CarDAOClass implements CarDAO {
             Statement getAllCarsStat = con.createStatement();
             ResultSet res = getAllCarsStat.executeQuery(getAllCarsQuery);
             while (res.next()){
-                allCars.add(getCar(new ID(res.getInt("car_id"))));
+                allCars.add(getCar(ID.of(res.getInt("car_id"))));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

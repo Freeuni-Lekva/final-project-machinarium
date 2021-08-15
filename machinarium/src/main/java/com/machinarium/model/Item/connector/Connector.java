@@ -23,7 +23,7 @@ public class Connector<PartA, PartB> extends Item {
 
 	@Override
 	public String getType() {
-		return ItemConstants.CONNECTOR_TYPE;
+		return ItemConstants.CONNECTOR_TYPE + ": " + partA.getType() + ", " + partB.getType();
 	}
 
 	@Override

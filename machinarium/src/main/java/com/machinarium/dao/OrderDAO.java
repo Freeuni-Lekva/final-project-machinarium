@@ -1,13 +1,14 @@
 
 package com.machinarium.dao;
 
-import com.machinarium.model.history.Order;
+import com.machinarium.model.user.Order;
 import com.machinarium.utility.common.ID;
 
 import java.util.List;
 import java.util.Map;
 
 public interface OrderDAO {
+
 	String ORDER_ACTIVE = "active";
 	String ORDER_INACTIVE = "inactive";
 
