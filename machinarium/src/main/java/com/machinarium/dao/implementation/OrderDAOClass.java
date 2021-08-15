@@ -100,7 +100,7 @@ public class OrderDAOClass implements OrderDAO {
     }
 
     @Override
-    public ID addOrder(String userName, Map<Item, Integer> userGives, Map<Item, Integer> userTakes) {
+    public ID addOrder(String userName, Map<ID, Integer> userGives, Map<ID, Integer> userTakes) {
         Connection con = connectionPool.acquireConnection();
         String addOrderInTableQuery = "INSERT INTO " + ORDERS_TABLE + "(order_status)\n"
                                     + "VALUES ('" + ORDER_ACTIVE + "');";
@@ -130,26 +130,26 @@ public class OrderDAOClass implements OrderDAO {
         String addItemsInOrderQuery = "INSERT INTO " + ORDER_ITEM_TABLE +
                                         "(order_id, item_id, item_amount, source_destination)\n"
                                         +"VALUES (%s, %s, %s, '%s');";
-        for (Item i: userGives.keySet()
+        for (ID i: userGives.keySet()
              ) {
             String addItemsInOrderSourceQuery = String.format(addItemsInOrderQuery,
                                                                 orderID.getID(),
-                                                                i.getID().getID(),
+                                                                i.getID(),
                                                                 userGives.get(i),
                                                                 SOURCE_STR);
             try {
                 Statement addItemsInOrderSourceStat = con.createStatement();
-                addItemsInOrderSourceStat.executeUpdate(addItemsInOrderSourceQuery)
+                addItemsInOrderSourceStat.executeUpdate(addItemsInOrderSourceQuery);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
 
         }
-        for (Item i: userTakes.keySet()
+        for (ID i: userTakes.keySet()
         ) {
             String addItemsInOrderDestinationeQuery = String.format(addItemsInOrderQuery,
                                                                     orderID.getID(),
-                                                                    i.getID().getID(),
+                                                                    i.getID(),
                                                                     userTakes.get(i),
                                                                     DESTINATION_STR);
             try {
