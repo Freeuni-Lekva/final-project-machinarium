@@ -92,5 +92,10 @@ window.onload = function() {
 var gameButton = document.getElementById("start");
 
 gameButton.onclick = function() {
+    var URL = "/LobbyServlet"
+    var request = new XMLHttpRequest();
+    request.open("POST", URL);
+    request.send();
+
     window.location.href = "/lobby";
 }
