@@ -2,6 +2,7 @@ package com.machinarium.dao;
 
 import com.machinarium.dao.implementation.BlockingConnectionPool;
 import com.machinarium.dao.implementation.UserDAOClass;
+import com.machinarium.utility.common.EncryptedPassword;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
@@ -21,13 +22,10 @@ public class TestUserDAO {
 
 	@Test
 	public void Test_0() {
-		assertTrue(1 == 1);
-		assertFalse(1 == 2);
-		assertEquals(true, true);
+		assertEquals(null, userDAO.getUser("bla"));
+//		assertNotEquals(null, userDAO.getUser("luka"));
+		userDAO.addUser("lukaM", EncryptedPassword.of("Luka#1"), "lgela18@freeuni.edu.ge");
 
-
-
-		Map k = new HashMap<String, Integer>();
 	}
 
 
