@@ -1,0 +1,212 @@
+/* choose background color */
+body {
+    background-color: powderblue;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+/* table */
+th {
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #007b8b;
+}
+
+/* table border */
+table {
+    border-radius: 8px;
+}
+
+table, th, td {
+    text-align: center;
+    border: 1px solid black;
+}
+
+/* make table body scrollable */
+table tbody {
+    overflow-y: scroll; 
+    display: block; 
+}
+
+table thead { 
+    display: block;
+}
+
+/* button */
+.button {
+    background-color: #21006d;
+    border: none;
+    color: white;
+    padding: 6px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 12px;
+}
+
+.button:hover, .button:focus {
+    background-color: #2f009c;
+    cursor: pointer;
+}
+
+/* my requests and market tables */
+#requests tbody, #market tbody, #game_users tbody {
+    height: 400px;
+}
+
+/* align my requests and market tables in the center */
+#my_requests_content, #market_content, #users_content {
+    text-align: center;
+    margin-right: 12px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+
+/* my inventory table in pop up window */
+#inventory {
+    margin: auto;
+    height: 400px;
+}
+
+#test_user {
+    margin-top: 50px;
+}
+
+/* label */
+label {
+    width: auto;
+    text-align: center;
+}
+
+/* pop up window */
+.modal {
+    display: none;
+    position: fixed;
+    padding-top: 30px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    border-radius: 12px;
+    background-color: powderblue;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid rgb(77, 0, 0);
+    width: 65%;
+    height: 78%;
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* pop up window close button */
+.close {
+    color: #929292;
+    float: right;
+    font-size: 50px;
+}
+
+.close:hover, .close:focus {
+    background-color: rgba(0, 0, 0, 0.13);
+    color: #000;
+    cursor: pointer;
+}
+
+#my_invent {
+    margin-bottom:10px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#invent_content, #request_content, #car_builder_content {
+    margin-right: 12px;
+    display: inline;
+}
+
+#inventory_popup, #request_popup, #cars_popup {
+    margin-right: 12px;
+    margin: auto;
+    background-color: #21006d;
+    border: none;
+    color: white;
+    padding: 10px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    border-radius: 6px;
+}
+
+#inventory_popup:hover, #inventory_popup:focus,
+#request_popup:hover, #request_popup:focus,
+#cars_popup:hover, #cars_popup:focus{
+    padding: 9px 39px;
+    font-size: 29px;
+    background-color: #2f009c;
+    cursor: pointer;
+}
+
+#inventory_table, #src_table, #dest_table {
+    margin: auto;
+}
+
+
+/* styles for request maker pop up window */
+#src_table tbody, #dest_table tbody{
+    height: 120px;
+}
+
+#src_add, #src_remove, #dest_add, #dest_remove, #done{
+    padding: 6px 15px;
+    font-size: 14px;
+    margin-top: 2px;
+    margin-bottom: 7px;
+}
+
+#create_car_container {
+    margin: auto;
+}
+
+#new_car_name {
+    margin-right: 4px;
+    background-color: rgba(0, 0, 0, 0.212);
+    border-radius: 6px;
+}
+
+#new_car_name:focus, #new_car_name:focus {
+    background-color: rgb(255, 255, 255);
+    border-radius: 6px;
+}
+
+#new_car_label {
+    font-size: 29px;
+    margin-right: 4px;
+}
+
+#new_car_button {
+    padding: 8px 25px;
+    font-size: 20px;
+}
+
+#car_builder {
+    margin: auto;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+#put_item, #remove_item, #remove_row {
+    margin-right: 3px;
+}
