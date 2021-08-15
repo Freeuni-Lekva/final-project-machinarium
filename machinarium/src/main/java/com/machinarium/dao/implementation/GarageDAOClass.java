@@ -78,9 +78,7 @@ public class GarageDAOClass implements GarageDAO {
                 if(res.next()){
                     if (res.getString("car_name") != null) {
                         hasCarBoolean = true;
-                    } //++
-
-//                  hasCarBoolean = true; //--
+                    }
                 }
 
             } catch (SQLException throwables) {
@@ -106,8 +104,7 @@ public class GarageDAOClass implements GarageDAO {
                 while (res.next()){
                     if (res.getString("car_name") != null) {
                         carCount++;
-                    } //++
-//                    carCount++; //--
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -368,9 +365,7 @@ public class GarageDAOClass implements GarageDAO {
             while (res.next()){
                 if (res.getString("car_name") != null) {
                     allCars.add(getCar(ID.of(res.getInt("car_id"))));
-                } //++
-
-//              allCars.add(getCar(ID.of(res.getInt("car_id")))); //--
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
