@@ -93,5 +93,5 @@ window.onload = function() {
 var gameButton = document.getElementById("start");
 
 gameButton.onclick = function() {
-    window.location.href = "/game";
+    window.location.href = "/lobby";
 }
