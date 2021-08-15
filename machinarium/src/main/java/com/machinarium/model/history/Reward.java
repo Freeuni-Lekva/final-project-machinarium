@@ -4,13 +4,13 @@ import com.machinarium.utility.common.ID;
 import java.util.Map;
 
 public class Reward {
-	private final String userName;
+	private final String rewardName;
 	private final ID iD;
 	private final Map<String, Integer> items;
 
 
 	public Reward(String userName, ID iD, Map<String, Integer> items) {
-		this.userName = userName;
+		this.rewardName = userName;
 		this.iD = iD;
 		this.items = items;
 	}
@@ -20,8 +20,8 @@ public class Reward {
 		return iD;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getRewardName() {
+		return rewardName;
 	}
 
 	public Map<String, Integer> getItems() {
