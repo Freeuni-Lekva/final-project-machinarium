@@ -563,7 +563,7 @@ public class GarageDAOClass implements GarageDAO {
             ItemDAOClass itemDAO = new ItemDAOClass(connectionPool);
             while (res.next()){
                 Item item = itemDAO.getItem(ID.of(res.getInt("item_id")));
-                allSpareItems.put(item, res.getInt("count_item"));
+                allSpareItems.put(item, res.getInt("item_count"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
