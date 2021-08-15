@@ -2,37 +2,50 @@ package com.machinarium.servlets;
 
 import com.machinarium.dao.ConnectionPool;
 import com.machinarium.dao.UserDAO;
+import com.machinarium.dao.implementation.BlockingConnectionPool;
+import com.machinarium.dao.implementation.UserDAOClass;
+import com.machinarium.model.user.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
+import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER;
+import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER_DAO;
+
 @WebListener
 public class Listener implements ServletContextListener, HttpSessionListener, HttpSessionAttributeListener {
 
-    public static final String ATTRIBUTE_USER_DAO = "user_dao";
+    private static final int N_CONNECTIONS = 10;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        // TODO connPool will be initialized here.
-        // TODO UserDAO will be initialized here.
 
-//        sce.getServletContext().setAttribute(ATTRIBUTE_USER_DAO, userDao);
+        connectionPool = BlockingConnectionPool.getInstance(N_CONNECTIONS);
+
+        userDao = new UserDAOClass(connectionPool);
+
+        sce.getServletContext().setAttribute(ATTRIBUTE_USER_DAO, userDao);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        /* This method is called when the servlet Context is undeployed or Application Server shuts down. */
+
+        try {
+            connectionPool.close();
+        } catch (Exception e) {e.printStackTrace();        }
     }
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
-        /* Session is created. */
+
+        sessionUser = null;
+        se.getSession().setAttribute(ATTRIBUTE_USER, sessionUser);
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        /* Session is destroyed. */
+        sessionUser = null;
     }
 
     @Override
@@ -50,6 +63,8 @@ public class Listener implements ServletContextListener, HttpSessionListener, Ht
         /* This method is called when an attribute is replaced in a session. */
     }
 
-//    private final ConnectionPool connPool;
-//    private final UserDAO userDao;
+    private ConnectionPool connectionPool;
+    private UserDAO userDao;
+
+    private User sessionUser;
 }

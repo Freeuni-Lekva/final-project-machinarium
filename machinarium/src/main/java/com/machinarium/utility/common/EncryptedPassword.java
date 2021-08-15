@@ -1,8 +1,8 @@
 package com.machinarium.utility.common;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import org.apache.commons.codec.binary.Hex;
 
 public class EncryptedPassword {
 
@@ -22,9 +22,9 @@ public class EncryptedPassword {
             MessageDigest messageDigest = MessageDigest.getInstance(ENCRYPTION);
 
             messageDigest.reset();
-            messageDigest.update(password.getBytes(StandardCharsets.UTF_8));
+            messageDigest.update(password.getBytes());
 
-            encryptedPassword = new EncryptedPassword(new String(messageDigest.digest(), StandardCharsets.UTF_8));
+            encryptedPassword = new EncryptedPassword(new String(Hex.encodeHex(messageDigest.digest())));
 
         } catch (NoSuchAlgorithmException e) {e.printStackTrace();}
 

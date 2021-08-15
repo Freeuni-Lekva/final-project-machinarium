@@ -1,12 +1,13 @@
 package com.machinarium.model.user;
 
+import com.machinarium.utility.common.Email;
 import com.machinarium.utility.common.EncryptedPassword;
 
 import java.util.Objects;
 
 public class User {
 
-    public User(String userName, EncryptedPassword password, String email) {
+    public User(String userName, EncryptedPassword password, Email email) {
 
         Objects.requireNonNull(this.userName = userName, "The user name cannot be null.");
         Objects.requireNonNull(this.password = password, "The password for a user cannot be null.");
@@ -17,7 +18,7 @@ public class User {
 
     public EncryptedPassword getPassword() {return password;}
 
-    public String getEmail() {return this.email;}
+    public Email getEmail() {return this.email;}
 
     @Override
     public boolean equals(Object otherObject) {
@@ -35,8 +36,13 @@ public class User {
         return Objects.hash(userName);
     }
 
+    @Override
+    public String toString() {
+        return "User(Username=" + this.userName + ", Password=" + this.password + ", Email=" + this.email + ")";
+    }
+
     private final String userName;
     private final EncryptedPassword password;
-    private final String email;
+    private final Email email;
 
 }
