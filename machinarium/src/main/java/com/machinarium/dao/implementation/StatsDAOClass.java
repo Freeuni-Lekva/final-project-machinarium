@@ -11,41 +11,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class StatsDAOClass implements StatsDAO {
-    private String USERS_TABLE = "users";
     private String USER_STATS_TABLE = "user_statistics";
+    private String USER_RESULTS_VIEW = "see_user_results";
     private ConnectionPool connectionPool;
+
     public StatsDAOClass(ConnectionPool connectionPool){
         this.connectionPool = connectionPool;
-    }
-    private ID getUserID(String userName, Connection con){
-        ID id = null;
-        String getUserIDQuery = "SELECT id FROM " + USERS_TABLE + "\n"
-                + "WHERE user_name = '" + userName + "';";
-        try {
-            Statement getUserIDStat = con.createStatement();
-            ResultSet res = getUserIDStat.executeQuery(getUserIDQuery);
-            if(res.next()){
-                id = new ID(res.getInt("id"));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return id;
     }
     @Override
     public Stats getStats(String userName) {
         Connection con = connectionPool.acquireConnection();
-        ID userID = getUserID(userName, con);
-        String getStatsQuery = "SELECT * FROM " + USER_STATS_TABLE +
-                            " WHERE user_id = " + userID.getID() + ";";
+        String getStatsQuery = "SELECT * FROM " + USER_RESULTS_VIEW + "\n"
+                            + "WHERE user_name = '" + userName + "';";
         Stats userStats = null;
         try {
             Statement getStatsStat = con.createStatement();
             ResultSet res = getStatsStat.executeQuery(getStatsQuery);
             if(res.next()){
                 userStats = new Stats(userName, res.getInt("first_count"),
-                        res.getInt("second_count"),res.getInt("third_count"),
-                        res.getInt("lose_count"));
+                                                res.getInt("second_count"),
+                                                res.getInt("third_count"),
+                                                res.getInt("lose_count"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -56,12 +42,25 @@ public class StatsDAOClass implements StatsDAO {
 
     @Override
     public boolean incrFirstCount(String userName) {
-        Stats currStats = getStats(userName);
         Connection con = connectionPool.acquireConnection();
-        ID userID = getUserID(userName, con);
+        ID userID = null;
+        int firsCount = 0;
+        String seeFirstCountQuery = "SELECT * FROM " + USER_RESULTS_VIEW + "\n"
+                                    + "WHERE user_name = '" + userName + "';";
+        try {
+            Statement seeFirstCountStat = con.createStatement();
+            ResultSet res = seeFirstCountStat.executeQuery(seeFirstCountQuery);
+            if(res.next()){
+                userID = new ID(res.getInt("user_id"));
+                firsCount = res.getInt("first_count");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         boolean incrFirstCountBoolean = false;
         String incrFirstCountQuery = "UPDATE " + USER_STATS_TABLE
-                            + " SET first_count = " + (currStats.getFirstCount() + 1)
+                            + " SET first_count = " + (firsCount + 1)
                             + " WHERE user_id = " + userID.getID() + ";";
         try {
             Statement incrFirstCountStat = con.createStatement();
@@ -77,13 +76,25 @@ public class StatsDAOClass implements StatsDAO {
 
     @Override
     public boolean incrSecondCount(String userName) {
-        Stats currStats = getStats(userName);
         Connection con = connectionPool.acquireConnection();
-        ID userID = getUserID(userName, con);
+        ID userID = null;
+        int secondCount = 0;
+        String seeSecondCountQuery = "SELECT * FROM " + USER_RESULTS_VIEW + "\n"
+                                + "WHERE user_name = '" + userName + "';";
+        try {
+            Statement seeSecondCountStat = con.createStatement();
+            ResultSet res = seeSecondCountStat.executeQuery(seeSecondCountQuery);
+            if(res.next()){
+                userID = new ID(res.getInt("user_id"));
+                secondCount = res.getInt("second_count");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         boolean incrSecondCountBoolean = false;
         String incrSecondCountQuery = "UPDATE " + USER_STATS_TABLE
-                + " SET second_count = " + (currStats.getSecondCount() + 1)
-                + " WHERE user_id = " + userID.getID() + ";";
+                            + " SET second_count = " + (secondCount + 1)
+                            + " WHERE user_id = " + userID.getID() + ";";
         try {
             Statement incrSecondCountStat = con.createStatement();
             if(incrSecondCountStat.executeUpdate(incrSecondCountQuery) > 0){
@@ -98,13 +109,25 @@ public class StatsDAOClass implements StatsDAO {
 
     @Override
     public boolean incrThirdCount(String userName) {
-        Stats currStats = getStats(userName);
         Connection con = connectionPool.acquireConnection();
-        ID userID = getUserID(userName, con);
+        ID userID = null;
+        int thirdCount = 0;
+        String seeThirdCountQuery = "SELECT * FROM " + USER_RESULTS_VIEW + "\n"
+                                + "WHERE user_name = '" + userName + "';";
+        try {
+            Statement seeThirdCountStat = con.createStatement();
+            ResultSet res = seeThirdCountStat.executeQuery(seeThirdCountQuery);
+            if(res.next()){
+                userID = new ID(res.getInt("user_id"));
+                thirdCount = res.getInt("third_count");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         boolean incrThirdCountBoolean = false;
         String incrThirdCountQuery = "UPDATE " + USER_STATS_TABLE
-                + " SET third_count = " + (currStats.getThirdCount() + 1)
-                + " WHERE user_id = " + userID.getID() + ";";
+                            + " SET third_count = " + (thirdCount+ 1)
+                            + " WHERE user_id = " + userID.getID() + ";";
         try {
             Statement incrThirdCountStat = con.createStatement();
             if(incrThirdCountStat.executeUpdate(incrThirdCountQuery) > 0){
@@ -119,12 +142,24 @@ public class StatsDAOClass implements StatsDAO {
 
     @Override
     public boolean incrLoseCount(String userName) {
-        Stats currStats = getStats(userName);
         Connection con = connectionPool.acquireConnection();
-        ID userID = getUserID(userName, con);
+        ID userID = null;
+        int loseCount = 0;
+        String seeLoseCountQuery = "SELECT * FROM " + USER_RESULTS_VIEW + "\n"
+                + "WHERE user_name = '" + userName + "';";
+        try {
+            Statement seeLoseCountStat = con.createStatement();
+            ResultSet res = seeLoseCountStat.executeQuery(seeLoseCountQuery);
+            if(res.next()){
+                userID = new ID(res.getInt("user_id"));
+                loseCount = res.getInt("lose_count");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         boolean incrLoseCountBoolean = false;
         String incrLoseCountQuery = "UPDATE " + USER_STATS_TABLE
-                + " SET lose_count = " + (currStats.getLoseCount() + 1)
+                + " SET lose_count = " + (loseCount + 1)
                 + " WHERE user_id = " + userID.getID() + ";";
         try {
             Statement incrLoseCountStat = con.createStatement();
