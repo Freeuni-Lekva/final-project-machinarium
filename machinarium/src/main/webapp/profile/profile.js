@@ -41,7 +41,7 @@ function getGarageInfo() {
         var response = JSON.parse(request.response);
 
         carsLst = response.cars;
-        itemsLst = response.spare_items;
+        itemsLst = response.items;
         buildPage();
     }
 

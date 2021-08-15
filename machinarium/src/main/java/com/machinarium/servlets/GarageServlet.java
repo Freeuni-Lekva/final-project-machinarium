@@ -39,9 +39,15 @@ public class GarageServlet extends HttpServlet {
 
         JSONObject data = new JSONObject();
 
-        data.put(PARAMETER_CARS, garageDAO.getAllCars(userName).stream().map(Car::toJSONMap).collect(Collectors.toList()));
+        List<Car> cars = garageDAO.getAllCars(userName);
+        Map<Item, Integer> items = garageDAO.getAllSpareItems(userName);
 
-        data.put(PARAMETER_ITEMS, garageDAO.getAllSpareItems(userName).entrySet().stream()
+        logger.log(Level.INFO, "User(" + userName + ") Cars: " + cars);
+        logger.log(Level.INFO, "User(" + userName + ") Items: " + items);
+
+        data.put(PARAMETER_CARS, cars.stream().map(Car::toJSONMap).collect(Collectors.toList()));
+
+        data.put(PARAMETER_ITEMS, items.entrySet().stream()
                 .map(itemEntry -> itemEntry.getKey().toJSONMap(itemEntry.getValue())).collect(Collectors.toList()));
 
         wrappedResponse.setResponse(response.SC_OK, data);
