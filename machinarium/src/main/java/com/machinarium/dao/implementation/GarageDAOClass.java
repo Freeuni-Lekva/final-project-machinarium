@@ -176,8 +176,19 @@ public class GarageDAOClass implements GarageDAO {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            String addCarInGarageQuery = "INSERT INTO garage_car(garage_id, car_id) VALUES ("
+                                        + garage_id + ", " + carID.getID() + ");";
+            try {
+                Statement  addCarInGarageStat = con.createStatement();
+                if (addCarInGarageStat.executeUpdate(addCarInGarageQuery) <= 0){
+                    addEmptyCarBoolean = false;
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
 
         }
+
         connectionPool.releaseConnection(con);
         return carID;
     }
