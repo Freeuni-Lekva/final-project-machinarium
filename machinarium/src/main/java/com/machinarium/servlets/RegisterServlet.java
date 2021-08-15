@@ -1,50 +1,78 @@
 package com.machinarium.servlets;
 
 import com.machinarium.dao.UserDAO;
-import com.machinarium.utility.common.EncryptedPassword;
+import com.machinarium.utility.common.*;
 import com.machinarium.utility.validators.PasswordValidator;
 import com.machinarium.utility.validators.UserNameValidator;
 import com.machinarium.utility.validators.Validator;
+import org.json.simple.JSONObject;
+
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import static com.machinarium.utility.constants.RequestConstants.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.machinarium.utility.constants.ServletConstants.*;
 
 @WebServlet(name = "RegisterServlet", value = "/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 
+    private final static Logger logger = ConfiguredLogger.getLogger("LoginServlet");
+
     private static final Validator userNameValidator = UserNameValidator.getInstance();
     private static final Validator passwordValidator = PasswordValidator.getInstance();
+
+    private static final String DATA_FIELD_MESSAGE = "message";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         ServletContext contextListener = request.getServletContext();
 
-        String userName = request.getParameter(PARAMETER_USER_NAME);
-        String password = request.getParameter(PARAMETER_PASSWORD);
-        String email = request.getParameter(PARAMETER_EMAIL);
+        JSONObject data = JSONRequest.parse(request);
+        JSONResponse wrappedResponse = new JSONResponse(response);
+
+        if(data == null) {
+            wrappedResponse.setStatus(response.SC_BAD_REQUEST);
+            return;
+        }
+
+        String userName = (String) data.get(PARAMETER_USER_NAME);
+        String password = (String) data.get(PARAMETER_PASSWORD);
+        String email = (String) data.get(PARAMETER_EMAIL);
+
+        logger.log(Level.INFO, "Username: " + userName + "\nPassword: " + password + "\nEmail: " + email);
 
         if(!userNameValidator.validate(userName)) {
-            response.sendError(response.SC_CONFLICT, "The user name fails the condition: " + userNameValidator.on(userName));
-            return;
-        }
+            wrappedResponse.setError(response.SC_CONFLICT,
+                    "The user name fails the condition: " + userNameValidator.on(userName));
 
-        if(!passwordValidator.validate(password)) {
-            response.sendError(response.SC_CONFLICT, "The password fails the condition: " + passwordValidator.on(password));
-            return;
-        }
+        } else if(!passwordValidator.validate(password)) {
+            wrappedResponse.setError(response.SC_CONFLICT,
+                    "The password fails the condition: " + passwordValidator.on(password));
 
-
-        UserDAO userDao = (UserDAO) contextListener.getAttribute(Listener.ATTRIBUTE_USER_DAO);
-
-        if (userDao.addUser(userName, EncryptedPassword.of(password), email)) {
-            response.setStatus(response.SC_CREATED);
         } else {
-            response.sendError(response.SC_CONFLICT,  "The user name \"" + userName + "\" is already used.");
+            UserDAO userDao = (UserDAO) contextListener.getAttribute(ATTRIBUTE_USER_DAO);
+
+            if (userDao.getUser(userName) != null) {
+                wrappedResponse.setError(response.SC_CONFLICT,
+                        "The user name \"" + userName + "\" is already used.");
+            } else if (userDao.getUser(Email.of(email)) != null) {
+                wrappedResponse.setError(response.SC_CONFLICT,
+                        "The email \"" + email + "\" is already used.");
+            } else {
+
+                if(!userDao.addUser(userName, EncryptedPassword.of(password), email)) {
+                    throw new RuntimeException("Failed to add a new user.");
+                }
+
+                request.getSession().setAttribute(ATTRIBUTE_USER, userDao.getUser(userName));
+                wrappedResponse.setStatus(response.SC_CREATED);
+            }
         }
     }
 

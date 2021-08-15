@@ -109,7 +109,6 @@ public class DragCar extends Car {
 
 	private int calcFullWeight() {
 		int fullWeight = 0;
-		fullWeight += chassis.getWeightSupport();
 		fullWeight += chassis.getWeight();
 		fullWeight += body.getWeight();
 		fullWeight += engine.getWeight();

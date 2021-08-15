@@ -1,0 +1,60 @@
+/* choose background color */
+body {
+    background-color: powderblue;
+}
+
+div {
+    text-align: center;
+}
+
+.button {
+    background-color: #041405;
+    border: none;
+    color: white;
+    padding: 9px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 12px;
+}
+
+.button:hover, .button:focus {
+    background-color: #2f009c;
+    cursor: pointer;
+}
+
+th {
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #007b8b;
+}
+
+/* table border */
+table {
+    margin: auto;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+table, th, td {
+    text-align: center;
+    border: 1px solid black;
+}
+
+/* makes table body scrollable */
+table tbody {
+    height: 100px;
+    overflow-y: scroll;
+    display: block;
+}
+
+table thead {
+    display: block;
+}
+
+#profile {
+    font-size: 25px;
+}
