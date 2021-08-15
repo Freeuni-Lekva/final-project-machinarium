@@ -39,12 +39,12 @@ public class OrderServlet extends HttpServlet {
 
         JSONObject data = new JSONObject();
 
-        data.put(PARAMETER_USER_ORDERS, orderDAO.getAllOrders(userName).stream().filter(order -> order.getStatus().equals(OrderDAO.ACTIVE))
+        data.put(PARAMETER_USER_ORDERS, orderDAO.getAllOrders(userName).stream().filter(order -> order.getStatus().equals(OrderDAO.ORDER_ACTIVE))
                 .map(Order::toJSONMap));
 
         data.put(PARAMETER_ORDERS, userDAO.getAllUsers().stream()
                 .map(currUser -> orderDAO.getAllOrders(currUser.getUserName()).stream()
-                        .filter(order -> order.getStatus().equals(OrderDAO.ACTIVE)).map(Order::toJSONMap))
+                        .filter(order -> order.getStatus().equals(OrderDAO.ORDER_ACTIVE)).map(Order::toJSONMap))
                 .reduce(Stream.of(), Stream::concat).collect(Collectors.toList()));
 
         wrappedResponse.setBody(data);

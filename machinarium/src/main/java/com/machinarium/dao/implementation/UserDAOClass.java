@@ -6,6 +6,7 @@ import com.machinarium.model.user.User;
 import com.machinarium.utility.common.ConfiguredLogger;
 import com.machinarium.utility.common.Email;
 import com.machinarium.utility.common.EncryptedPassword;
+import com.machinarium.utility.common.ID;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,18 +17,66 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class UserDAOClass implements UserDAO {
 
     private static final Logger logger = ConfiguredLogger.getLogger("UserDAO");
 
-    private final String  USERS_TABLE = "users";
+    private final String USERS_TABLE = "users";
+    private final String USER_STATISTIC_TABLE = "user_statistics";
+    private final String USER_GARAGE_TABLE ="user_garage";
     private final ConnectionPool connectionPool;
 
     public UserDAOClass(ConnectionPool connectionPool){
         this.connectionPool = connectionPool;
     }
 
+    private ID getUserID(String userName, Connection con){
+        ID id = null;
+        String getUserIDQuery = "SELECT id FROM " + USERS_TABLE + "\n"
+                              + "WHERE user_name = '" + userName + "';";
+        try {
+            Statement getUserIDStat = con.createStatement();
+            ResultSet res = getUserIDStat.executeQuery(getUserIDQuery);
+            if(res.next()){
+                id = ID.of(res.getInt("id"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return id;
+    }
+
+    private ID addGarage(ID userID, Connection con){
+        String garageNameGenerator = "garage_" + userID.getID();
+        String addUserGarageQuery = "INSERT INTO garages(garage_name) VALUES " + garageNameGenerator + ";";
+        ID garageID = null;
+        try {
+            Statement addUserGarageStat = con.createStatement();
+            if (addUserGarageStat.executeUpdate(addUserGarageQuery) > 0){
+                String getGarageIDQuery = "SELECT id FROM garages WHERE garage_name = '" + garageNameGenerator + "';";
+                Statement getGarageIDStat = con.createStatement();
+                ResultSet res = getGarageIDStat.executeQuery(getGarageIDQuery);
+                res.next();
+                garageID = ID.of(res.getInt("id"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return garageID;
+    }
+    private boolean addUserGarage(ID userID, ID garageID, Connection con){
+        boolean addUserGarageBoolean = false;
+        String addUserGarageQuery = "INSERT INTO " + USER_GARAGE_TABLE + "(user_id, garage_id)\n"
+                                  + "VALUES (" + userID.getID() + ", " + garageID.getID() + ");";
+        try {
+            Statement addUserGarageStat = con.createStatement();
+            if(addUserGarageStat.executeUpdate(addUserGarageQuery) > 0)
+                addUserGarageBoolean = true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return addUserGarageBoolean;
+    }
     @Override
     public User getUser(String userName) {
 
@@ -37,10 +86,23 @@ public class UserDAOClass implements UserDAO {
 
         logger.log(Level.FINE, "Query: " + selectUserQuery);
 
+        return getUserBy(con, selectUserQuery);
+    }
+
+    @Override
+    public User getUser(Email email) {
+
+        Connection con = connectionPool.acquireConnection();
+        String getUserQuery = "SELECT * FROM " + USERS_TABLE + "\n"
+                            + "WHERE  mail = '" + email + "';";
+        return getUserBy(con, getUserQuery);
+    }
+
+    private User getUserBy(Connection con, String getUserQuery) {
         User user = null;
         try {
-            Statement getUserStat = con.createStatement();
-            ResultSet res =  getUserStat.executeQuery(selectUserQuery);
+            Statement getUserStatement = con.createStatement();
+            ResultSet res = getUserStatement.executeQuery(getUserQuery);
             if(res.next()){
                 user = new User(res.getString("user_name"),
                         EncryptedPassword.from(res.getString("user_password")),
@@ -52,11 +114,6 @@ public class UserDAOClass implements UserDAO {
 
         connectionPool.releaseConnection(con);
         return user;
-    }
-
-    @Override
-    public User getUser(Email email) { // TODO: Change this implementation
-        return getAllUsers().stream().filter(user -> user.getEmail() == email).findFirst().orElse(null);
     }
 
     @Override
@@ -76,6 +133,19 @@ public class UserDAOClass implements UserDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+        if(addBoolean){
+            ID userID = getUserID(userName, con);
+            String addUserInStatisticsQuery = "INSERT INTO " + USER_STATISTIC_TABLE + "(user_id)\n"
+                                            + "VALUES (" + userID.getID() + ");";
+            try {
+                Statement addUserInStatisticsStat = con.createStatement();
+                addUserInStatisticsStat.executeUpdate(addUserInStatisticsQuery);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            ID garageID = addGarage(userID, con);
+            addBoolean = addUserGarage(userID, garageID, con);
         }
         connectionPool.releaseConnection(con);
         return addBoolean;

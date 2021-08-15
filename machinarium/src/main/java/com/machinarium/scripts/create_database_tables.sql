@@ -147,10 +147,10 @@ CREATE TABLE garage_car(
 CREATE TABLE user_statistics(
                                 id INT PRIMARY KEY AUTO_INCREMENT,
                                 user_id INT UNIQUE,
-                                first_count INT,
-                                second_count INT,
-                                third_count INT,
-                                lose_count INT,
+                                first_count INT DEFAULT 0,
+                                second_count INT DEFAULT 0,
+                                third_count INT DEFAULT 0,
+                                lose_count INT DEFAULT 0,
                                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -200,7 +200,7 @@ CREATE TABLE user_game(
 CREATE TABLE orders(
                        id INT PRIMARY KEY AUTO_INCREMENT,
                        order_status VARCHAR(16),
-                       order_date DATETIME
+                       order_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE order_item(

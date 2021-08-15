@@ -26,6 +26,8 @@ public class RegisterServlet extends HttpServlet {
     private static final Validator userNameValidator = UserNameValidator.getInstance();
     private static final Validator passwordValidator = PasswordValidator.getInstance();
 
+    private static final String DATA_FIELD_MESSAGE = "message";
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

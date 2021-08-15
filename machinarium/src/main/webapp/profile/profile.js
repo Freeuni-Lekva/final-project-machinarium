@@ -62,8 +62,8 @@ function buildPage() {
     pageEmail.innerHTML =  "<b>email: " + email + "</b>";
     
     var userStats = document.getElementById("statistics");
-    userStats.innerHTML = "<b>First Place: " + firstPlaceCount + " Second Place: "
-                            + secondPlaceCount + " Third Place: " + thirdPlaceCount + " Lost: " + lossCount + "</b>";
+    userStats.innerHTML = "<b>First Place: " + firstPlaceCount + "<br>Second Place: "
+                            + secondPlaceCount + "<br>Third Place: " + thirdPlaceCount + "<br></br>Lost: " + lossCount + "</b>";
 
     var pageCars = document.getElementById("cars");
     var carsAsString = "Cars:";
@@ -93,5 +93,5 @@ window.onload = function() {
 var gameButton = document.getElementById("start");
 
 gameButton.onclick = function() {
-    window.location.href = "/game";
+    window.location.href = "/lobby";
 }

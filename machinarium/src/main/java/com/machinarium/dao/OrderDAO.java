@@ -1,3 +1,4 @@
+
 package com.machinarium.dao;
 
 import com.machinarium.model.user.Order;
@@ -8,9 +9,10 @@ import java.util.Map;
 
 public interface OrderDAO {
 
-	public static final String ACTIVE = "Active";
+	String ORDER_ACTIVE = "active";
+	String ORDER_INACTIVE = "inactive";
 
-	Order getOrder(String userName, ID orderID);
+	Order getOrder(ID orderID);
 
 	List<Order> getAllOrders(String userName);
 
