@@ -27,6 +27,11 @@ public final class ItemConstants {
 	public static final String HORSE_POWER = "horsePower";
 	public static final String TRACTION_UNIT = "tractionUnit";
 
+	public static final String JSON_ID = "id";
+	public static final String JSON_NAME = "name";
+	public static final String JSON_AMOUNT = "amount";
+	public static final String JSON_TYPE = "type";
+
 	/* This class is meant for holding constants. */
 	private ItemConstants() {}
 }

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER;
 
-@WebFilter(urlPatterns = {"/UserServlet", "GarageServlet", "/profile"})
+@WebFilter(urlPatterns = {"/GameServlet", "/LobbyServlet", "/OrderServlet", "/UserServlet", "/GarageServlet", "/profile"})
 public class AuthenticationFilter implements Filter {
 
     @Override

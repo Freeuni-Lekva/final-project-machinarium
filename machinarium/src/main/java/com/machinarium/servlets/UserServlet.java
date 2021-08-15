@@ -6,6 +6,7 @@ import com.machinarium.model.history.Statistics;
 import com.machinarium.model.user.User;
 import com.machinarium.utility.common.ConfiguredLogger;
 import com.machinarium.utility.common.JSONResponse;
+import com.machinarium.utility.common.SessionManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -26,10 +27,9 @@ public class UserServlet extends HttpServlet {
     private final static Logger logger = ConfiguredLogger.getLogger("UserServlet");
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
-        User user = (User) request.getSession().getAttribute(ATTRIBUTE_USER);
-        assert user != null;
+        User user = SessionManager.getLoginUser(request);
 
         StatisticsDAO statisticsDAO = (StatisticsDAO) request.getServletContext().getAttribute(ATTRIBUTE_STATISTICS_DAO);
         Statistics userStatistics = statisticsDAO.getStatistics(user.getUserName());
@@ -47,6 +47,6 @@ public class UserServlet extends HttpServlet {
         data.put(PARAMETER_THIRD_PLACE_COUNT, userStatistics.getThirdCount());
         data.put(PARAMETER_LOSS_COUNT, userStatistics.getLoseCount());
 
-        wrappedResponse.setBody(data);
+        wrappedResponse.setResponse(response.SC_OK, data);
     }
 }

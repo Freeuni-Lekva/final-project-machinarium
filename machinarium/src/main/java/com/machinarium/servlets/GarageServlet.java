@@ -6,8 +6,10 @@ import com.machinarium.model.car.Car;
 import com.machinarium.model.user.User;
 import com.machinarium.utility.common.JSONRequest;
 import com.machinarium.utility.common.JSONResponse;
+import com.machinarium.utility.common.SessionManager;
 import com.machinarium.utility.constants.CarConstants;
 import com.machinarium.utility.constants.ItemConstants;
+import com.machinarium.utility.constants.ServletConstants;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.machinarium.utility.constants.CarConstants.NAME;
 import static com.machinarium.utility.constants.ServletConstants.*;
@@ -28,10 +31,7 @@ public class GarageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
-        User user = (User) request.getSession().getAttribute(ATTRIBUTE_USER);
-        assert user != null;
-
-        String userName = user.getUserName();
+        String userName = SessionManager.getLoginUser(request).getUserName();
 
         GarageDAO garageDAO = (GarageDAO) request.getServletContext().getAttribute(ATTRIBUTE_GARAGE_DAO);
 
@@ -39,19 +39,18 @@ public class GarageServlet extends HttpServlet {
 
         JSONObject data = new JSONObject();
 
-        data.put(PARAMETER_CARS, garageDAO.getAllCars(userName).stream().map(Car::toMap).collect(Collectors.toList()));
-        data.put(PARAMETER_SPARE_ITEMS, garageDAO.getAllSpareItems(userName).stream().map(Item::toMap).collect(Collectors.toList()));
+        data.put(PARAMETER_CARS, garageDAO.getAllCars(userName).stream().map(Car::toJSONMap).collect(Collectors.toList()));
 
-        wrappedResponse.setBody(data);
+        data.put(PARAMETER_ITEMS, garageDAO.getAllSpareItems(userName).entrySet().stream()
+                .map(itemEntry -> itemEntry.getKey().toJSONMap(itemEntry.getValue())).collect(Collectors.toList()));
+
+        wrappedResponse.setResponse(response.SC_OK, data);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
-        User user = (User) request.getSession().getAttribute(ATTRIBUTE_USER);
-        assert user != null;
-
-        String userName = user.getUserName();
+        String userName = SessionManager.getLoginUser(request).getUserName();
 
         GarageDAO garageDAO = (GarageDAO) request.getServletContext().getAttribute(ATTRIBUTE_GARAGE_DAO);
 

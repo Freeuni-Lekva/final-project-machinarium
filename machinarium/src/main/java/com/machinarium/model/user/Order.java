@@ -1,11 +1,13 @@
 package com.machinarium.model.user;
 
 import com.machinarium.model.Item.Item;
+import com.machinarium.model.JSONData;
 import com.machinarium.utility.common.ID;
+import com.machinarium.utility.constants.OrderConstants;
 
 import java.util.Map;
 
-public class Order {
+public class Order implements JSONData {
 
 	private final String userName;
 	private final ID id;
@@ -56,4 +58,13 @@ public class Order {
 		return userTakes;
 	}
 
+	@Override
+	public Map<String, Object> toJSONMap() {
+
+		return Map.of(OrderConstants.JSON_USER, getUserName(),
+				      OrderConstants.JSON_SRC_ITEMS, getUserGives().entrySet().stream()
+						.map(itemEntry -> itemEntry.getKey().toJSONMap(itemEntry.getValue())),
+					  OrderConstants.JSON_DST_ITEMS, getUserTakes().entrySet().stream()
+						.map(itemEntry -> itemEntry.getKey().toJSONMap(itemEntry.getValue())));
+	}
 }

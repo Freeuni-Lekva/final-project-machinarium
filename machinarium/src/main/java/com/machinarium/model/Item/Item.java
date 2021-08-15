@@ -1,13 +1,13 @@
 package com.machinarium.model.Item;
 
+import com.machinarium.model.JSONData;
 import com.machinarium.utility.common.ID;
 import com.machinarium.utility.constants.ItemConstants;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.machinarium.utility.constants.ServletConstants;
 
-public class Item {
+import java.util.*;
+
+public class Item implements JSONData {
 	private final ID id;
 	private final String name;
 
@@ -51,9 +51,19 @@ public class Item {
 		return str;
 	}
 
-	public Map<String, String> toMap() {
+	@Override
+	public Map<String, Object> toJSONMap() {
 
-		return Map.of(ItemConstants.ID, getID().toString(),
-				      ItemConstants.NAME, getName());
+		return Map.of(ItemConstants.JSON_ID, getID().toString(),
+					  ItemConstants.JSON_NAME, getName(),
+					  ItemConstants.JSON_TYPE, getType());
+	}
+
+	public Map<String, Object> toJSONMap(int amount) {
+
+		Map<String, Object> jsonData = new HashMap<>(toJSONMap());
+		jsonData.put(ItemConstants.JSON_AMOUNT, amount);
+
+		return Collections.unmodifiableMap(jsonData);
 	}
 }

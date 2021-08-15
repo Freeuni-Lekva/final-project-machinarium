@@ -26,4 +26,20 @@ public class SessionManager {
         newSession.setMaxInactiveInterval(MAX_INACTIVE_TIME);
         newSession.setAttribute(ATTRIBUTE_USER, user);
     }
+
+    /**
+     * Returns the user for the current login session.
+     *
+     * @param request The current Http request.
+     *
+     * @return The user as a {@link User} object.
+     */
+    public static User getLoginUser(HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute(ATTRIBUTE_USER);
+
+        if(user == null) throw new RuntimeException("There are no logged in users for this session.");
+
+        return user;
+    }
 }

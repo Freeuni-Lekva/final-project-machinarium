@@ -16,8 +16,9 @@ public final class ServletConstants {
     public static final String PARAMETER_THIRD_PLACE_COUNT = "third_place_count";
     public static final String PARAMETER_LOSS_COUNT = "loss_count";
 
+    public static final String PARAMETER_USERS = "users";
     public static final String PARAMETER_CARS = "cars";
-    public static final String PARAMETER_SPARE_ITEMS = "spare_items";
+    public static final String PARAMETER_ITEMS = "items";
 
     public static final String PARAMETER_CAR_NAME = "car_name";
 

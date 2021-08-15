@@ -1,15 +1,17 @@
 package com.machinarium.model.car;
 
 import com.machinarium.model.Item.Item;
+import com.machinarium.model.JSONData;
 import com.machinarium.utility.common.ID;
 import com.machinarium.utility.constants.CarConstants;
+import com.machinarium.utility.constants.ServletConstants;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class Car {
+public abstract class Car implements JSONData {
 	public static final double TIME_NA = -1.0;
 	public static final int TU_TO_HP = 100;
 	public static final int AD_TO_HP = 20;
@@ -75,14 +77,10 @@ public abstract class Car {
 		return asString.toString();
 	}
 
-	public Map<String, Object> toMap() {
+	@Override
+	public Map<String, Object> toJSONMap() {
 
-		Map<String, Object> map = new HashMap<>();
-
-		map.put(CarConstants.ID, getID().toString());
-		map.put(CarConstants.NAME, getName());
-		map.put(CarConstants.COMPONENTS, getComponents().stream().map(Item::toMap).collect(Collectors.toList()));
-
-		return map;
+		return Map.of(CarConstants.JSON_ID, getID().toString(),
+				   	  CarConstants.JSON_NAME, getName());
 	}
 }
