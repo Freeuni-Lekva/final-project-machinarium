@@ -38,7 +38,7 @@ function buildUsersTable() {
         var row = table.insertRow(1);
         var user = row.insertCell(0);
         var input = "" + users[i].name;
-        if(users[i].status == "host") {
+        if(users[i].status === "host") {
             input = input + " (HOST)";
         }
 
