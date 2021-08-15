@@ -25,13 +25,13 @@ public class ItemDAOClass implements ItemDAO {
     public Item getItem(ID itemID) {
         Connection con = connectionPool.acquireConnection();
         String getItemFromItemsQuery = "SELECT * FROM " + ITEMS_TABLE
-                                    + " WHERE id = " + itemID.getID() + ";";
+                + " WHERE id = " + itemID.getID() + ";";
         String getItemFromConnectorsQuery = "SELECT connector_name, item_type_1_id, " + "\n"
-                                        + "it1.type_name it1_type_name, it2.type_name it2_type_name " + "\n"
-                                        + "FROM " + CONNECTORS_TABLE + "\n"
-                                        + "LEFT JOIN " + ITEM_TYPES_TABLE + " it1 ON item_type_1_id = it1.id\n"
-                                        + "LEFT JOIN " + ITEM_TYPES_TABLE + " it2 ON item_type_1_id = it2.id\n"
-                                        + "WHERE id = " + itemID.getID() + ";";
+                + "it1.type_name it1_type_name, it2.type_name it2_type_name " + "\n"
+                + "FROM " + CONNECTORS_TABLE + "\n"
+                + "LEFT JOIN " + ITEM_TYPES_TABLE + " it1 ON item_type_1_id = it1.id\n"
+                + "LEFT JOIN " + ITEM_TYPES_TABLE + " it2 ON item_type_1_id = it2.id\n"
+                + "WHERE id = " + itemID.getID() + ";";
         Item item = null;
         try {
             Statement getItemFromItemsStat = con.createStatement();
@@ -86,7 +86,7 @@ public class ItemDAOClass implements ItemDAO {
                                 res.getString("connector_name"),
                                 new Chassis(new ID(res.getInt("item_type_1_id")),
                                         res.getString("it1_type_name"),
-                                       null, null),
+                                        null, null),
                                 new Transmission(new ID(res.getInt("item_type_2_id")),
                                         res.getString("it2_type_name"),
                                         null));
@@ -100,7 +100,7 @@ public class ItemDAOClass implements ItemDAO {
                                         null, null),
                                 new Wheels(new ID(res.getInt("item_type_2_id")),
                                         res.getString("it2_type_name"),
-                                       null, null));
+                                        null, null));
 
                     }
                     if(res.getString("connector_name").equals("Engine Bolts")){

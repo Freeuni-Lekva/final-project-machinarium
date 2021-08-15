@@ -10,8 +10,8 @@ public interface OrderDAO {
 	Order getOrder(String userName, ID orderID);
 	List<Order> getAllOrders(String userName);
 
-	ID addOrder(String userName, Map<Item, Integer> userGives,
-								 Map<Item, Integer> userTakes); // returns ID
+	ID addOrder(String userName, Map<ID, Integer> userGives,
+								 Map<ID, Integer> userTakes); // returns ID
 	boolean removeOrder(String userName, ID orderID);
 
 }

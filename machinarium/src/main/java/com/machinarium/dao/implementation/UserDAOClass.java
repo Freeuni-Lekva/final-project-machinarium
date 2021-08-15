@@ -3,6 +3,7 @@ package com.machinarium.dao.implementation;
 import com.machinarium.dao.ConnectionPool;
 import com.machinarium.dao.UserDAO;
 import com.machinarium.model.user.User;
+
 import com.machinarium.utility.common.ConfiguredLogger;
 import com.machinarium.utility.common.Email;
 import com.machinarium.utility.common.EncryptedPassword;

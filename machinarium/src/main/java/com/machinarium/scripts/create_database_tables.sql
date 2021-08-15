@@ -200,7 +200,7 @@ CREATE TABLE user_game(
 CREATE TABLE orders(
                        id INT PRIMARY KEY AUTO_INCREMENT,
                        order_status VARCHAR(16),
-                       order_date DATETIME
+                       order_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE order_item(
