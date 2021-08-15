@@ -62,7 +62,8 @@ public class OrderDAOClass implements OrderDAO {
                 if(orderStatus == null){
                     orderStatus = res.getString("order_status");
                 }
-                Item item = new Item(new ID(res.getInt("item_id")), res.getString("item_name"));
+                ItemDAOClass itemDAOClass = new ItemDAOClass(connectionPool);
+                Item item =  itemDAOClass.getItem(new ID(res.getInt("item_id")));;
                 int itemCount = res.getInt("item_count");
                 String givesTakes = res.getString("source_destination");
                 if(givesTakes.equals(SOURCE_STR)){
