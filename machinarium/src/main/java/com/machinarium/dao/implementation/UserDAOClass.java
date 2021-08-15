@@ -3,7 +3,7 @@ package com.machinarium.dao.implementation;
 import com.machinarium.dao.ConnectionPool;
 import com.machinarium.dao.UserDAO;
 import com.machinarium.model.user.User;
-import com.machinarium.utility.EncryptedPassword;
+import com.machinarium.utility.common.EncryptedPassword;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
