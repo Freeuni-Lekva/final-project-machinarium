@@ -170,7 +170,13 @@ public class GarageDAOClass implements GarageDAO {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-
+            String addCarPartsQuery = "INSERT INTO car_parts(car_id) VALUES (" + carID + ");";
+            try {
+                Statement addCarPartsStat = con.createStatement();
+                addCarPartsStat.executeUpdate(addCarPartsQuery);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
 
         connectionPool.releaseConnection(con);
@@ -317,9 +323,10 @@ public class GarageDAOClass implements GarageDAO {
                 }
 
             }
-            car = new DragCar(id, name, chassis, body, engine, transmission, wheels,
-                    chassisBody, chassisTransmission, chassisWheels, chassisEngine,
-                    engineTransmission, transmissionWheels);
+            if (id != null)
+                car = new DragCar(id, name, chassis, body, engine, transmission, wheels,
+                        chassisBody, chassisTransmission, chassisWheels, chassisEngine,
+                        engineTransmission, transmissionWheels);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
