@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS item_categories;
 DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS garages;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS game_stages;
 
 /* CREATE TABLES */
 
@@ -42,11 +43,18 @@ CREATE TABLE garages(
                        garage_name VARCHAR(64) UNIQUE
 );
 
-
+CREATE TABLE game_stages(
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        stage_name VARCHAR(64)
+);
 CREATE TABLE games(
                       id INT PRIMARY KEY AUTO_INCREMENT,
                       game_name VARCHAR(64) UNIQUE,
-                      game_date DATETIME
+                      game_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                      game_stage_id INT,
+                      user_host_id INT,
+                      FOREIGN KEY (game_stage_id) REFERENCES game_stages(id) ON DELETE CASCADE,
+                      FOREIGN KEY (user_host_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 
@@ -192,9 +200,11 @@ CREATE TABLE user_game(
                           id INT PRIMARY KEY AUTO_INCREMENT,
                           user_id INT,
                           game_id INT,
+                          car_id INT,
                           CONSTRAINT user_game_unique UNIQUE (user_id, game_id),
                           FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-                          FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+                          FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE,
+                          FOREIGN KEY (car_id)  REFERENCES cars(id)  ON DELETE CASCADE
 );
 
 CREATE TABLE orders(
