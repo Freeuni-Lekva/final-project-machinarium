@@ -1,4 +1,4 @@
-package com.machinarium.dao.implementations;
+package com.machinarium.dao.implementation;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -113,7 +113,7 @@ public class BlockingConnectionPool implements ConnectionPool {
         final String PASSWORD = "Data_base1";
         final String HOST = "localhost";
         final String PORT = "3306";
-        final String DATA_BASE = "test_db";
+        final String DATA_BASE = "machinarium_database";
 
         dataSource = new BasicDataSource();
 
