@@ -16,6 +16,7 @@ public class ItemDAOClass implements ItemDAO {
     private final String ITEMS_TABLE = "items";
     private final String CONNECTORS_TABLE = "connectors";
     private final String ITEM_TYPES_TABLE = "item_types";
+    private final String ITEMS_VIEW = "see_items";
     private ConnectionPool connectionPool;
 
     public ItemDAOClass(ConnectionPool connectionPool){
@@ -23,45 +24,49 @@ public class ItemDAOClass implements ItemDAO {
     }
     @Override
     public Item getItem(ID itemID) {
+      
         Connection con = connectionPool.acquireConnection();
-        String getItemFromItemsQuery = "SELECT * FROM " + ITEMS_TABLE
-                + " WHERE id = " + itemID.getID() + ";";
+      
+        String getItemFromItemsQuery = "SELECT * FROM " + ITEMS_VIEW + " WHERE item_id = " + itemID.getID() + ";";
+      
         String getItemFromConnectorsQuery = "SELECT connector_name, item_type_1_id, " + "\n"
                 + "it1.type_name it1_type_name, it2.type_name it2_type_name " + "\n"
-                + "FROM " + CONNECTORS_TABLE + "\n"
-                + "LEFT JOIN " + ITEM_TYPES_TABLE + " it1 ON item_type_1_id = it1.id\n"
-                + "LEFT JOIN " + ITEM_TYPES_TABLE + " it2 ON item_type_1_id = it2.id\n"
-                + "WHERE id = " + itemID.getID() + ";";
+                + "FROM " + CONNECTORS_TABLE + " c\n"
+                + "LEFT JOIN " + ITEM_TYPES_TABLE + " it1 ON c.item_type_1_id = it1.id\n"
+                + "LEFT JOIN " + ITEM_TYPES_TABLE + " it2 ON c.item_type_2_id = it2.id\n"
+                + "WHERE c.id = " + itemID.getID() + ";";
+      
         Item item = null;
+      
         try {
             Statement getItemFromItemsStat = con.createStatement();
             Statement getItemFromConnectorsStat = con.createStatement();
             ResultSet res = getItemFromItemsStat.executeQuery(getItemFromItemsQuery);
             if(res.next()){
-                if(res.getString("item_name").equals("CHASSIS")){
+                if(res.getString("type_name").equals("CHASSIS")){
                     item = new Chassis(ID.of(res.getInt("id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("weight_support"));
                 }
-                if(res.getString("item_name").equals("BODY")){
+                if(res.getString("type_name").equals("BODY")){
                     item = new Body(ID.of(res.getInt("id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("aero_drag"));
                 }
-                if(res.getString("item_name").equals("ENGINE")){
+                if(res.getString("type_name").equals("ENGINE")){
                     item = new Engine(ID.of(res.getInt("id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("horse_power"));
                 }
-                if(res.getString("item_name").equals("TRANSMISSION")){
+                if(res.getString("type_name").equals("TRANSMISSION")){
                     item = new Transmission(ID.of(res.getInt("id")),
                             res.getString("item_name"),
                             res.getInt("weight"));
                 }
-                if(res.getString("item_name").equals("WHEELS")){
+                if(res.getString("type_name").equals("WHEELS")){
                     item = new Wheels(ID.of(res.getInt("id")),
                             res.getString("item_name"),
                             res.getInt("weight"),

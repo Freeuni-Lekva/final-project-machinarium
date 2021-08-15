@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface GameDAO {
 
+	String IN_LOBBY = "in_lobby";
+	String ACTIVE = "active";
+	String FINISHED = "finished";
+
 	/**
 	 * Returns the host user of the specified game.
 	 *

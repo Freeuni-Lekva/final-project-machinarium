@@ -33,7 +33,7 @@ public class JSONResponse extends HttpServletResponseWrapper {
     public void setBody(JSONObject data) {
 
         String dataString = data.toJSONString();
-        logger.log(Level.FINE, "Data appended to the response body: " + dataString);
+        logger.log(Level.INFO, "Data appended to the response body: " + dataString);
 
         try {
             this.getWriter().println(dataString);
