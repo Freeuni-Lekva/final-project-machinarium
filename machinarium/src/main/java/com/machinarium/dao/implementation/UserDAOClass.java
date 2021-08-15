@@ -50,7 +50,8 @@ public class UserDAOClass implements UserDAO {
 
     private ID addGarage(ID userID, Connection con){
         String garageNameGenerator = "garage_" + userID.getID();
-        String addUserGarageQuery = "INSERT INTO garages(garage_name) VALUES " + garageNameGenerator + ";";
+        String addUserGarageQuery = "INSERT INTO garages(garage_name) VALUES ('" + garageNameGenerator + "');";
+
         ID garageID = null;
         try {
             Statement addUserGarageStat = con.createStatement();
@@ -137,8 +138,10 @@ public class UserDAOClass implements UserDAO {
         }
         if(addBoolean){
             ID userID = getUserID(userName, con);
-            String addUserInStatisticsQuery = "INSERT INTO " + USER_STATISTIC_TABLE + "(user_id)\n"
-                                            + "VALUES (" + userID.getID() + ");";
+            String addUserInStatisticsQuery = "INSERT INTO " + USER_STATISTIC_TABLE
+                    + "(user_id, first_count, second_count, third_count, lose_count)\n"
+                    + "VALUES (" + userID.getID() + ", 0, 0, 0, 0);";
+
             try {
                 Statement addUserInStatisticsStat = con.createStatement();
                 addUserInStatisticsStat.executeUpdate(addUserInStatisticsQuery);
