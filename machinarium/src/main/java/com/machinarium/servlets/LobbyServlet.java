@@ -1,6 +1,7 @@
 package com.machinarium.servlets;
 
 import com.machinarium.dao.GameDAO;
+import com.machinarium.utility.common.ConfiguredLogger;
 import com.machinarium.utility.common.ID;
 import com.machinarium.utility.common.JSONResponse;
 import com.machinarium.utility.common.SessionManager;
@@ -14,10 +15,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "LobbyServlet", value = "/LobbyServlet")
 public class LobbyServlet extends HttpServlet {
+
+    private final static Logger logger = ConfiguredLogger.getLogger("LobbyServlet");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,6 +66,8 @@ public class LobbyServlet extends HttpServlet {
         ServletContext contextListener = request.getServletContext();
 
         GameDAO gameDAO = (GameDAO) contextListener.getAttribute(ServletConstants.ATTRIBUTE_GAME_DAO);
+
+        logger.log(Level.INFO, "User(" + userName + ") Requests to join a lobby.");
 
         // TODO: Change Lobby logic.
 

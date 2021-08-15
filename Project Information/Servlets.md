@@ -71,6 +71,11 @@ Return:
 * users: List of Usernames [{user_name - მომხარებლის სახელი}, ...] - მონაწილეების სია.
 * items: List of Items [] - არსებული ნივთების სია.
 
+POST: 
+
+Return:
+* **Status 200 - წარმატებული მოთხოვნა.**
+
 ___
 
 

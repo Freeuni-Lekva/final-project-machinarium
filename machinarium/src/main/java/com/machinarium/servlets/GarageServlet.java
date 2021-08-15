@@ -4,6 +4,7 @@ import com.machinarium.dao.GarageDAO;
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.car.Car;
 import com.machinarium.model.user.User;
+import com.machinarium.utility.common.ConfiguredLogger;
 import com.machinarium.utility.common.JSONRequest;
 import com.machinarium.utility.common.JSONResponse;
 import com.machinarium.utility.common.SessionManager;
@@ -19,6 +20,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,6 +30,8 @@ import static com.machinarium.utility.constants.ServletConstants.*;
 
 @WebServlet(name = "GarageServlet", value = "/GarageServlet")
 public class GarageServlet extends HttpServlet {
+
+    private final static Logger logger = ConfiguredLogger.getLogger("GarageServlet");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {

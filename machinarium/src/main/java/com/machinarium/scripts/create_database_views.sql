@@ -163,7 +163,7 @@ FROM games g
 
 /* view for items full information */
 CREATE OR REPLACE VIEW see_items AS
-SELECT i.id item_it, i.item_name, it.id type_id,
+SELECT i.id item_id, i.item_name, it.id type_id,
        it.type_name type_name, it.item_category_id,
        ic.category_name, i.weight, i.weight_support,
        i.aero_drag, i.horse_power, i.traction_unit

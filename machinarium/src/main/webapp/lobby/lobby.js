@@ -9,7 +9,7 @@ function getUsers() {
     request.open("GET", URL);
 
     request.onload = () => {
-        var response = (request.response);
+        var response = JSON.parse(request.response);
         users = response.users;
         role = response.role;
         status = response.status;
@@ -37,8 +37,8 @@ function buildUsersTable() {
     for(var i = 0; i < users.length; i++) {
         var row = table.insertRow(1);
         var user = row.insertCell(0);
-        var input = "" + users[i].name;
-        if(users[i].status === "host") {
+        var input = "" + users[i].user_name;
+        if(users[i].role === "host") {
             input = input + " (HOST)";
         }
 
@@ -50,9 +50,14 @@ function buildUsersTable() {
 function setButtonState() {
     var button = document.getElementById("start");
 
-    if(role !== "host") {
+    console.log(role);
+
+    if(role === "guest") {
         button.style.display = "none";
-    } else {
+
+    } else if (role === "host") {
+
+        button.style.display = "block";
         button.onclick = () => {
             var URL = "/GameServlet";
             var request = new XMLHttpRequest();

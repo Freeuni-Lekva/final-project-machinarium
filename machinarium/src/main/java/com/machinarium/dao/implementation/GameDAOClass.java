@@ -6,7 +6,6 @@ import com.machinarium.dao.GarageDAO;
 import com.machinarium.model.car.Car;
 import com.machinarium.utility.common.ID;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,15 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameDAOClass implements GameDAO {
+
     private final String GAMES_TABLE = "games";
     private final String USER_GAME_TABLE = "user_game";
     private final String USERS_TABLE = "users";
     private final String GAMES_VIEW = "see_games";
     private final String USER_GAME_VIEW = "see_user_game";
+
     private ConnectionPool connectionPool;
+
     public GameDAOClass (ConnectionPool connectionPool){
         this.connectionPool = connectionPool;
     }
+
     private ID getUserID(String userName, Connection con){
         ID id = null;
         String getUserIDQuery = "SELECT id FROM " + USERS_TABLE + "\n"
@@ -39,6 +42,7 @@ public class GameDAOClass implements GameDAO {
         }
         return id;
     }
+
     @Override
     public String getGameHost(ID gameID) {
         Connection con = connectionPool.acquireConnection();
@@ -81,7 +85,7 @@ public class GameDAOClass implements GameDAO {
     public ID getActiveGame(String userName) {
         Connection con = connectionPool.acquireConnection();
         String getActiveGameQuery = "SELECT game_id FROM " + USER_GAME_VIEW
-                            + " WHERE user_name = '" + userName + "' AND stage_name = 'active';";
+                                  + " WHERE user_name = '" + userName + "' AND stage_name IN ('" + ACTIVE + "', '" + IN_LOBBY + "');";
         ID gameID = null;
         try {
             Statement getActiveGameStatement = con.createStatement();
@@ -99,7 +103,7 @@ public class GameDAOClass implements GameDAO {
     @Override
     public List<ID> getAllActiveGames() {
         Connection con = connectionPool.acquireConnection();
-        String getAllActiveGamesQuery = "SELECT * FROM " + GAMES_VIEW + "WHERE stage_name = 'active';";
+        String getAllActiveGamesQuery = "SELECT * FROM " + GAMES_VIEW + " WHERE stage_name IN ('" + ACTIVE + "', '" + IN_LOBBY + "');";
         List<ID> allActiveGames = new ArrayList<>();
         try {
             Statement getAllActiveGamesStat = con.createStatement();
@@ -137,7 +141,7 @@ public class GameDAOClass implements GameDAO {
     public Car getUserChosenCar(String userName, ID gameID) {
         Connection con = connectionPool.acquireConnection();
         String getUserChosenCarQuery = "SELECT * FROM " + USER_GAME_VIEW
-                + " WHERE user_name = '" + userName + "' AND game_id = " + gameID.getID() + ";";
+                                     + " WHERE user_name = '" + userName + "' AND game_id = " + gameID.getID() + ";";
         Car car = null;
         try {
             Statement getUserChosenCarStat = con.createStatement();

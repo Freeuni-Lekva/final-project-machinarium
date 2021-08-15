@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER;
 
-@WebFilter(urlPatterns = {"/GameServlet", "/LobbyServlet", "/OrderServlet", "/UserServlet", "/GarageServlet", "/profile"})
+@WebFilter(urlPatterns = {"/GameServlet", "/LobbyServlet", "/OrderServlet", "/UserServlet", "/GarageServlet", "/profile", "/lobby"})
 public class AuthenticationFilter implements Filter {
 
     @Override
@@ -24,6 +24,7 @@ public class AuthenticationFilter implements Filter {
         HttpSession session = ((HttpServletRequest) request).getSession();
         if(session.getAttribute(ATTRIBUTE_USER) == null) {
             request.getRequestDispatcher("/login").forward(request, response);
+            return;
         }
 
         chain.doFilter(request, response);

@@ -45,7 +45,7 @@ public class JSONRequest extends HttpServletRequestWrapper {
         try {
 
             String body = request.getReader().lines().collect(Collectors.joining(" "));
-            logger.log(Level.FINE, "Received request body: " + body);
+            logger.log(Level.INFO, "Received request body: " + body);
 
             return (JSONObject) new JSONParser().parse(body);
 
