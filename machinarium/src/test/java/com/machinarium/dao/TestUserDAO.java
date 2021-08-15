@@ -8,15 +8,7 @@ import com.machinarium.utility.common.Email;
 import com.machinarium.utility.common.EncryptedPassword;
 import org.junit.jupiter.api.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,7 +44,7 @@ public class TestUserDAO {
 
 
 	@Test
-	public void addUser() {
+	public void addUsers() {
 		assertTrue(userDAO.addUser("luka", EncryptedPassword.of("1234#Luka"), "luka@gmail.com"));
 		assertTrue(userDAO.addUser("lukaA", EncryptedPassword.of("1234#LukaA"), "lukaA@gmail.com"));
 		assertTrue(userDAO.addUser("lukaB", EncryptedPassword.of("1234#LukaB"), "lukaB@gmail.com"));
@@ -60,7 +52,7 @@ public class TestUserDAO {
 
 	@Test
 	public void getUserByName_addUser() {
-		addUser();
+		addUsers();
 
 		assertTrue(userDAO.getUser("luka").getUserName().equals("luka"));
 		assertTrue(userDAO.getUser("luka").getPassword().equals(EncryptedPassword.of("1234#Luka")));
@@ -77,7 +69,7 @@ public class TestUserDAO {
 
 	@Test
 	public void getUserByEmail_addUser() {
-		addUser();
+		addUsers();
 
 		assertTrue(userDAO.getUser(Email.of("luka@gmail.com")).getUserName().equals("luka"));
 		assertTrue(userDAO.getUser(Email.of("luka@gmail.com")).getPassword().equals(EncryptedPassword.of("1234#Luka")));
@@ -95,7 +87,7 @@ public class TestUserDAO {
 	@Test
 	public void getAllUsers_addUser() {
 		assertEquals(0, userDAO.getAllUsers().size());
-		addUser();
+		addUsers();
 
 		assertEquals(3, userDAO.getAllUsers().size());
 		List<User> allUsers = userDAO.getAllUsers();
@@ -109,7 +101,7 @@ public class TestUserDAO {
 
 	@Test
 	public void updatePassword_addUser_getUserByName_getUserByEmail() {
-		addUser();
+		addUsers();
 
 		assertTrue(userDAO.updatePassword("luka", EncryptedPassword.of("Hamburger#0")));
 		assertTrue(userDAO.updatePassword("lukaA", EncryptedPassword.of("Hamburger#1")));
@@ -127,7 +119,7 @@ public class TestUserDAO {
 
 	@Test
 	public void updateEmail_addUser_getUserByName_getUserByEmail() {
-		addUser();
+		addUsers();
 
 		assertTrue(userDAO.updateEmail("luka", "luka@freeuni.edu.ge"));
 		assertTrue(userDAO.updateEmail("lukaA", "lukaA@freeuni.edu.ge"));
