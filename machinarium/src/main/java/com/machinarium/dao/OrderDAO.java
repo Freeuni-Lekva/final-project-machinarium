@@ -8,11 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface OrderDAO {
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> დამატება #60, #61, #62 (#63): დაამატეთ სერვლეტები
 	String ORDER_ACTIVE = "active";
 	String ORDER_INACTIVE = "inactive";
 
