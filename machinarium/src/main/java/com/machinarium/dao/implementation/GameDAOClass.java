@@ -18,7 +18,6 @@ public class GameDAOClass implements GameDAO {
     private final String GAMES_TABLE = "games";
     private final String USER_GAME_TABLE = "user_game";
     private final String USERS_TABLE = "users";
-    private final String GAME_STAGES_TABLE = "game_stages";
     private final String GAMES_VIEW = "see_games";
     private final String USER_GAME_VIEW = "see_user_game";
     private ConnectionPool connectionPool;
