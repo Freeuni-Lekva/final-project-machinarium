@@ -5,11 +5,17 @@ import com.machinarium.dao.implementation.UserDAOClass;
 import com.machinarium.model.user.User;
 import com.machinarium.utility.common.Email;
 import com.machinarium.utility.common.EncryptedPassword;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,13 +23,39 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestUserDAO {
-	UserDAO userDAO;
+	private static ConnectionPool connectionPool;
+	private UserDAO userDAO;
 
 	@BeforeEach
-	public void init() {
-		ConnectionPool connectionPool = BlockingConnectionPool.getInstance();
+	public void setup() {
+		connectionPool = BlockingConnectionPool.getInstance();
 		userDAO = new UserDAOClass(connectionPool);
 	}
+
+	@AfterEach
+	public void tearDown() {
+		try {
+			Runtime.getRuntime().exec(
+					"mysql --user=\"root\" --database=\"machinarium_database\" --password=\"Data_base1\" < \"create_database_tables.sql\" ;" +
+					"mysql --user=\"root\" --database=\"machinarium_database\" --password=\"Data_base1\" < \"create_database_views.sql\" ;" +
+					"mysql --user=\"root\" --database=\"machinarium_database\" --password=\"Data_base1\" < \"initial_database_state.sql\"",
+					null,
+					new File("./src/main/java/com/machinarium/scripts"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@AfterAll
+	public static void end() {
+		try {
+			connectionPool.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
 
 	@Test
 	public void Test_0() {

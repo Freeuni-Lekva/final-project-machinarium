@@ -8,7 +8,9 @@ import com.machinarium.utility.constants.CarConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DragCar extends Car {
@@ -76,7 +78,9 @@ public class DragCar extends Car {
 	}
 
 	@Override
-	public List<Item> getComponents() {return this.components;}
+	public List<Item> getComponents() {
+		return this.components.stream().filter(Objects::nonNull).collect(Collectors.toList());
+	}
 
 	@Override
 	public boolean isValid() {

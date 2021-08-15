@@ -76,7 +76,11 @@ public class GarageDAOClass implements GarageDAO {
                 Statement hasCarStat = con.createStatement();
                 ResultSet res = hasCarStat.executeQuery(hasCarQuery);
                 if(res.next()){
-                    hasCarBoolean = true;
+                    if (res.getString("car_name") != null) {
+                        hasCarBoolean = true;
+                    } //++
+
+//                  hasCarBoolean = true; //--
                 }
 
             } catch (SQLException throwables) {
@@ -100,7 +104,10 @@ public class GarageDAOClass implements GarageDAO {
                 Statement getCarCountStat = con.createStatement();
                 ResultSet res = getCarCountStat.executeQuery(getCarCountQuery);
                 while (res.next()){
-                    carCount++;
+                    if (res.getString("car_name") != null) {
+                        carCount++;
+                    } //++
+//                    carCount++; //--
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -359,7 +366,11 @@ public class GarageDAOClass implements GarageDAO {
             Statement getAllCarsStat = con.createStatement();
             ResultSet res = getAllCarsStat.executeQuery(getAllCarsQuery);
             while (res.next()){
-                allCars.add(getCar(ID.of(res.getInt("car_id"))));
+                if (res.getString("car_name") != null) {
+                    allCars.add(getCar(ID.of(res.getInt("car_id"))));
+                } //++
+
+//              allCars.add(getCar(ID.of(res.getInt("car_id")))); //--
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
