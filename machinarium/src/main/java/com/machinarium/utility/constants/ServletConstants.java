@@ -29,11 +29,13 @@ public final class ServletConstants {
     public static final String PARAMETER_ORDERS = "orders";
 
     public static final String ATTRIBUTE_USER_DAO = "user_dao";
-    public static final String ATTRIBUTE_USER = "user";
     public static final String ATTRIBUTE_GARAGE_DAO = "garage_dao";
     public static final String ATTRIBUTE_STATISTICS_DAO = "statistics_dao";
     public static final String ATTRIBUTE_ORDER_DAO = "order_dao";
     public static final String ATTRIBUTE_GAME_DAO = "game_dao";
+    public static final String ATTRIBUTE_ITEM_DAO = "item_dao";
+
+    public static final String ATTRIBUTE_USER = "user";
 
     public static final String VALUE_HOST = "host";
     public static final String VALUE_GUEST = "guest";

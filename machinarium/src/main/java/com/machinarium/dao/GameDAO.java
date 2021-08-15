@@ -74,4 +74,13 @@ public interface GameDAO {
 	 * @return True if the user was successfully added.
 	 */
 	boolean addUser(ID gameID, String userName);
+
+	/**
+	 * Updates the stage of the specified game.
+	 *
+	 * @param gameID The id of the game as a {@link ID} object.
+	 * @param newStage The new stage for the game.
+	 * @return True if the game stage was successfully updated.
+	 */
+	boolean updateGameStage(ID gameID, String newStage);
 }
