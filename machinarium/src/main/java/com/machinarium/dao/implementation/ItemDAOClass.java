@@ -71,7 +71,7 @@ public class ItemDAOClass implements ItemDAO {
                 res = getItemFromConnectorsStat.executeQuery(getItemFromConnectorsQuery);
                 if(res.next()){
                     if(res.getString("connector_name").equals("Body Mount")){
-                        item = new Connector<>(new ID(res.getInt("connector_id")),
+                        item = new Connector<Chassis, Body>(new ID(res.getInt("connector_id")),
                                 res.getString("connector_name"),
                                 new Chassis(new ID(res.getInt("item_type_1_id")),
                                         res.getString("it1_type_name"),
@@ -82,7 +82,7 @@ public class ItemDAOClass implements ItemDAO {
                                         null, null));
                     }
                     if(res.getString("connector_name").equals("Transmission Mount")){
-                        item = new Connector<>(new ID(res.getInt("connector_id")),
+                        item = new Connector<Chassis, Transmission>(new ID(res.getInt("connector_id")),
                                 res.getString("connector_name"),
                                 new Chassis(new ID(res.getInt("item_type_1_id")),
                                         res.getString("it1_type_name"),
@@ -93,7 +93,7 @@ public class ItemDAOClass implements ItemDAO {
 
                     }
                     if(res.getString("connector_name").equals("Suspension")){
-                        item = new Connector<>(new ID(res.getInt("connector_id")),
+                        item = new Connector<Chassis, Wheels>(new ID(res.getInt("connector_id")),
                                 res.getString("connector_name"),
                                 new Chassis(new ID(res.getInt("item_type_1_id")),
                                         res.getString("it1_type_name"),
@@ -104,7 +104,7 @@ public class ItemDAOClass implements ItemDAO {
 
                     }
                     if(res.getString("connector_name").equals("Engine Bolts")){
-                        item = new Connector<>(new ID(res.getInt("connector_id")),
+                        item = new Connector<Chassis, Engine>(new ID(res.getInt("connector_id")),
                                 res.getString("connector_name"),
                                 new Chassis(new ID(res.getInt("item_type_1_id")),
                                         res.getString("it1_type_name"),
@@ -114,7 +114,7 @@ public class ItemDAOClass implements ItemDAO {
                                         null, null));
                     }
                     if(res.getString("connector_name").equals("Friction Plate")){
-                        item = new Connector<>(new ID(res.getInt("connector_id")),
+                        item = new Connector<Engine, Transmission>(new ID(res.getInt("connector_id")),
                                 res.getString("connector_name"),
                                 new Engine(new ID(res.getInt("item_type_1_id")),
                                         res.getString("it1_type_name"),
@@ -124,7 +124,7 @@ public class ItemDAOClass implements ItemDAO {
                                         null));
                     }
                     if(res.getString("connector_name").equals("Differential")){
-                        item = new Connector<>(new ID(res.getInt("connector_id")),
+                        item = new Connector<Transmission, Wheels>(new ID(res.getInt("connector_id")),
                                 res.getString("connector_name"),
                                 new Transmission(new ID(res.getInt("item_type_1_id")),
                                         res.getString("it1_type_name"),

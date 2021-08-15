@@ -63,24 +63,6 @@ public class GarageDAOClass implements GarageDAO {
         connectionPool.releaseConnection(con);
         return updateBoolean;
     }
-    private ID addUserGarage(ID userID, Connection con){
-        String garageNameGenerator = "garage_" + userID.getID();
-        String addUserGarageQuery = "INSERT INTO garages(garage_name) VALUES " + garageNameGenerator + ";";
-        ID garageID = null;
-        try {
-            Statement addUserGarageStat = con.createStatement();
-            if (addUserGarageStat.executeUpdate(addUserGarageQuery) > 0){
-                String getGarageIDQuery = "SELECT id FROM garages WHERE garage_name = '" + garageNameGenerator + "';";
-                Statement getGarageIDStat = con.createStatement();
-                ResultSet res = getGarageIDStat.executeQuery(getGarageIDQuery);
-                res.next();
-                garageID = new ID(res.getInt("id"));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return garageID;
-    }
 
     @Override
     public boolean hasCar(String userName) {
@@ -516,8 +498,6 @@ public class GarageDAOClass implements GarageDAO {
                 ResultSet resGarageID = userGarageIDStat.executeQuery(userGarageIDQuery);
                 if(resGarageID.next()){
                     garage_id = resGarageID.getInt("garage_id");
-                }else{
-                    garage_id = addUserGarage(userID, con).getID();
                 }
             }
         } catch (SQLException throwables) {
