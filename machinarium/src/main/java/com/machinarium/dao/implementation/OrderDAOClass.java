@@ -21,7 +21,6 @@ public class OrderDAOClass implements OrderDAO {
     private final String ORDERS_TABLE = "orders";
     private final String ORDER_ITEM_TABLE = "order_item";
     private final String USER_ORDER_TABLE = "user_order";
-    private final String ORDER_ACTIVE = "active";
     private final String SOURCE_STR = "source";
     private final String DESTINATION_STR = "destination";
     private final ConnectionPool connectionPool;
@@ -44,14 +43,15 @@ public class OrderDAOClass implements OrderDAO {
         return id;
     }
     @Override
-    public Order getOrder(String userName, ID orderID) {
+    public Order getOrder(ID orderID) {
         Connection con = connectionPool.acquireConnection();
         String getOrderQuery = "SELECT * FROM " + USER_ORDERS_VIEW
-                        + "WHERE user_name = '" + userName + "' AND order_id = " + orderID.getID() + ";";
+                        + "WHERE order_id = " + orderID.getID() + ";";
         Map<Item, Integer> userGives = new HashMap<>();
         Map<Item, Integer> userTakes = new HashMap<>();
         String orderDate = null;
         String orderStatus = null;
+        String userName = null;
         try {
             Statement getOrderStat = con.createStatement();
             ResultSet res = getOrderStat.executeQuery(getOrderQuery);
@@ -61,6 +61,9 @@ public class OrderDAOClass implements OrderDAO {
                 }
                 if(orderStatus == null){
                     orderStatus = res.getString("order_status");
+                }
+                if (userName == null){
+                    userName = res.getString("user_name");
                 }
                 ItemDAOClass itemDAOClass = new ItemDAOClass(connectionPool);
                 Item item =  itemDAOClass.getItem(new ID(res.getInt("item_id")));;
@@ -90,7 +93,7 @@ public class OrderDAOClass implements OrderDAO {
             Statement getAllOrdersStat = con.createStatement();
             ResultSet res = getAllOrdersStat.executeQuery(getAllOrdersIDQuery);
             while (res.next()){
-                Order order = getOrder(userName, new ID(res.getInt("order_id")));
+                Order order = getOrder(new ID(res.getInt("order_id")));
                 allOrders.add(order);
             }
         } catch (SQLException throwables) {
@@ -165,19 +168,41 @@ public class OrderDAOClass implements OrderDAO {
     }
 
     @Override
-    public boolean removeOrder(String userName, ID orderID) {
+    public boolean updateOrderStatus(ID orderID, String status) {
         Connection con = connectionPool.acquireConnection();
-        String removeOrderQuery = "DELETE FROM " + ORDERS_TABLE + "\n"
-                                + "WHERE order_id = " + orderID.getID() + ";";
-        boolean removeOrderBoolean = false;
+        String updateOrderStatusQuery = "UPDATE " + ORDERS_TABLE + " SET order_status = '" + status
+                                    + "' WHERE order_id = " + orderID.getID();
+        return updateQuery(con, updateOrderStatusQuery);
+    }
+
+    @Override
+    public boolean cancelAllOrders(String userName) {
+        Connection con = connectionPool.acquireConnection();
+        ID userID = getUserID(userName, con);
+        String cancelAllOrdersQuery = "UPDATE " + USER_ORDER_TABLE + " SET order_status = '" + ORDER_INACTIVE
+                                    + "' WHERE user_id = " + userID.getID();
+        return updateQuery(con, cancelAllOrdersQuery);
+    }
+
+    @Override
+    public boolean cancelOrder(ID orderID) {
+        Connection con = connectionPool.acquireConnection();
+        String cancelOrderQuery = "UPDATE " + ORDERS_TABLE + " SET order_status = '" + ORDER_INACTIVE
+                                    + "' WHERE order_id = " + orderID.getID();
+        return updateQuery(con, cancelOrderQuery);
+    }
+
+    private boolean updateQuery(Connection con, String updateQuey) {
+        boolean updateBoolean = false;
         try {
-            Statement removeOrderStat = con.createStatement();
-            if (removeOrderStat.executeUpdate(removeOrderQuery) > 0)
-                removeOrderBoolean = true;
+            Statement updateStat = con.createStatement();
+            if(updateStat.executeUpdate(updateQuey) > 0 )
+                updateBoolean = true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         connectionPool.releaseConnection(con);
-        return removeOrderBoolean;
+        return updateBoolean;
     }
+
 }
