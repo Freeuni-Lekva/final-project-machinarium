@@ -3,7 +3,6 @@ package com.machinarium.dao.implementation;
 import com.machinarium.dao.ConnectionPool;
 import com.machinarium.dao.UserDAO;
 import com.machinarium.model.user.User;
-
 import com.machinarium.utility.common.ConfiguredLogger;
 import com.machinarium.utility.common.Email;
 import com.machinarium.utility.common.EncryptedPassword;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 public class UserDAOClass implements UserDAO {
 
@@ -35,12 +33,12 @@ public class UserDAOClass implements UserDAO {
     private ID getUserID(String userName, Connection con){
         ID id = null;
         String getUserIDQuery = "SELECT id FROM " + USERS_TABLE + "\n"
-                + "WHERE user_name = '" + userName + "';";
+                              + "WHERE user_name = '" + userName + "';";
         try {
             Statement getUserIDStat = con.createStatement();
             ResultSet res = getUserIDStat.executeQuery(getUserIDQuery);
             if(res.next()){
-                id = new ID(res.getInt("id"));
+                id = ID.of(res.getInt("id"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -60,7 +58,7 @@ public class UserDAOClass implements UserDAO {
                 Statement getGarageIDStat = con.createStatement();
                 ResultSet res = getGarageIDStat.executeQuery(getGarageIDQuery);
                 res.next();
-                garageID = new ID(res.getInt("id"));
+                garageID = ID.of(res.getInt("id"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -70,7 +68,7 @@ public class UserDAOClass implements UserDAO {
     private boolean addUserGarage(ID userID, ID garageID, Connection con){
         boolean addUserGarageBoolean = false;
         String addUserGarageQuery = "INSERT INTO " + USER_GARAGE_TABLE + "(user_id, garage_id)\n"
-                                    + "VALUES (" + userID.getID() + ", " + garageID.getID() + ");";
+                                  + "VALUES (" + userID.getID() + ", " + garageID.getID() + ");";
         try {
             Statement addUserGarageStat = con.createStatement();
             if(addUserGarageStat.executeUpdate(addUserGarageQuery) > 0)
@@ -94,9 +92,10 @@ public class UserDAOClass implements UserDAO {
 
     @Override
     public User getUser(Email email) {
+
         Connection con = connectionPool.acquireConnection();
         String getUserQuery = "SELECT * FROM " + USERS_TABLE + "\n"
-                                + "WHERE  mail = '" + email + "';";
+                            + "WHERE  mail = '" + email + "';";
         return getUserBy(con, getUserQuery);
     }
 
