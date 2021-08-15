@@ -127,7 +127,39 @@ CREATE OR REPLACE VIEW see_game_results AS
     ON gr.reward2_id = r2.reward_id
     LEFT JOIN reward_item r3
     ON gr.reward3_id = r3.reward_id;
-    
+
+/* view for full information about users and games */
+CREATE OR REPLACE VIEW see_user_game AS
+    SELECT u.id user_id, u.user_name user_name,
+           g.id game_id, g.game_name game_name,
+           g.game_date game_date, host.id user_host_id,
+           host.user_name user_host_name,
+           g.game_stage_id game_stage_id,
+           gs.stage_name stage_name,
+           c.id car_id, c.car_name car_name;
+    FROM user_game ug
+    LEFT JOIN users u
+    ON ug.user_id = u.id
+    LEFT JOIN games g
+    ON ug.game_id = g.id
+    LEFT JOIN cars c
+    ON ug.car_id = c.id
+    LEFT JOIN users host
+    ON g.user_host_id = host.id
+    LEFT JOIN game_stages gs
+    ON g.game_stage_id = gs.id;
+
+/* view for games full information */
+CREATE OR REPLACE VIEW see_games AS
+    SELECT g.id game_id, g.game_name game_name,
+            g.game_date game_date, gs.id game_stage_id,
+           gs.stage_name stage_name, u.id user_host_id,
+           u.user_name user_host_name
+    FROM games g
+    LEFT JOIN game_stages gs
+    ON g.game_stage_id = gs.id
+    LEFT JOIN users u
+    ON g.user_host_id = u.id;
  /*   
 ;select * from see_user_results
 ;select * from see_user_rewards
