@@ -9,6 +9,6 @@ import java.util.Map;
 public interface RewardDAO {
 	Reward getReward(String userName, ID rewardID);
 	List<Reward> getRewards(String userName);
-	boolean addReward(String userName, Map<String, Integer> rewards);
+	boolean addReward(String rewardName, Map<String, Integer> rewards);
 
 }
