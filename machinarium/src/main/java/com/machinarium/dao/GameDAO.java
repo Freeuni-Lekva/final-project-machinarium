@@ -11,7 +11,6 @@ public interface GameDAO {
 	String ACTIVE = "active";
 	String FINISHED = "finished";
 
-
 	/**
 	 * Returns the host user of the specified game.
 	 *

@@ -24,16 +24,20 @@ public class ItemDAOClass implements ItemDAO {
     }
     @Override
     public Item getItem(ID itemID) {
+      
         Connection con = connectionPool.acquireConnection();
-        String getItemFromItemsQuery = "SELECT * FROM " + ITEMS_VIEW
-                + " WHERE item_id = " + itemID.getID() + ";";
+      
+        String getItemFromItemsQuery = "SELECT * FROM " + ITEMS_VIEW + " WHERE item_id = " + itemID.getID() + ";";
+      
         String getItemFromConnectorsQuery = "SELECT connector_name, item_type_1_id, " + "\n"
                 + "it1.type_name it1_type_name, it2.type_name it2_type_name " + "\n"
                 + "FROM " + CONNECTORS_TABLE + " c\n"
                 + "LEFT JOIN " + ITEM_TYPES_TABLE + " it1 ON c.item_type_1_id = it1.id\n"
                 + "LEFT JOIN " + ITEM_TYPES_TABLE + " it2 ON c.item_type_2_id = it2.id\n"
                 + "WHERE c.id = " + itemID.getID() + ";";
+      
         Item item = null;
+      
         try {
             Statement getItemFromItemsStat = con.createStatement();
             Statement getItemFromConnectorsStat = con.createStatement();

@@ -104,6 +104,22 @@ Return:
 
 ___
 
+
+## Lobby Servlet
+
+### URL: "/LobbyServlet" (Session Specific)
+
+### Status: In Progress
+
+GET: აბრუნებს ლობიში მყოფი მონაწილეების სიას, ასევე სესიის მომხმარებლის როლს (წამყვანია თუ არა).
+
+Return:
+* **Status 200 - წარმატებული მოთხოვნა.**
+* status: - ლობის მდგომარეობა ("no_lobby", "in_lobby", "production", "drag_race").
+* users: List of Usernames [{user_name - მომხმარებლის სახელი}, ...] - მონაწილეების სია.
+* role: - სესიის მომხმარებლის როლი ("host", "guest")
+___
+
 ## Garage Servlet
 ### URL: "/GarageServlet" (Session Specific)
 

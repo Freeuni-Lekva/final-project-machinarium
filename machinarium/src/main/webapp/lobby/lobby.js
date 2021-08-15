@@ -58,6 +58,9 @@ function setButtonState() {
     } else if (role === "host") {
 
         button.style.display = "block";
+    if(role !== "host") {
+        button.style.display = "none";
+    } else {
         button.onclick = () => {
             var URL = "/GameServlet";
             var request = new XMLHttpRequest();
