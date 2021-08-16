@@ -4,9 +4,12 @@ import com.machinarium.common.TestDBManager;
 import com.machinarium.dao.implementation.BlockingConnectionPool;
 import com.machinarium.dao.implementation.GarageDAOClass;
 import com.machinarium.dao.implementation.UserDAOClass;
+import com.machinarium.model.car.Car;
 import com.machinarium.utility.common.EncryptedPassword;
 import com.machinarium.utility.common.ID;
 import org.junit.jupiter.api.*;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -65,27 +68,27 @@ public class TestGarageDAO {
 
 	@Test
 	public void addEmptyCar_hasCar() {
-		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
+		ID lukaCar1ID = garageDAO.addEmptyCar("luka", "lukaCar1");
 		assertTrue(garageDAO.hasCar("luka"));
-		ID lukaCar2 = garageDAO.addEmptyCar("luka", "lukaCar2");
+		ID lukaCar2ID = garageDAO.addEmptyCar("luka", "lukaCar2");
 		assertTrue(garageDAO.hasCar("luka"));
 
 		assertFalse(garageDAO.hasCar("lukaA"));
 
-		ID lukaBCar1 = garageDAO.addEmptyCar("lukaB", "lukaBCar1");
+		ID lukaBCar1ID = garageDAO.addEmptyCar("lukaB", "lukaBCar1");
 		assertTrue(garageDAO.hasCar("lukaB"));
 	}
 
 	@Test
 	public void addEmptyCar_getCarCount() {
-		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
+		ID lukaCar1ID = garageDAO.addEmptyCar("luka", "lukaCar1");
 		assertEquals(1, garageDAO.getCarCount("luka"));
-		ID lukaCar2 = garageDAO.addEmptyCar("luka", "lukaCar2");
+		ID lukaCar2ID = garageDAO.addEmptyCar("luka", "lukaCar2");
 		assertEquals(2, garageDAO.getCarCount("luka"));
 
 		assertEquals(0, garageDAO.getCarCount("lukaA"));
 
-		ID lukaBCar1 = garageDAO.addEmptyCar("lukaB", "lukaBCar1");
+		ID lukaBCar1ID = garageDAO.addEmptyCar("lukaB", "lukaBCar1");
 		assertEquals(1, garageDAO.getCarCount("lukaB"));
 	}
 
@@ -93,65 +96,110 @@ public class TestGarageDAO {
 	public void removeCar_hasCar() {
 		assertFalse(garageDAO.hasCar("luka"));
 
-		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
+		ID lukaCar1ID = garageDAO.addEmptyCar("luka", "lukaCar1");
 		assertTrue(garageDAO.hasCar("luka"));
 
-		assertTrue(garageDAO.removeCar(lukaCar1));
+		assertTrue(garageDAO.removeCar(lukaCar1ID));
 		assertFalse(garageDAO.hasCar("luka"));
+
+		assertFalse(garageDAO.removeCar(ID.of(-1)));
 	}
 
 	@Test
 	public void removeCar_getCarCount() {
 		assertEquals(0, garageDAO.getCarCount("luka"));
 
-		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
+		ID lukaCar1ID = garageDAO.addEmptyCar("luka", "lukaCar1");
 		assertEquals(1, garageDAO.getCarCount("luka"));
 
-		assertTrue(garageDAO.removeCar(lukaCar1));
+		assertTrue(garageDAO.removeCar(lukaCar1ID));
 		assertEquals(0, garageDAO.getCarCount("luka"));
 
-		ID lukaCar11 = garageDAO.addEmptyCar("luka", "lukaCar11");
+		ID lukaCar11ID = garageDAO.addEmptyCar("luka", "lukaCar11");
 		assertEquals(1, garageDAO.getCarCount("luka"));
-		ID lukaCar12 = garageDAO.addEmptyCar("luka", "lukaCar12");
+		ID lukaCar12ID = garageDAO.addEmptyCar("luka", "lukaCar12");
 		assertEquals(2, garageDAO.getCarCount("luka"));
-		ID lukaCar13 = garageDAO.addEmptyCar("luka", "lukaCar13");
+		ID lukaCar13ID = garageDAO.addEmptyCar("luka", "lukaCar13");
 		assertEquals(3, garageDAO.getCarCount("luka"));
 	}
 
 	@Test
 	public void updateCarName_addEmptyCar() {
-		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
-		ID lukaCar2 = garageDAO.addEmptyCar("luka", "lukaCar2");
+		ID lukaCar1ID = garageDAO.addEmptyCar("luka", "lukaCar1");
+		ID lukaCar2ID = garageDAO.addEmptyCar("luka", "lukaCar2");
 
-		assertTrue(garageDAO.updateCarName(lukaCar1, "lukaCar1Updated"));
-		assertTrue(garageDAO.updateCarName(lukaCar2, "lukaCar2Updated"));
+		assertTrue(garageDAO.updateCarName(lukaCar1ID, "lukaCar1Updated"));
+		assertTrue(garageDAO.updateCarName(lukaCar2ID, "lukaCar2Updated"));
 	}
 
 	@Test
 	public void getCar_addEmptyCar_getCarCount() {
 		assertEquals(0, garageDAO.getCarCount("luka"));
 		assertNull(garageDAO.getCar(ID.of(-1)));
-		assertNull(garageDAO.getCar(ID.of(3333333)));
+		assertNull(garageDAO.getCar(ID.of(-3333333)));
 
-		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
+		ID lukaCar1ID = garageDAO.addEmptyCar("luka", "lukaCar1");
 		assertEquals(1, garageDAO.getCarCount("luka"));
-		assertNotEquals(null, garageDAO.getCar(lukaCar1));
+		assertNotEquals(null, garageDAO.getCar(lukaCar1ID));
 
-		ID lukaCar2 = garageDAO.addEmptyCar("luka", "lukaCar2");
+		ID lukaCar2ID = garageDAO.addEmptyCar("luka", "lukaCar2");
 		assertEquals(2, garageDAO.getCarCount("luka"));
-		assertNotEquals(null, garageDAO.getCar(lukaCar2));
+		assertNotEquals(null, garageDAO.getCar(lukaCar2ID));
 
 		assertEquals(0, garageDAO.getCarCount("lukaA"));
-		assertEquals(null, garageDAO.getCar(ID.of(5555555)));
+		assertNull(garageDAO.getCar(ID.of(-5555555)));
 	}
 
 	@Test
 	public void updateCarName_getCarCount() {
-//		assertEquals(0, garageDAO.getCarCount("luka"));
-//
-//		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
+		assertEquals(0, garageDAO.getCarCount("luka"));
+
+		ID lukaCar1ID = garageDAO.addEmptyCar("luka", "lukaCar1");
+		assertNotNull(lukaCar1ID);
+
+		Car lukaCar1 = garageDAO.getCar(lukaCar1ID);
+		assertNotNull(lukaCar1);
+		assertTrue(lukaCar1.getName().equals("lukaCar1"));
+
+		assertTrue(garageDAO.updateCarName(lukaCar1ID, "lukaCar1Updated"));
+		lukaCar1 = garageDAO.getCar(lukaCar1ID);
+		assertNotNull(lukaCar1);
+		assertTrue(lukaCar1.getName().equals("lukaCar1Updated"));
+
+		assertTrue(garageDAO.updateCarName(lukaCar1ID, "lukaCar1SuperUpdated"));
+		lukaCar1 = garageDAO.getCar(lukaCar1ID);
+		assertNotNull(lukaCar1);
+		assertTrue(lukaCar1.getName().equals("lukaCar1SuperUpdated"));
+
+		assertTrue(garageDAO.updateCarName(lukaCar1ID, ""));
+		lukaCar1 = garageDAO.getCar(lukaCar1ID);
+		assertNotNull(lukaCar1);
+		assertTrue(lukaCar1.getName().equals(""));
 
 
+		assertFalse(garageDAO.updateCarName(ID.of(-1), "lukaCar1SuperUpdated"));
+		assertFalse(garageDAO.updateCarName(ID.of(-86786768), "lukaCar1SuperUpdated"));
+	}
+
+	@Test
+	public void getAllCars_addEmptyCar() {
+		assertEquals(0, garageDAO.getAllCars("luka").size());
+
+		ID lukaCar1ID = garageDAO.addEmptyCar("luka", "lukaCar1");
+		assertNotNull(lukaCar1ID);
+		assertEquals(1, garageDAO.getAllCars("luka").size());
+
+		ID lukaCar2ID = garageDAO.addEmptyCar("luka", "lukaCar2");
+		assertNotNull(lukaCar2ID);
+		assertEquals(2, garageDAO.getAllCars("luka").size());
+
+		ID lukaCar3ID = garageDAO.addEmptyCar("luka", "lukaCar3");
+		assertNotNull(lukaCar3ID);
+		assertEquals(3, garageDAO.getAllCars("luka").size());
+
+		containsCarName("lukaCar1", garageDAO.getAllCars("luka"));
+		containsCarName("lukaCar2", garageDAO.getAllCars("luka"));
+		containsCarName("lukaCar3", garageDAO.getAllCars("luka"));
 	}
 
 
@@ -168,6 +216,16 @@ public class TestGarageDAO {
 		assertTrue(userDAO.addUser("luka", EncryptedPassword.of("1234#Luka"), "luka@gmail.com"));
 		assertTrue(userDAO.addUser("lukaA", EncryptedPassword.of("1234#LukaA"), "lukaA@gmail.com"));
 		assertTrue(userDAO.addUser("lukaB", EncryptedPassword.of("1234#LukaB"), "lukaB@gmail.com"));
+	}
+
+	private boolean containsCarName(String carName, List<Car> cars) {
+		for (Car car : cars) {
+			if (car.getName().equals(carName)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 
