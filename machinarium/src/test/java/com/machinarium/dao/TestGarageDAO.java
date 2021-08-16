@@ -4,11 +4,14 @@ import com.machinarium.common.TestDBManager;
 import com.machinarium.dao.implementation.BlockingConnectionPool;
 import com.machinarium.dao.implementation.GarageDAOClass;
 import com.machinarium.dao.implementation.UserDAOClass;
+import com.machinarium.model.Item.Item;
 import com.machinarium.model.car.Car;
 import com.machinarium.utility.common.EncryptedPassword;
 import com.machinarium.utility.common.ID;
 import org.junit.jupiter.api.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,6 +51,7 @@ public class TestGarageDAO {
 	}
 
 
+	//******************************* Car ******************************************//
 	@Test
 	public void hasCar() {
 		assertFalse(garageDAO.hasCar("luka"));
@@ -246,9 +250,17 @@ public class TestGarageDAO {
 		assertEquals(7, garageDAO.getAllCarItems(supraID).size());
 		assertTrue(garageDAO.addItemToCar(supraID, ID.of(8))); // Hard Compound
 		assertEquals(8, garageDAO.getAllCarItems(supraID).size());
+
+		//**********//
+		List<Item> allCarItems = garageDAO.getAllCarItems(supraID);
+		List<String> allCarItemNames = getNames(allCarItems);
+		assertTrue(allCarItemNames.containsAll(Arrays.asList("Carbon Fiber", "Low Drag",
+				"High Downforce", "2-JZ", "Rotary", "ZF 8-Speed", "Soft Compound", "Hard Compound")));
+
+		System.out.println(allCarItems);
 	}
 
-//	@Test
+//	@Test  //++
 	public void addItemConnectorToCar() {
 		ID supraID = garageDAO.addEmptyCar("luka", "supra");
 		assertNotNull(supraID);
@@ -269,9 +281,17 @@ public class TestGarageDAO {
 		assertEquals(5, garageDAO.getAllCarItems(supraID).size());
 		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1006))); // Differential
 		assertEquals(6, garageDAO.getAllCarItems(supraID).size());
+
+		//**********//
+		List<Item> allCarItems = garageDAO.getAllCarItems(supraID);
+		List<String> allCarItemNames = getNames(allCarItems);
+		assertTrue(allCarItemNames.containsAll(Arrays.asList("Body Mount", "Transmission Mount",
+				"Suspension", "Engine Bolts", "Friction Plate", "Differential")));
+
+		System.out.println(allCarItems);
 	}
 
-//	@Test
+//	@Test  //++
 	public void addItemPartConnectorToCar() {
 		ID supraID = garageDAO.addEmptyCar("luka", "supra");
 		assertNotNull(supraID);
@@ -310,7 +330,257 @@ public class TestGarageDAO {
 		assertEquals(13, garageDAO.getAllCarItems(supraID).size());
 		assertTrue(garageDAO.addItemToCar(supraID, ID.of(8))); // Hard Compound
 		assertEquals(14, garageDAO.getAllCarItems(supraID).size());
+
+		//**********//
+		List<Item> allCarItems = garageDAO.getAllCarItems(supraID);
+		List<String> allCarItemNames = getNames(allCarItems);
+		assertTrue(allCarItemNames.containsAll(Arrays.asList("Carbon Fiber", "Low Drag",
+				"High Downforce", "2-JZ", "Rotary", "ZF 8-Speed", "Soft Compound", "Hard Compound",
+				"Body Mount", "Transmission Mount", "Suspension", "Engine Bolts",
+				"Friction Plate", "Differential")));
+
+		System.out.println(allCarItems);
 	}
+
+	//------------------------------------------//
+
+	@Test
+	public void hasItemPart() {
+		ID supraID = garageDAO.addEmptyCar("luka", "supra");
+		assertNotNull(supraID);
+		assertEquals(1, garageDAO.getAllCars("luka").size());
+
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1))); // Carbon Fiber
+
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1))); // Carbon Fiber
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(2))); // Low Drag
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(2)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(3))); // High Downforce
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(3)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(4))); // 2-JZ
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(4)));
+
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(5))); // Rotary
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(5)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(6))); // ZF 8-Speed
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(6)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(7))); // Soft Compound
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(7)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(8))); // Hard Compound
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(8)));
+	}
+
+//	@Test  //++
+	public void hasItemConnector() {
+		ID supraID = garageDAO.addEmptyCar("luka", "supra");
+		assertNotNull(supraID);
+		assertEquals(1, garageDAO.getAllCars("luka").size());
+
+		assertEquals(0, garageDAO.getAllCarItems(supraID).size());
+
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1001))); // Body Mount
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1001)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1002))); // Transmission Mount
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1002)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1003))); // Suspension
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1003)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1004))); // Engine Bolts
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1004)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1005))); // Friction Plate
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1005)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1006))); // Differential
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1006)));
+	}
+
+//	@Test  //++
+	public void hasItemPartConnector() {
+		ID supraID = garageDAO.addEmptyCar("luka", "supra");
+		assertNotNull(supraID);
+		assertEquals(1, garageDAO.getAllCars("luka").size());
+
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1))); // Carbon Fiber
+
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1))); // Carbon Fiber
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(2))); // Low Drag
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(2)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(3))); // High Downforce
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(3)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(4))); // 2-JZ
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(4)));
+
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1001))); // Body Mount
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1001)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1002))); // Transmission Mount
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1002)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1003))); // Suspension
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1003)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1004))); // Engine Bolts
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1004)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1005))); // Friction Plate
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1005)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1006))); // Differential
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1006)));
+
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(5))); // Rotary
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(5)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(6))); // ZF 8-Speed
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(6)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(7))); // Soft Compound
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(7)));
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(8))); // Hard Compound
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(8)));
+	}
+
+	@Test
+	public void removeItemPartFromCar() {
+		ID supraID = garageDAO.addEmptyCar("luka", "supra");
+		assertNotNull(supraID);
+		assertEquals(1, garageDAO.getAllCars("luka").size());
+
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1))); // Carbon Fiber
+
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1))); // Carbon Fiber
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(2))); // Low Drag
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(3))); // High Downforce
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(4))); // 2-JZ
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(5))); // Rotary
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(6))); // ZF 8-Speed
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(7))); // Soft Compound
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(8))); // Hard Compound
+
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(1)));
+		assertFalse(garageDAO.removeItemFromCar(supraID, ID.of(1)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(2)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(4)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(5)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(8)));
+
+
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(2)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(3)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(4)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(5)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(6)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(7)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(8)));
+	}
+
+//	@Test  //++
+	public void removeItemConnectorFromCar() {
+		ID supraID = garageDAO.addEmptyCar("luka", "supra");
+		assertNotNull(supraID);
+		assertEquals(1, garageDAO.getAllCars("luka").size());
+
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1))); // Carbon Fiber
+
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1001))); // Body Mount
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1002))); // Transmission Mount
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1003))); // Suspension
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1004))); // Engine Bolts
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1005))); // Friction Plate
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1006))); // Differential
+
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(1002)));
+		assertFalse(garageDAO.removeItemFromCar(supraID, ID.of(1002)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(1004)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(1006)));
+
+
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1001)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1002)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1003)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1004)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1005)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1006)));
+	}
+
+//	@Test  //++
+	public void removeItemPartConnectorFromCar() {
+		ID supraID = garageDAO.addEmptyCar("luka", "supra");
+		assertNotNull(supraID);
+		assertEquals(1, garageDAO.getAllCars("luka").size());
+
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1))); // Carbon Fiber
+
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1))); // Carbon Fiber
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(2))); // Low Drag
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(3))); // High Downforce
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(4))); // 2-JZ
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1001))); // Body Mount
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1002))); // Transmission Mount
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1003))); // Suspension
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1004))); // Engine Bolts
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1005))); // Friction Plate
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(1006))); // Differential
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(5))); // Rotary
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(6))); // ZF 8-Speed
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(7))); // Soft Compound
+		assertTrue(garageDAO.addItemToCar(supraID, ID.of(8))); // Hard Compound
+
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(1)));
+		assertFalse(garageDAO.removeItemFromCar(supraID, ID.of(1)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(2)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(1002)));
+		assertFalse(garageDAO.removeItemFromCar(supraID, ID.of(1002)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(1004)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(1006)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(4)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(5)));
+		assertTrue(garageDAO.removeItemFromCar(supraID, ID.of(8)));
+
+
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(2)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(3)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(4)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(5)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(6)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(7)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(8)));
+
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1001)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1002)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1003)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1004)));
+		assertTrue(garageDAO.carHasItem(supraID, ID.of(1005)));
+		assertFalse(garageDAO.carHasItem(supraID, ID.of(1006)));
+	}
+
+
+	//**************************************** SpareItem **********************************//
+
+	@Test
+	public void hasSpareItem() {
+		assertFalse(garageDAO.hasSpareItem("luka"));
+		assertFalse(garageDAO.hasSpareItem("lukaA"));
+		assertFalse(garageDAO.hasSpareItem("lukaB"));
+
+		assertFalse(garageDAO.hasSpareItem("bla"));
+	}
+
+	@Test
+	public void getSpareItemCount() {
+		assertEquals(0, garageDAO.getSpareItemCount("luka"));
+		assertEquals(0, garageDAO.getSpareItemCount("lukaA"));
+		assertEquals(0, garageDAO.getSpareItemCount("lukaB"));
+
+		assertEquals(0, garageDAO.getSpareItemCount("bla"));
+	}
+
+	@Test
+	public void addSpareItem() {
+		assertEquals(0, garageDAO.getSpareItemCount("luka"));
+		garageDAO.addSpareItem("luka", ID.of(1), 1);
+		assertEquals(1, garageDAO.getSpareItemCount("luka"));
+	}
+
+
+
+
+
 
 
 
@@ -337,41 +607,15 @@ public class TestGarageDAO {
 		return false;
 	}
 
+	private List<String> getNames(List<Item> items) {
+		List<String> names = new ArrayList<>();
 
+		for (Item item : items) {
+			String name = item.getName();
+			names.add(name);
+		}
 
-
-//	@Test
-//	public void hasCar() {
-//		ID carAiD = garageDAO.addEmptyCar("luka", "carA");
-//		assertEquals(1, garageDAO.getCarCount("luka"));
-//		assertEquals(1, garageDAO.getAllCars("luka").size());
-//		assertTrue(garageDAO.removeCar(carAiD));
-//	}
-
-//	@Test
-//	public void Test_1() {
-//		assertFalse(garageDAO.hasCar("luka"));
-//		assertEquals(0, garageDAO.getCarCount("luka"));
-//
-//		ID carAiD = garageDAO.addEmptyCar("luka", "carA");
-//		ID carBiD = garageDAO.addEmptyCar("luka", "carB");
-//		ID carCiD = garageDAO.addEmptyCar("luka", "carC");
-//		assertEquals(3, garageDAO.getCarCount("luka"));
-//		assertEquals(3, garageDAO.getAllCars("luka").size());
-////		System.out.println("******" + garageDAO.getAllCars("luka"));
-//
-//		assertTrue(garageDAO.removeCar(carBiD));
-//		assertEquals(2, garageDAO.getCarCount("luka"));
-//		assertEquals(2, garageDAO.getAllCars("luka").size());
-//
-//		assertTrue(garageDAO.removeCar(carCiD));
-//		assertEquals(1, garageDAO.getCarCount("luka"));
-//		assertEquals(1, garageDAO.getAllCars("luka").size());
-//
-//		assertTrue(garageDAO.removeCar(carAiD));
-//		assertEquals(0, garageDAO.getCarCount("luka"));
-//		assertEquals(0, garageDAO.getAllCars("luka").size());
-//	}
-
+		return names;
+	}
 
 }
