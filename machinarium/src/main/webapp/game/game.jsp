@@ -172,6 +172,9 @@
                                     <button class="button" id="remove_item" onclick="removeItemFromCar()">REMOVE</button>
                                     <button class="button" id="remove_row" onclick="removeRow()">PREVIOUS</button>
                                 </div>
+                                <div class="container">
+                                    <button class="button" id="add_car_button" onclick="doneBuilding()">ADD CAR</button>
+                                </div>
                             </div>
                         </div>
                     </div>
