@@ -74,9 +74,5 @@ public class RewardDAOClass implements RewardDAO {
         return rewards;
     }
 
-    @Override
-    public boolean addReward(String userName, Map<ID, Integer> rewards) {
-        return false;
-    }
 
 }
