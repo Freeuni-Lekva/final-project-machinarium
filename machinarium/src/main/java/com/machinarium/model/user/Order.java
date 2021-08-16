@@ -6,6 +6,8 @@ import com.machinarium.utility.common.ID;
 import com.machinarium.utility.constants.OrderConstants;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Order implements JSONData {
 
@@ -21,14 +23,14 @@ public class Order implements JSONData {
 
 	public Order(String userName, ID id, String status, String date,
 				 Map<Item, Integer> userGives, Map<Item, Integer> userTakes) {
-		this.userName = userName;
-		this.id = id;
+		Objects.requireNonNull(this.userName = userName);
+		Objects.requireNonNull(this.id = id);
 
-		this.status = status;
-		this.date = date;
+		Objects.requireNonNull(this.status = status);
+		Objects.requireNonNull(this.date = date);
 
-		this.userGives = userGives;
-		this.userTakes = userTakes;
+		Objects.requireNonNull(this.userGives = userGives);
+		Objects.requireNonNull(this.userTakes = userTakes);
 	}
 
 
@@ -63,8 +65,8 @@ public class Order implements JSONData {
 
 		return Map.of(OrderConstants.JSON_USER, getUserName(),
 				      OrderConstants.JSON_SRC_ITEMS, getUserGives().entrySet().stream()
-						.map(itemEntry -> itemEntry.getKey().toJSONMap(itemEntry.getValue())),
+						.map(itemEntry -> itemEntry.getKey().toJSONMap(itemEntry.getValue())).collect(Collectors.toList()),
 					  OrderConstants.JSON_DST_ITEMS, getUserTakes().entrySet().stream()
-						.map(itemEntry -> itemEntry.getKey().toJSONMap(itemEntry.getValue())));
+						.map(itemEntry -> itemEntry.getKey().toJSONMap(itemEntry.getValue())).collect(Collectors.toList()));
 	}
 }

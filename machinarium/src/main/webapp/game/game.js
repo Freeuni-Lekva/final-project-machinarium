@@ -4,6 +4,7 @@ const ORDER_SERVLET = "/OrderServlet";
 const CAR_SERVLET = "/CarServlet";
 const EXCHANGE_SERVLET = "/ExchangeServlet";
 
+const USERS_TABLE = "game_users";
 const MY_REQUESTS_TABLE = "requests";
 const MARKET_TABLE = "market";
 const MY_INVENTORY_TABLE = "inventory";
@@ -33,8 +34,8 @@ function askForUsersAndItems() {
 
     request.onload = () => {
         var response = JSON.parse(request.response);
-        allItemsLst = response.items;
-        usersLst = response.users;
+        allItemsLst = response.items.sort();
+        usersLst = response.users.sort();
         buildPage();
     }
 
@@ -48,8 +49,8 @@ function askForGarageInfo() {
 
     request.onload = () => {
         var response = JSON.parse(request.response);
-        myCarsLst = response.cars;
-        mySpareItemsLst = response.spare_items;
+        myCarsLst = response.cars.sort();
+        mySpareItemsLst = response.items.sort();
         buildPage();
     }
 
@@ -63,8 +64,8 @@ function askForOrdersInfo() {
 
     request.onload = () => {
         var response = JSON.parse(request.response);
-        myOrdersLst = response.user_orders;
-        activeOrdersLst = response.orders;
+        myOrdersLst = response.user_orders.sort();
+        activeOrdersLst = response.orders.sort();
         buildPage();
     }
 
@@ -74,6 +75,7 @@ function askForOrdersInfo() {
 // builds page using collected information
 function buildPage() {
     clearTables();
+    buildUsersTable();
     buildMyRequestsTable();
     buildMarketTable();
     buildMyInventoryTable();
@@ -81,6 +83,7 @@ function buildPage() {
 }
 
 function clearTables() {
+    clearSingleTable(USERS_TABLE);
     clearSingleTable(MY_REQUESTS_TABLE);
     clearSingleTable(MARKET_TABLE);
     clearSingleTable(MY_INVENTORY_TABLE);
@@ -203,7 +206,7 @@ function buildMarketTable() {
 function buildMyInventoryTable() {
     var table = document.getElementById("inventory");
 
-    for(var i = 0; i < mySpareItemsLst; i++) {
+    for(var i = 0; i < mySpareItemsLst.length; i++) {
         var row = table.insertRow(1);
         var itemName = row.insertCell(0);
         var amount = row.insertCell(1);
@@ -215,7 +218,7 @@ function buildMyInventoryTable() {
 
 // builds my cars dropdown element in car builder pop up window
 function buildMyCarsDropDown() {
-    var elem = getElementById("selected_car");
+    var elem = document.getElementById("selected_car");
 
     var options = "";
     for(var i = 0; i < myCarsLst.length; i++) {
@@ -233,19 +236,18 @@ function buildUsersTable() {
     for(var i = 0; i < usersLst.length; i++) {
         var row = table.insertRow(1);
         var curUser = row.insertCell(0);
-        curUser.innerHTML = "<i>" + usersLst[i].name + "</i>";
+        curUser.innerHTML = "<i>" + usersLst[i].user_name + "</i>";
     }
 }
 
 window.onload = function() {
     generatePage();
-    buildUsersTable();
     addCarSelectorListener();
 }
 
-// setInterval(function(){ 
-//     generatePage(); 
-// }, 2500);
+setInterval(function(){
+    generatePage();
+}, 2500);
 
 
 // pop up windows
@@ -356,7 +358,7 @@ function addDestItem() {
     var desc = row.insertCell(2);
     var rowsNum = (destTable.rows.length - 1);
 
-    item.innerHTML = buildDropDown("dest_item_", rowsNum, mySpareItemsLst);
+    item.innerHTML = buildDropDown("dest_item_", rowsNum, allItemsLst);
     // item.innerHTML = "<select name=\"dest_items\" id=\"dest_item_" + rowsNum + "\"><option value=\"dst_wheel\">Wheel</option><option value=\"dst_chassis\">Chassis</option><option value=\"dst_body\">Door</option><option value=\"dst_ngine\">Engine</option></select>";
     num.innerHTML = "<input id=\"dest_num_" + rowsNum + "\"type=\"number\" placeholder=\"How many\" value=\"\" />";
     desc.innerHTML = "<label>Descr...</label>";
@@ -419,12 +421,17 @@ function doneRequest() {
         destLst.push(curElem);
     }
 
-    var request = {
-        user_orders: sourceLst,
-        orders: destLst
+    var request = new XMLHttpRequest();
+
+    var data = {
+        source_items: sourceLst,
+        destination_items: destLst
     };
 
-    console.log(JSON.stringify(request));
+    request.open("POST", ORDER_SERVLET);
+    request.send(JSON.stringify(data));
+
+    console.log(JSON.stringify(data));
 }
 
 // sends new car name to the corresponding servlet

@@ -5,14 +5,35 @@ import com.machinarium.model.user.User;
 import com.machinarium.utility.constants.ServletConstants;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER;
 
 public class SessionManager {
 
+    private final static Logger logger = ConfiguredLogger.getLogger("SessionManager");
+
     private static final int MAX_INACTIVE_TIME = 1000; // seconds
+
+    /**
+     * @param request The {@link HttpServletRequest} send to a servlet.
+     * @return True if there's an active login session and the session user is authenticated, false otherwise.
+     */
+    public static boolean isAuthenticated(ServletRequest request) {
+
+        HttpSession session = ((HttpServletRequest) request).getSession();
+
+        User user = (User) session.getAttribute(ATTRIBUTE_USER);
+
+        logger.log(Level.INFO, "Received request from: " + user);
+
+        return user != null;
+    }
 
     /**
      * Creates a new Login Session for the specified request. Invalidates the
@@ -24,6 +45,8 @@ public class SessionManager {
 
         HttpSession oldSession = request.getSession(false);
         if(oldSession != null) oldSession.invalidate();
+
+        logger.log(Level.INFO, "Creating Login Session for user: " + user);
 
         HttpSession newSession = request.getSession(true);
         newSession.setMaxInactiveInterval(MAX_INACTIVE_TIME);

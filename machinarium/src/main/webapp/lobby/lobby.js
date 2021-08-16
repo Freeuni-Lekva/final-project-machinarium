@@ -10,6 +10,9 @@ function getUsers() {
 
     request.onload = () => {
         var response = JSON.parse(request.response);
+
+        console.log("Received response: " + request.response);
+
         users = response.users;
         role = response.role;
         status = response.status;
@@ -74,7 +77,7 @@ function setButtonState() {
 // build page using current information
 function buildCurrentPage() {
     // if game is start, all users will be redirected to the game page
-    if (status === "active") {
+    if (status === "ACTIVE") {
         window.location.href = "/game";
     }
 

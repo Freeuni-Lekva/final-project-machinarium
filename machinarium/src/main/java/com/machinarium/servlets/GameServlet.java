@@ -1,12 +1,11 @@
 package com.machinarium.servlets;
 
 import com.machinarium.dao.GameDAO;
+import com.machinarium.dao.GarageDAO;
 import com.machinarium.dao.ItemDAO;
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.user.User;
-import com.machinarium.utility.common.ID;
-import com.machinarium.utility.common.JSONResponse;
-import com.machinarium.utility.common.SessionManager;
+import com.machinarium.utility.common.*;
 import com.machinarium.utility.constants.ServletConstants;
 import org.json.simple.JSONObject;
 
@@ -14,14 +13,20 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "GameServlet", value = "/GameServlet")
 public class GameServlet extends HttpServlet {
 
+    private final static Logger logger = ConfiguredLogger.getLogger("GarageServlet");
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         ServletContext contextListener = request.getServletContext();
         GameDAO gameDAO = (GameDAO) contextListener.getAttribute(ServletConstants.ATTRIBUTE_GAME_DAO);
@@ -30,6 +35,8 @@ public class GameServlet extends HttpServlet {
         JSONResponse wrappedResponse = new JSONResponse(response);
 
         ID gameID = SessionManager.getActiveGameID(request);
+
+        logger.log(Level.INFO, "Game information requested by user(" + SessionManager.getLoginUser(request).getUserName() + ").");
 
         JSONObject data = new JSONObject();
         data.put(ServletConstants.PARAMETER_USERS, gameDAO.getGameUsers(gameID).stream()
@@ -55,10 +62,19 @@ public class GameServlet extends HttpServlet {
         if(!userName.equals(gameDAO.getGameHost(activeGameID))) {
             wrappedResponse.setError(response.SC_PRECONDITION_FAILED, "This user is not the host for the current game.");
             return;
+        } else if (gameDAO.getGameStage(activeGameID).equals(GameDAO.GameStage.ACTIVE)) {
+            wrappedResponse.setError(response.SC_CONFLICT, "This game has already been started.");
+            return;
         }
 
-        gameDAO.updateGameStage(activeGameID, GameDAO.ACTIVE);
+        logger.log(Level.INFO, "Received request to start the game with ID: " + activeGameID);
 
-        response.setStatus(response.SC_OK);
+        if(!gameDAO.updateGameStage(activeGameID, GameDAO.GameStage.ACTIVE)) {
+            wrappedResponse.setError(response.SC_CONFLICT, "Couldn't update the game stage to: " + GameDAO.GameStage.ACTIVE);
+        } else {
+
+            ItemDistributor.distributeStartingItems(gameDAO.getGameUsers(activeGameID), request);
+            response.setStatus(response.SC_OK);
+        }
     }
 }

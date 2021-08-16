@@ -22,8 +22,8 @@ public class OrderDAOClass implements OrderDAO {
     private final String ORDERS_TABLE = "orders";
     private final String ORDER_ITEM_TABLE = "order_item";
     private final String USER_ORDER_TABLE = "user_order";
-    private final String SOURCE_STR = "source";
-    private final String DESTINATION_STR = "destination";
+    private final int SOURCE = 0;
+    private final int DESTINATION = 1;
 
     private final ConnectionPool connectionPool;
 
@@ -72,11 +72,11 @@ public class OrderDAOClass implements OrderDAO {
                 }
                 ItemDAOClass itemDAOClass = new ItemDAOClass(connectionPool);
                 Item item =  itemDAOClass.getItem(ID.of(res.getInt("item_id")));;
-                int itemCount = res.getInt("item_count");
-                String givesTakes = res.getString("source_destination");
-                if(givesTakes.equals(SOURCE_STR)){
+                int itemCount = res.getInt("item_amount");
+                int givesTakes = res.getInt("source_destination");
+                if(givesTakes == SOURCE){
                     userGives.put(item, itemCount);
-                }else if (givesTakes.equals(DESTINATION_STR)){
+                }else if (givesTakes == DESTINATION){
                     userTakes.put(item, itemCount);
                 }
             }
@@ -92,7 +92,7 @@ public class OrderDAOClass implements OrderDAO {
     public List<Order> getAllOrders(String userName) {
         Connection con = connectionPool.acquireConnection();
         String getAllOrdersIDQuery = "SELECT DISTINCT (order_id) FROM "
-                            + USER_ORDERS_VIEW + "WHERE user_name = '" + userName
+                            + USER_ORDERS_VIEW + " WHERE user_name = '" + userName
                             + "' AND order_status ='" + ORDER_ACTIVE + "';";
         List<Order> allOrders = new ArrayList<>();
         try {
@@ -100,7 +100,7 @@ public class OrderDAOClass implements OrderDAO {
             ResultSet res = getAllOrdersStat.executeQuery(getAllOrdersIDQuery);
             while (res.next()){
                 Order order = getOrder(ID.of(res.getInt("order_id")));
-                allOrders.add(order);
+                if(order != null) allOrders.add(order);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -139,13 +139,13 @@ public class OrderDAOClass implements OrderDAO {
 
         String addItemsInOrderQuery = "INSERT INTO " + ORDER_ITEM_TABLE +
                                         "(order_id, item_id, item_amount, source_destination)\n"
-                                        +"VALUES (%s, %s, %s, '%s');";
+                                        + "VALUES (%s, %s, %s, '%s');";
         for (ID i: userGives.keySet()) {
             String addItemsInOrderSourceQuery = String.format(addItemsInOrderQuery,
                                                                 orderID.getID(),
                                                                 i.getID(),
                                                                 userGives.get(i),
-                                                                SOURCE_STR);
+                                                                SOURCE);
             try {
                 Statement addItemsInOrderSourceStat = con.createStatement();
                 addItemsInOrderSourceStat.executeUpdate(addItemsInOrderSourceQuery);
@@ -159,7 +159,7 @@ public class OrderDAOClass implements OrderDAO {
                                                                     orderID.getID(),
                                                                     i.getID(),
                                                                     userTakes.get(i),
-                                                                    DESTINATION_STR);
+                                                                    DESTINATION);
             try {
                 Statement addItemsInOrderSourceStat = con.createStatement();
                 addItemsInOrderSourceStat.executeUpdate(addItemsInOrderDestinationeQuery);

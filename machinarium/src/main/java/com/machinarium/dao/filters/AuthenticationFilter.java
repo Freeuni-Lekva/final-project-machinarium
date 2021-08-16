@@ -1,19 +1,14 @@
 package com.machinarium.dao.filters;
 
-import com.machinarium.model.user.User;
 import com.machinarium.utility.common.ConfiguredLogger;
+import com.machinarium.utility.common.SessionManager;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER;
-
-@WebFilter(urlPatterns = {"/GameServlet", "/LobbyServlet", "/OrderServlet", "/UserServlet", "/GarageServlet", "/profile", "/lobby"})
+@WebFilter(urlPatterns = {"/GameServlet", "/LobbyServlet", "/OrderServlet", "/UserServlet", "/GarageServlet", "/profile", "/lobby", "/game"})
 public class AuthenticationFilter implements Filter {
 
     private final static Logger logger = ConfiguredLogger.getLogger("AuthenticationFilter");
@@ -27,13 +22,7 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        HttpSession session = ((HttpServletRequest) request).getSession();
-
-        User user = (User) session.getAttribute(ATTRIBUTE_USER);
-
-        logger.log(Level.INFO, "Received request from: " + user);
-
-        if(user == null) {
+        if(!SessionManager.isAuthenticated(request)) {
             request.getRequestDispatcher("/login").forward(request, response);
             return;
         }

@@ -37,7 +37,7 @@ public class GarageDAOClass implements GarageDAO {
     private ID getUserID(String userName, Connection con){
         ID id = null;
         String getUserIDQuery = "SELECT id FROM " + USERS_TABLE + "\n"
-                                + "WHERE user_name = '" + userName + "';";
+                              + "WHERE user_name = '" + userName + "';";
         try {
             Statement getUserIDStat = con.createStatement();
             ResultSet res = getUserIDStat.executeQuery(getUserIDQuery);
@@ -72,7 +72,7 @@ public class GarageDAOClass implements GarageDAO {
         boolean hasCarBoolean = false;
         if (userID != null){
             String hasCarQuery = "SELECT * FROM " + USER_CARS_VIEW + "\n"
-                                + "WHERE user_id = " + userID.getID() + ";";
+                               + "WHERE user_id = " + userID.getID() + ";";
             try {
                 Statement hasCarStat = con.createStatement();
                 ResultSet res = hasCarStat.executeQuery(hasCarQuery);

@@ -4,10 +4,7 @@ import com.machinarium.dao.OrderDAO;
 import com.machinarium.dao.UserDAO;
 import com.machinarium.model.user.Order;
 import com.machinarium.model.user.User;
-import com.machinarium.utility.common.ID;
-import com.machinarium.utility.common.JSONRequest;
-import com.machinarium.utility.common.JSONResponse;
-import com.machinarium.utility.common.SessionManager;
+import com.machinarium.utility.common.*;
 import com.machinarium.utility.constants.ItemConstants;
 import com.machinarium.utility.constants.OrderConstants;
 import org.json.simple.JSONObject;
@@ -19,6 +16,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,6 +25,8 @@ import static com.machinarium.utility.constants.ServletConstants.*;
 
 @WebServlet(name = "OrderServlet", value = "/OrderServlet")
 public class OrderServlet extends HttpServlet {
+
+    private final static Logger logger = ConfiguredLogger.getLogger("OrderServlet");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -39,8 +40,12 @@ public class OrderServlet extends HttpServlet {
 
         JSONObject data = new JSONObject();
 
-        data.put(PARAMETER_USER_ORDERS, orderDAO.getAllOrders(userName).stream().filter(order -> order.getStatus().equals(OrderDAO.ORDER_ACTIVE))
-                .map(Order::toJSONMap));
+        List<Order> userOrders = orderDAO.getAllOrders(userName);
+
+        logger.log(Level.INFO, "All orders for session user(" + userName + "): " + userOrders);
+
+        data.put(PARAMETER_USER_ORDERS, userOrders.stream().filter(order -> order.getStatus().equals(OrderDAO.ORDER_ACTIVE))
+                .map(Order::toJSONMap).collect(Collectors.toList()));
 
         data.put(PARAMETER_ORDERS, userDAO.getAllUsers().stream()
                 .map(currUser -> orderDAO.getAllOrders(currUser.getUserName()).stream()

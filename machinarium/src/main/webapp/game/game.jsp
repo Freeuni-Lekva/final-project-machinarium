@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=US-ASCII" pageEncoding="US-ASCII"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -67,7 +67,7 @@
                     <div class="modal-content">
                         <span class="close" id="inventory_close_button">&times;</span>
                         <div style="text-align: center;" id="inventory_close">
-                            <label><b>ინვენტარი</b></label> <br>
+                            <label><b>Inventory</b></label> <br>
                             <table id="inventory">
                                 <tr>
                                     <th>Item</th>
