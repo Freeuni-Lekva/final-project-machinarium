@@ -52,20 +52,21 @@ function setButtonState() {
 
     console.log(role);
 
-    if(role === "guest") {
+    if (role === "guest") {
         button.style.display = "none";
 
     } else if (role === "host") {
 
         button.style.display = "block";
-    if(role !== "host") {
-        button.style.display = "none";
-    } else {
-        button.onclick = () => {
-            var URL = "/GameServlet";
-            var request = new XMLHttpRequest();
-            request.open("POST", URL);
-            request.send();
+        if (role !== "host") {
+            button.style.display = "none";
+        } else {
+            button.onclick = () => {
+                var URL = "/GameServlet";
+                var request = new XMLHttpRequest();
+                request.open("POST", URL);
+                request.send();
+            }
         }
     }
 }
@@ -73,7 +74,7 @@ function setButtonState() {
 // build page using current information
 function buildCurrentPage() {
     // if game is start, all users will be redirected to the game page
-    if(status === "active") {
+    if (status === "active") {
         window.location.href = "/game";
     }
 
@@ -82,13 +83,13 @@ function buildCurrentPage() {
     setButtonState();
 }
 
-window.onload = function() {
+window.onload = function () {
     getUsers();
     buildCurrentPage();
 }
 
 // refreshes page every 2.5 seconds with new information
-setInterval(function(){
+setInterval(function () {
     getUsers();
     buildCurrentPage();
 }, 2500);
