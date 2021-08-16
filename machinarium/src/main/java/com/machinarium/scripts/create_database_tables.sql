@@ -95,7 +95,7 @@ CREATE TABLE connectors(
                           FOREIGN KEY (item_type_1_id) REFERENCES item_types(id) ON DELETE CASCADE,
                           FOREIGN KEY (item_type_2_id) REFERENCES item_types(id) ON DELETE CASCADE
 );
-
+ALTER TABLE connectors AUTO_INCREMENT=1001;
 
 CREATE TABLE fusion_tools(
                              id INT PRIMARY KEY AUTO_INCREMENT,
