@@ -83,7 +83,11 @@ CREATE TABLE items(
                       aero_drag INT,
                       horse_power INT,
                       traction_unit INT,
-                      FOREIGN KEY (type_id) REFERENCES item_types(id) ON DELETE CASCADE
+                      item_type_1_id INT NOT NULL,
+                      item_type_2_id INT NOT NULL,
+                      FOREIGN KEY (type_id) REFERENCES item_types(id) ON DELETE CASCADE,
+                      FOREIGN KEY (item_type_1_id) REFERENCES item_types(id) ON DELETE CASCADE,
+                      FOREIGN KEY (item_type_2_id) REFERENCES item_types(id) ON DELETE CASCADE
 );
 
 
@@ -136,10 +140,8 @@ CREATE TABLE car_parts(
                     id INT PRIMARY KEY AUTO_INCREMENT,
                     car_id INT,
                     item_id INT,
-                    connector_id INT,
                     FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE,
-                    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
-                    FOREIGN KEY (connector_id) REFERENCES connectors(id) ON DELETE CASCADE
+                    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
 
 
