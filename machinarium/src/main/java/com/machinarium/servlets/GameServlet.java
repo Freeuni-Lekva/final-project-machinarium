@@ -43,6 +43,7 @@ public class GameServlet extends HttpServlet {
                 .map(userName -> Map.of(ServletConstants.PARAMETER_USER_NAME, userName)).collect(Collectors.toList()));
         data.put(ServletConstants.PARAMETER_ITEMS, itemDAO.getAllItems().stream()
                 .map(Item::toJSONMap).collect(Collectors.toList()));
+        data.put(ServletConstants.PARAMETER_STATUS, gameDAO.getGameStage(gameID).toString());
 
         wrappedResponse.setResponse(response.SC_OK, data);
     }

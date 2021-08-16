@@ -27,6 +27,7 @@ public class Listener implements ServletContextListener, HttpSessionListener, Ht
         sce.getServletContext().setAttribute(ATTRIBUTE_GAME_DAO, new GameDAOClass(connectionPool));
         sce.getServletContext().setAttribute(ATTRIBUTE_ITEM_DAO, new ItemDAOClass(connectionPool));
         sce.getServletContext().setAttribute(ATTRIBUTE_ORDER_DAO, new OrderDAOClass(connectionPool));
+        sce.getServletContext().setAttribute(ATTRIBUTE_CAR_DAO, new CarDAOClass(connectionPool));
     }
 
     @Override

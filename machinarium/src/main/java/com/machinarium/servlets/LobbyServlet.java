@@ -25,7 +25,7 @@ public class LobbyServlet extends HttpServlet {
     private final static Logger logger = ConfiguredLogger.getLogger("LobbyServlet");
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         String userName = SessionManager.getLoginUser(request).getUserName();
         ServletContext contextListener = request.getServletContext();

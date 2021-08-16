@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-@WebFilter(urlPatterns = {"/GameServlet", "/LobbyServlet", "/OrderServlet", "/UserServlet", "/GarageServlet", "/profile", "/lobby", "/game"})
+@WebFilter(urlPatterns = {"/GameServlet", "/LobbyServlet", "/OrderServlet", "/UserServlet", "/GarageServlet", "/CarServlet", "/profile", "/lobby", "/game"})
 public class AuthenticationFilter implements Filter {
 
     private final static Logger logger = ConfiguredLogger.getLogger("AuthenticationFilter");

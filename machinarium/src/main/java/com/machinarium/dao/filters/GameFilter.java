@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebFilter(urlPatterns = {"/GameServlet", "/OrderServlet", "/lobby", "/game"})
+@WebFilter(urlPatterns = {"/GameServlet", "/OrderServlet", "/CarServlet", "/lobby", "/game"})
 public class GameFilter implements Filter {
 
     private final static Logger logger = ConfiguredLogger.getLogger("GameFilter");
@@ -46,7 +46,8 @@ public class GameFilter implements Filter {
             JSONResponse wrappedResponse = new JSONResponse((HttpServletResponse) response);
             wrappedResponse.setError(wrappedResponse.SC_NOT_FOUND, "The user is not participating in a game.");
             return;
-        } else if(requestedURL.endsWith("/game") && gameDAO.getGameStage(gameID).equals(GameDAO.GameStage.IN_LOBBY)) {
+        } else if((requestedURL.endsWith("/game") && gameDAO.getGameStage(gameID).equals(GameDAO.GameStage.IN_LOBBY)) ||
+                (requestedURL.endsWith("/CarServlet") && ((HttpServletRequest) request).getMethod().equals("POST"))) {
 
             request.getRequestDispatcher("/lobby").forward(request, response);
             return;

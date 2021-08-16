@@ -24,6 +24,10 @@ public final class ServletConstants {
     public static final String PARAMETER_ITEMS = "items";
 
     public static final String PARAMETER_CAR_NAME = "car_name";
+    public static final String PARAMETER_CAR_ID = "car_id";
+
+    public static final String PARAMETER_ADD_ITEM = "add";
+    public static final String PARAMETER_REMOVE_ITEM = "remove";
 
     public static final String PARAMETER_USER_ORDERS = "user_orders";
     public static final String PARAMETER_OFFERS = "offers";
@@ -35,6 +39,7 @@ public final class ServletConstants {
     public static final String ATTRIBUTE_ORDER_DAO = "order_dao";
     public static final String ATTRIBUTE_GAME_DAO = "game_dao";
     public static final String ATTRIBUTE_ITEM_DAO = "item_dao";
+    public static final String ATTRIBUTE_CAR_DAO = "car_dao";
 
     public static final String ATTRIBUTE_USER = "user";
 

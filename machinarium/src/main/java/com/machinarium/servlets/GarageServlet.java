@@ -67,8 +67,12 @@ public class GarageServlet extends HttpServlet {
 
         JSONResponse wrappedResponse = new JSONResponse(response);
 
-        JSONObject data = JSONRequest.parse(request);
-        String carName = (String) data.get(PARAMETER_CAR_NAME);
+        String carName = (String) JSONRequest.parse(request).get(ServletConstants.PARAMETER_CAR_NAME);
+
+        if(carName == null) {
+            wrappedResponse.setError(response.SC_BAD_REQUEST, "The name of the new car must be specified.");
+            return;
+        }
 
         if(garageDAO.addEmptyCar(userName, carName) == null) {
             wrappedResponse.setError(HttpServletResponse.SC_CONFLICT, "Couldn't create a car for " + userName);
