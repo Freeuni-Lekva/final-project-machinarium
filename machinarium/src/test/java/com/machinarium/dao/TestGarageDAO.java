@@ -202,6 +202,24 @@ public class TestGarageDAO {
 		containsCarName("lukaCar3", garageDAO.getAllCars("luka"));
 	}
 
+	@Test
+	public void getAllCarItems() {
+		assertEquals(0, garageDAO.getAllCarItems(ID.of(-1)).size());
+
+		ID supraID = garageDAO.addEmptyCar("luka", "supra");
+		assertNotNull(supraID);
+		assertEquals(1, garageDAO.getAllCars("luka").size());
+
+		ID rotaryID = garageDAO.addEmptyCar("luka", "rotary");
+		assertNotNull(rotaryID);
+		assertEquals(2, garageDAO.getAllCars("luka").size());
+
+		//**********//
+
+		assertEquals(0, garageDAO.getAllCarItems(supraID).size());
+
+	}
+
 
 
 
