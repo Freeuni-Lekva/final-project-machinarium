@@ -18,7 +18,7 @@ var mySpareItemsLst = [];       // unused items from my garage
 var myCarsLst = [];             // my cars
 var allItemsLst = [];           // all items and connectors user can have
 var curCarItemOptions = "";     // my cars options for now
-
+var status = "";
 
 // collects info and builds the page
 function generatePage() {
@@ -36,6 +36,7 @@ function askForUsersAndItems() {
         var response = JSON.parse(request.response);
         allItemsLst = response.items.sort();
         usersLst = response.users.sort();
+        status = response.status;
         buildPage();
     }
 
@@ -232,6 +233,9 @@ window.onload = function() {
 }
 
 setInterval(function(){
+    if(status === "FINISHED") {
+        window.location.href = "/result";
+    }
     generatePage();
 }, 2500);
 
