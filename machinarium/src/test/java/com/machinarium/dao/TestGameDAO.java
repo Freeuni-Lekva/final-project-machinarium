@@ -81,7 +81,7 @@ class TestGameDAO {
         assertEquals(gameDAO.getAllActiveGames().size(), 3);
     }
 
-    // fails when status is changed to "active"
+    // fails when status is changed to "active" // outdated
     @Test
     void getGameStage() {
         ID id = gameDAO.addGame("user");

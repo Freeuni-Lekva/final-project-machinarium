@@ -57,7 +57,7 @@ public class GameServlet extends HttpServlet {
             return;
         }
 
-        gameDAO.updateGameStage(activeGameID, GameDAO.ACTIVE);
+        gameDAO.updateGameStage(activeGameID, GameDAO.GameStage.ACTIVE);
 
         response.setStatus(response.SC_OK);
     }
