@@ -1,7 +1,10 @@
 package com.machinarium.utility.common;
 
+import com.machinarium.dao.GameDAO;
 import com.machinarium.model.user.User;
+import com.machinarium.utility.constants.ServletConstants;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -41,5 +44,18 @@ public class SessionManager {
         if(user == null) throw new RuntimeException("There are no logged in users for this session.");
 
         return user;
+    }
+
+    /**
+     * @return The id of the currently active game for the session user, or null if there is none.
+     */
+    public static ID getActiveGameID(HttpServletRequest request) {
+
+        String userName = SessionManager.getLoginUser(request).getUserName();
+        ServletContext contextListener = request.getServletContext();
+
+        GameDAO gameDAO = (GameDAO) contextListener.getAttribute(ServletConstants.ATTRIBUTE_GAME_DAO);
+
+        return gameDAO.getActiveGame(userName);
     }
 }

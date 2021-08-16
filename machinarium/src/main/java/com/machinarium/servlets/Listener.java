@@ -2,16 +2,14 @@ package com.machinarium.servlets;
 
 import com.machinarium.dao.ConnectionPool;
 import com.machinarium.dao.UserDAO;
-import com.machinarium.dao.implementation.BlockingConnectionPool;
-import com.machinarium.dao.implementation.UserDAOClass;
+import com.machinarium.dao.implementation.*;
 import com.machinarium.model.user.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER;
-import static com.machinarium.utility.constants.ServletConstants.ATTRIBUTE_USER_DAO;
+import static com.machinarium.utility.constants.ServletConstants.*;
 
 @WebListener
 public class Listener implements ServletContextListener, HttpSessionListener, HttpSessionAttributeListener {
@@ -23,9 +21,11 @@ public class Listener implements ServletContextListener, HttpSessionListener, Ht
 
         connectionPool = BlockingConnectionPool.getInstance(N_CONNECTIONS);
 
-        userDao = new UserDAOClass(connectionPool);
-
-        sce.getServletContext().setAttribute(ATTRIBUTE_USER_DAO, userDao);
+        sce.getServletContext().setAttribute(ATTRIBUTE_USER_DAO, new UserDAOClass(connectionPool));
+        sce.getServletContext().setAttribute(ATTRIBUTE_GARAGE_DAO, new GarageDAOClass(connectionPool));
+        sce.getServletContext().setAttribute(ATTRIBUTE_STATISTICS_DAO, new StatisticsDAOClass(connectionPool));
+        sce.getServletContext().setAttribute(ATTRIBUTE_GAME_DAO, new GameDAOClass(connectionPool));
+        sce.getServletContext().setAttribute(ATTRIBUTE_ITEM_DAO, new ItemDAOClass(connectionPool));
     }
 
     @Override
@@ -64,7 +64,6 @@ public class Listener implements ServletContextListener, HttpSessionListener, Ht
     }
 
     private ConnectionPool connectionPool;
-    private UserDAO userDao;
 
     private User sessionUser;
 }

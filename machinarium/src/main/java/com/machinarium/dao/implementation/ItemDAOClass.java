@@ -24,7 +24,6 @@ public class ItemDAOClass implements ItemDAO {
     }
     @Override
     public Item getItem(ID itemID) {
-
         Connection con = connectionPool.acquireConnection();
 
         String getItemFromItemsQuery = "SELECT * FROM " + ITEMS_VIEW + " WHERE item_id = " + itemID.getID() + ";";
@@ -42,6 +41,7 @@ public class ItemDAOClass implements ItemDAO {
             Statement getItemFromItemsStat = con.createStatement();
             Statement getItemFromConnectorsStat = con.createStatement();
             ResultSet res = getItemFromItemsStat.executeQuery(getItemFromItemsQuery);
+
             if(res.next() && res.getString("type_name") != null){ //++
                 if(res.getString("type_name").equals("CHASSIS")){
                     item = new Chassis(ID.of(res.getInt("id")),
