@@ -76,7 +76,7 @@ function askForOrdersInfo() {
 function buildPage() {
     clearTables();
     buildUsersTable();
-    buildMyRequestsTable();
+    // buildMyRequestsTable();
     buildMarketTable();
     buildMyInventoryTable();
     buildMyCarsDropDown();
@@ -161,9 +161,9 @@ function buildMarketTable() {
         var user = row.insertCell(2);
         var acceptButton = row.insertCell(3);
 
-        var curOrder = myOrdersLst[i];
+        var curOrder = activeOrdersLst[i];
 
-        var curSrcItems = curOrder.src_items;
+        var curSrcItems = curOrder.source_items;
         var srcItemsText = "";
         for(var j = 0; j < curSrcItems.length; j++) {
             var curItem = curSrcItems[j];
@@ -172,8 +172,9 @@ function buildMarketTable() {
             srcItemsText = srcItemsText  + name + ": " + amount + "<br>";
         }
         srcItems.innerHTML = srcItemsText;
+        console.log("Source Items text: " + srcItemsText);
 
-        var curDstItems = curOrder.dst_items;
+        var curDstItems = curOrder.destination_items;
         var dstItemsText = "";
         for(var j = 0; j < curDstItems.length; j++) {
             var curItem = curDstItems[j];
@@ -182,10 +183,11 @@ function buildMarketTable() {
             dstItemsText = dstItemsText  + name + ": " + amount + "<br>";
         }
         dstItems.innerHTML = dstItemsText;
+        console.log("Destination Items text: " + dstItemsText);
 
         user.innerHTML = curOrder.user;
 
-        acceptButton.innerHTML = "<button class=\"button\ id=\"exchange_" + i + "\"><b>Accept</b></button>"
+        acceptButton.innerHTML = "<button class=\"button\" id=\"exchange_" + i + "\"><b>Accept</b></button>"
 
         var buttonObj = document.getElementById("exchange_" + i);
 
