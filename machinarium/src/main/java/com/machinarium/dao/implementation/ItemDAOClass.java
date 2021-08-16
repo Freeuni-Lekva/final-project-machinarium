@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDAOClass implements ItemDAO {
     private final String ITEMS_TABLE = "items";
@@ -145,5 +147,24 @@ public class ItemDAOClass implements ItemDAO {
         }
         connectionPool.releaseConnection(con);
         return item;
+    }
+
+    @Override
+    public List<Item> getAllItems() {
+        Connection con = connectionPool.acquireConnection();
+        String getAllItemsQuery = "SELECT * FROM ";
+        List<Item> allItems = new ArrayList<>();
+        try {
+            Statement getAllItemsStat = con.createStatement();
+            ResultSet res = getAllItemsStat.executeQuery(getAllItemsQuery);
+            while (res.next()){
+                allItems.add(getItem(ID.of(res.getInt("item_id"))));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        connectionPool.releaseConnection(con);
+        return allItems;
     }
 }
