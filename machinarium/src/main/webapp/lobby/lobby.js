@@ -9,7 +9,7 @@ function getUsers() {
     request.open("GET", URL);
 
     request.onload = () => {
-        var response = (request.response);
+        var response = JSON.parse(request.response);
         users = response.users;
         role = response.role;
         status = response.status;
@@ -37,7 +37,12 @@ function buildUsersTable() {
     for(var i = 0; i < users.length; i++) {
         var row = table.insertRow(1);
         var user = row.insertCell(0);
-        user.innerHTML = users[i].name;
+        var input = "" + users[i].user_name;
+        if(users[i].role === "host") {
+            input = input + " (HOST)";
+        }
+
+        user.innerHTML = input;
     }
 }
 
@@ -45,6 +50,14 @@ function buildUsersTable() {
 function setButtonState() {
     var button = document.getElementById("start");
 
+    console.log(role);
+
+    if(role === "guest") {
+        button.style.display = "none";
+
+    } else if (role === "host") {
+
+        button.style.display = "block";
     if(role !== "host") {
         button.style.display = "none";
     } else {
@@ -60,7 +73,7 @@ function setButtonState() {
 // build page using current information
 function buildCurrentPage() {
     // if game is start, all users will be redirected to the game page
-    if(status === "Production") {
+    if(status === "active") {
         window.location.href = "/game";
     }
 

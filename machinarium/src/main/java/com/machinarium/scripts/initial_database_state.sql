@@ -37,7 +37,11 @@ VALUES
         ("Soft Compound", 5, 300, null, null, null, 7),
         ("Hard Compound", 5, 100, null, null, null, 5);
         
-
+INSERT INTO game_stages (stage_name)
+VALUES
+       ('in_lobby'),
+       ('active'),
+       ('finish');
 /*
 select * from item_categories order by id asc;
 select * from item_types order by id asc;

@@ -4,6 +4,7 @@ import com.machinarium.dao.GarageDAO;
 import com.machinarium.model.Item.Item;
 import com.machinarium.model.car.Car;
 import com.machinarium.model.user.User;
+import com.machinarium.utility.common.ConfiguredLogger;
 import com.machinarium.utility.common.JSONRequest;
 import com.machinarium.utility.common.JSONResponse;
 import com.machinarium.utility.common.SessionManager;
@@ -19,6 +20,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,6 +30,8 @@ import static com.machinarium.utility.constants.ServletConstants.*;
 
 @WebServlet(name = "GarageServlet", value = "/GarageServlet")
 public class GarageServlet extends HttpServlet {
+
+    private final static Logger logger = ConfiguredLogger.getLogger("GarageServlet");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -39,9 +44,15 @@ public class GarageServlet extends HttpServlet {
 
         JSONObject data = new JSONObject();
 
-        data.put(PARAMETER_CARS, garageDAO.getAllCars(userName).stream().map(Car::toJSONMap).collect(Collectors.toList()));
+        List<Car> cars = garageDAO.getAllCars(userName);
+        Map<Item, Integer> items = garageDAO.getAllSpareItems(userName);
 
-        data.put(PARAMETER_ITEMS, garageDAO.getAllSpareItems(userName).entrySet().stream()
+        logger.log(Level.INFO, "User(" + userName + ") Cars: " + cars);
+        logger.log(Level.INFO, "User(" + userName + ") Items: " + items);
+
+        data.put(PARAMETER_CARS, cars.stream().map(Car::toJSONMap).collect(Collectors.toList()));
+
+        data.put(PARAMETER_ITEMS, items.entrySet().stream()
                 .map(itemEntry -> itemEntry.getKey().toJSONMap(itemEntry.getValue())).collect(Collectors.toList()));
 
         wrappedResponse.setResponse(response.SC_OK, data);

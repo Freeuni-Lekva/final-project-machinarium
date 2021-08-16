@@ -41,7 +41,7 @@ function getGarageInfo() {
         var response = JSON.parse(request.response);
 
         carsLst = response.cars;
-        itemsLst = response.spare_items;
+        itemsLst = response.items;
         buildPage();
     }
 
@@ -92,5 +92,13 @@ window.onload = function() {
 var gameButton = document.getElementById("start");
 
 gameButton.onclick = function() {
-    window.location.href = "/lobby";
+    var URL = "/LobbyServlet"
+    var request = new XMLHttpRequest();
+    request.open("POST", URL);
+
+    request.onload = () => {
+        window.location.href = "/lobby";
+    }
+
+    request.send();
 }
