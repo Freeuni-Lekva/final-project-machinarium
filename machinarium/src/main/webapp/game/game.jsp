@@ -26,10 +26,9 @@
                 <label><b>My Orders</b></label> <br>
                 <table id="requests">
                     <tr>
-                        <th>Source</th>
+                        <th>Source</th> 5,
                         <th>Destination</th>
                         <th>Author</th>
-                        <th>Exchange</th>
                     </tr>
                 </table>
             </div>
