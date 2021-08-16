@@ -581,8 +581,6 @@ public class TestGarageDAO {
 		assertEquals(4, garageDAO.getSpareItemCount("luka"));
 		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 0));
 		assertEquals(4, garageDAO.getSpareItemCount("luka"));
-//		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), -1));  // additional feature
-//		assertEquals(3, garageDAO.getSpareItemCount("luka"));  // additional feature
 	}
 
 	@Test
