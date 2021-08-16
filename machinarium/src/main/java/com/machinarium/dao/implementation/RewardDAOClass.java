@@ -36,7 +36,7 @@ public class RewardDAOClass implements RewardDAO {
             Statement getRewardStat = con.createStatement();
             ResultSet res = getRewardStat.executeQuery(getRewardQuery);
             while (res.next()){
-                itemCount.put(new ID(res.getInt("item_id")), res.getInt("item_count"));
+                itemCount.put(ID.of(res.getInt("item_id")), res.getInt("item_count"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -64,7 +64,7 @@ public class RewardDAOClass implements RewardDAO {
             Statement getRewardsStat = con.createStatement();
             ResultSet res = getRewardsStat.executeQuery(getRewardsQuery);
             while(res.next()){
-                Reward r = getReward(new ID(res.getInt("reward_id")));
+                Reward r = getReward(ID.of(res.getInt("reward_id")));
                 rewards.add(r);
             }
         } catch (SQLException throwables) {
@@ -72,6 +72,11 @@ public class RewardDAOClass implements RewardDAO {
         }
         connectionPool.releaseConnection(con);
         return rewards;
+    }
+
+    @Override
+    public boolean addReward(String userName, Map<ID, Integer> rewards) {
+        return false;
     }
 
 }
