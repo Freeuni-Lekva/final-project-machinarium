@@ -33,6 +33,7 @@ FROM game_results gr
                    ON gr.third_place_id = u3.id
          LEFT JOIN rewards r3
                    ON gr.reward3_id = r3.id;
+
 /* view for user orders full information */
 CREATE OR REPLACE VIEW see_user_orders AS
 SELECT u.id user_id, u.user_name user_name, o.id order_id,
@@ -63,30 +64,33 @@ FROM users u
 /* view for car parts full information */
 CREATE OR REPLACE VIEW see_car_parts AS
 SELECT c.id car_id, c.car_name car_name, i.id item_id,
-       i.item_name, i.type_id, it.type_name, i.weight, i.weight_support,
+       i.item_name, i.type_id, it.type_name,
+       it.item_category_id, itc.category_name,
+       i.weight, i.weight_support,
        i.aero_drag, i.horse_power, i.traction_unit,
-       cp.connector_id, con.connector_name connector_name,
-       con.item_type_1_id,
-       it1.item_name it1_item_name, it1.weight it1_weight,
-       it1.weight_support it1_weight_support, it1.aero_drag it1_aero_drag,
-       it1.horse_power it1_horse_power, it1.traction_unit it1_traction_unit,
-       con.item_type_2_id,
-       it2.item_name it2_item_name, it2.weight it2_weight,
-       it2.weight_support it2_weight_support, it2.aero_drag it2_aero_drag,
-       it2.horse_power it2_horse_power, it2.traction_unit it2_traction_unit
+       i.item_type_1_id, it1.type_name it1_type_name,
+       it1.item_category_id it1_item_category_id,
+       itc1.category_name it1_category_name,
+       i.item_type_2_id, it1.type_name it2_type_name,
+       it2.item_category_id it2_item_category_id,
+       itc2.category_name it2_category_name
 FROM car_parts cp
          LEFT JOIN cars c
                    ON cp.car_id = c.id
          LEFT JOIN items i
                    ON cp.item_id = i.id
-         LEFT JOIN connectors con
-                   ON cp.connector_id = con.id
          LEFT JOIN item_types it
                    ON i.type_id = it.id
-         LEFT JOIN items it1
-                   ON con.item_type_1_id = it1.id
-         LEFT JOIN items it2
-                   ON con.item_type_2_id = it2.id;
+         LEFT JOIN item_categories itc
+                   ON it.item_category_id = itc.id
+         LEFT JOIN item_types it1
+                   ON i.item_type_1_id = it1.id
+         LEFT JOIN item_categories itc1
+                   ON it1.item_category_id = itc1.id
+         LEFT JOIN item_types it2
+                   ON i.item_type_2_id = it2.id
+         LEFT JOIN item_categories itc2
+                   ON it2.item_category_id = itc2.id;
 
 /* view for user spare items full information */
 CREATE OR REPLACE VIEW see_user_items AS
@@ -138,16 +142,16 @@ SELECT u.id user_id, u.user_name user_name,
        gs.stage_name stage_name,
        c.id car_id, c.car_name car_name
 FROM user_game ug
-    LEFT JOIN users u
-    ON ug.user_id = u.id
-    LEFT JOIN games g
-    ON ug.game_id = g.id
-    LEFT JOIN cars c
-    ON ug.car_id = c.id
-    LEFT JOIN users host
-    ON g.user_host_id = host.id
-    LEFT JOIN game_stages gs
-    ON g.game_stage_id = gs.id;
+         LEFT JOIN users u
+                   ON ug.user_id = u.id
+         LEFT JOIN games g
+                   ON ug.game_id = g.id
+         LEFT JOIN cars c
+                   ON ug.car_id = c.id
+         LEFT JOIN users host
+                   ON g.user_host_id = host.id
+         LEFT JOIN game_stages gs
+                   ON g.game_stage_id = gs.id;
 
 /* view for games full information */
 CREATE OR REPLACE VIEW see_games AS
@@ -166,12 +170,26 @@ CREATE OR REPLACE VIEW see_items AS
 SELECT i.id item_id, i.item_name, it.id type_id,
        it.type_name type_name, it.item_category_id,
        ic.category_name, i.weight, i.weight_support,
-       i.aero_drag, i.horse_power, i.traction_unit
+       i.aero_drag, i.horse_power, i.traction_unit,
+       i.item_type_1_id, it1.type_name it1_type_name,
+       it1.item_category_id it1_item_category_id,
+       itc1.category_name it1_category_name,
+       i.item_type_2_id, it1.type_name it2_type_name,
+       it2.item_category_id it2_item_category_id,
+       itc2.category_name it2_category_name
 FROM items i
          JOIN item_types it
               ON i.type_id = it.id
          JOIN item_categories ic
-              ON it.item_category_id = ic.id;
+              ON it.item_category_id = ic.id
+         LEFT JOIN item_types it1
+                   ON i.item_type_1_id = it1.id
+         LEFT JOIN item_categories itc1
+                   ON it1.item_category_id = itc1.id
+         LEFT JOIN item_types it2
+                   ON i.item_type_2_id = it2.id
+         LEFT JOIN item_categories itc2
+                   ON it2.item_category_id = itc2.id;
 /*
 ;select * from see_user_results
 ;select * from see_user_rewards

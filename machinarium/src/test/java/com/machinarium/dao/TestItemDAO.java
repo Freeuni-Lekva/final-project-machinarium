@@ -83,54 +83,55 @@ public class TestItemDAO {
     }
     @Test
     public void getBodyMountTest(){
-        Connector<Chassis, Body> bodyMount = new Connector<Chassis, Body> (ID.of(1001), "Body Mount",
-                new Chassis(ID.of(1), "CHASSIS", null, null),
-                new Body(ID.of(2), "BODY", null, null));
-        assertTrue(itemDAO.getItem(ID.of(1001)).toString().equals(bodyMount.toString()));
+        Connector<Chassis, Body> bodyMount = new Connector<Chassis, Body> (ID.of(9), "Body Mount",
+                new Chassis(null, null, null, null),
+                new Body(null, null, null, null));
+        assertTrue(itemDAO.getItem(ID.of(9)).toString().equals(bodyMount.toString()));
     }
     @Test
     public void getTransmissionMountTest(){
         Connector<Chassis, Transmission> transmissionMount =
-                new Connector<Chassis, Transmission> (ID.of(1002), "Transmission Mount",
-                new Chassis(ID.of(1), "CHASSIS", null, null),
-                new Transmission(ID.of(4), "TRANSMISSION", null));
-        assertTrue(itemDAO.getItem(ID.of(1002)).toString().equals(transmissionMount.toString()));
+                new Connector<Chassis, Transmission> (ID.of(10), "Transmission Mount",
+                new Chassis(null, null, null, null),
+                new Transmission(null, null,  null));
+        assertTrue(itemDAO.getItem(ID.of(10)).toString().equals(transmissionMount.toString()));
     }
     @Test
     public void getSuspensionTest(){
         Connector<Chassis, Wheels> suspension =
-                new Connector<Chassis, Wheels> (ID.of(1003), "Suspension",
-                        new Chassis(ID.of(1), "CHASSIS", null, null),
-                        new Wheels(ID.of(5), "WHEELS", null, null));
-        assertTrue(itemDAO.getItem(ID.of(1003)).toString().equals(suspension.toString()));
+                new Connector<Chassis, Wheels> (ID.of(11), "Suspension",
+                        new Chassis(null, null, null, null),
+                        new Wheels(null, null, null, null));
+        assertTrue(itemDAO.getItem(ID.of(11)).toString().equals(suspension.toString()));
     }
     @Test
     public void getEngineBoltsTest(){
         Connector<Chassis, Engine> engineBolts =
-                new Connector<Chassis, Engine> (ID.of(1004), "Engine Bolts",
-                        new Chassis(ID.of(1), "CHASSIS", null, null),
-                        new Engine(ID.of(3), "ENGINE", null, null));
-        assertTrue(itemDAO.getItem(ID.of(1004)).toString().equals(engineBolts.toString()));
+                new Connector<Chassis, Engine> (ID.of(12), "Engine Bolts",
+                        new Chassis(null, null, null, null),
+                        new Engine(null, null, null, null));
+        assertTrue(itemDAO.getItem(ID.of(12)).toString().equals(engineBolts.toString()));
     }
     @Test
     public void getFrictionPlateTest(){
         Connector<Engine, Transmission> frictionPlace =
-                new Connector<Engine, Transmission> (ID.of(1005), "Friction Plate",
-                        new Engine(ID.of(3), "ENGINE", null, null),
-                        new Transmission(ID.of(4), "TRANSMISSION", null));
-        assertTrue(itemDAO.getItem(ID.of(1005)).toString().equals(frictionPlace.toString()));
+                new Connector<Engine, Transmission> (ID.of(13), "Friction Plate",
+                        new Engine(null, null, null, null),
+                        new Transmission(null, null, null));
+        assertTrue(itemDAO.getItem(ID.of(13)).toString().equals(frictionPlace.toString()));
     }
     @Test
     public void getDifferentialTest(){
         Connector<Transmission, Wheels> differential =
-                new Connector<Transmission, Wheels> (ID.of(1006), "Differential",
-                        new Transmission(ID.of(4), "TRANSMISSION", null),
-                        new Wheels(ID.of(5), "WHEELS", null, null));
-        assertTrue(itemDAO.getItem(ID.of(1006)).toString().equals(differential.toString()));
+                new Connector<Transmission, Wheels> (ID.of(14), "Differential",
+                        new Transmission(null, null, null),
+                        new Wheels(null, null, null, null));
+        assertTrue(itemDAO.getItem(ID.of(14)).toString().equals(differential.toString()));
     }
     @Test
     public void getAllItemsTest(){
 //        Set<Item> allItemsDAO = new HashSet<>(itemDAO.getAllItems());
+//        System.out.println(allItemsDAO.size());
 //        Set<Item> allItemsTest = new HashSet<>();
 //
 //        allItemsTest.add(new Chassis(ID.of(1), "Carbon Fiber", 50,1200));

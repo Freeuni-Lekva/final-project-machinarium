@@ -155,5 +155,5 @@ public interface GarageDAO {
 	 * @return The spare items as a {@link Map<Item, Integer>} object.
 	 */
 	Map<Item, Integer> getAllSpareItems(String userName);
-
 }
+
