@@ -110,7 +110,7 @@ public class BlockingConnectionPool implements ConnectionPool {
 
         // TODO: Change this to use your own data base for testing.
         final String USER_NAME = "root";
-        final String PASSWORD = "root"; // Data_base1
+        final String PASSWORD = "Data_base1";
         final String HOST = "localhost";
         final String PORT = "3306";
         final String DATA_BASE = "machinarium_database";
