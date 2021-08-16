@@ -54,6 +54,26 @@ VALUES
        ('active'),
        ('finish');
 
+INSERT INTO rewards(id, reward_name)
+VALUES
+        (1, 'first_a'),
+        (2, 'first_b'),
+        (3, 'second_a'),
+        (4, 'second_b'),
+        (5, 'third_a'),
+        (6, 'first_b');
+INSERT INTO reward_item(reward_id, item_id, item_count)
+VALUES
+        (1, 9, 3),
+        (1,	3,	2),
+        (2,	10,	3),
+        (2,	4,	2),
+        (3,	13,	2),
+        (3,	6,	1),
+        (4,	14,	2),
+        (4,	5,	1),
+        (5,	11,	1),
+        (6,	12,	1);
 
 /*
 select * from item_categories order by id asc;
