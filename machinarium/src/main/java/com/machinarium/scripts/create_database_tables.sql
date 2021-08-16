@@ -39,13 +39,13 @@ CREATE TABLE users(
 
 
 CREATE TABLE garages(
-                       id INT PRIMARY KEY AUTO_INCREMENT,
-                       garage_name VARCHAR(64) UNIQUE
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        garage_name VARCHAR(64) UNIQUE
 );
 
 CREATE TABLE game_stages(
-                        id INT PRIMARY KEY AUTO_INCREMENT,
-                        stage_name VARCHAR(64)
+                            id INT PRIMARY KEY AUTO_INCREMENT,
+                            stage_name VARCHAR(64)
 );
 CREATE TABLE games(
                       id INT PRIMARY KEY AUTO_INCREMENT,
@@ -68,8 +68,8 @@ CREATE TABLE item_types(
                            id INT PRIMARY KEY AUTO_INCREMENT,
                            type_name VARCHAR(64),
                            item_category_id INT NOT NULL,
-                           connector_id 	INT,
-                           fusion_tool_id 	INT,
+                           connector_id    INT,
+                           fusion_tool_id  INT,
                            FOREIGN KEY (item_category_id) REFERENCES item_categories(id) ON DELETE CASCADE
 );
 
@@ -92,18 +92,18 @@ CREATE TABLE items(
 
 
 CREATE TABLE connectors(
-                          id INT PRIMARY KEY AUTO_INCREMENT,
-                          connector_name VARCHAR(64),
-                          item_type_1_id INT NOT NULL,
-                          item_type_2_id INT NOT NULL,
-                          FOREIGN KEY (item_type_1_id) REFERENCES item_types(id) ON DELETE CASCADE,
-                          FOREIGN KEY (item_type_2_id) REFERENCES item_types(id) ON DELETE CASCADE
+                           id INT PRIMARY KEY AUTO_INCREMENT,
+                           connector_name VARCHAR(64),
+                           item_type_1_id INT NOT NULL,
+                           item_type_2_id INT NOT NULL,
+                           FOREIGN KEY (item_type_1_id) REFERENCES item_types(id) ON DELETE CASCADE,
+                           FOREIGN KEY (item_type_2_id) REFERENCES item_types(id) ON DELETE CASCADE
 );
 ALTER TABLE connectors AUTO_INCREMENT=1001;
 
 CREATE TABLE fusion_tools(
                              id INT PRIMARY KEY AUTO_INCREMENT,
-                             fusion_tool_name	VARCHAR(64),
+                             fusion_tool_name  VARCHAR(64),
                              connector_type INT,
                              FOREIGN KEY (connector_type) REFERENCES connectors(id) ON DELETE CASCADE
 );
@@ -172,12 +172,12 @@ CREATE TABLE rewards(
 
 
 CREATE TABLE reward_item(
-                        id INT PRIMARY KEY AUTO_INCREMENT,
-                        reward_id INT,
-                        item_id INT,
-                        item_count INT,
-                        FOREIGN KEY (reward_id)REFERENCES rewards(id) ON DELETE CASCADE,
-                        FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
+                            id INT PRIMARY KEY AUTO_INCREMENT,
+                            reward_id INT,
+                            item_id INT,
+                            item_count INT,
+                            FOREIGN KEY (reward_id)REFERENCES rewards(id) ON DELETE CASCADE,
+                            FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
 
 CREATE TABLE game_results(
@@ -216,13 +216,13 @@ CREATE TABLE orders(
 );
 
 CREATE TABLE order_item(
-                            id INT PRIMARY KEY AUTO_INCREMENT,
-                            order_id INT,
-                            item_id INT,
-                            item_amount INT,
-                            source_destination INT,
-                            FOREIGN KEY (order_id)REFERENCES orders(id) ON DELETE CASCADE,
-                            FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
+                           id INT PRIMARY KEY AUTO_INCREMENT,
+                           order_id INT,
+                           item_id INT,
+                           item_amount INT,
+                           source_destination INT,
+                           FOREIGN KEY (order_id)REFERENCES orders(id) ON DELETE CASCADE,
+                           FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_order(

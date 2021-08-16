@@ -119,6 +119,7 @@ public interface GarageDAO {
 	 * @return True if the specified user has
 	 */
 	boolean hasThisSpareItem(String userName, ID itemID);
+	int getThisSpareItemCount(ID itemID); //++
 
 	/**
 	 * @param userName The username of the user.
