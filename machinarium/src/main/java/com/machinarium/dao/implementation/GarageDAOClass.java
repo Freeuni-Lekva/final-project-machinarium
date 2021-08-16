@@ -256,82 +256,47 @@ public class GarageDAOClass implements GarageDAO {
                                 res.getInt("weight"),
                                 res.getInt("traction_unit"));
                     }
-                }
+                    if (res.getString("type_name").equals("CONNECTOR")){
+                        if (res.getString("item_name").equals("Body Mount")) {
+                            chassisBody = new Connector<>(ID.of(res.getInt("item_id")),
+                                    res.getString("item_name"),
+                                    new Chassis(null, null, null, null),
+                                    new Body(null, null, null, null));
+                        }
+                        if (res.getString("item_name").equals("Transmission Mount")) {
+                            chassisTransmission = new Connector<>(ID.of(res.getInt("item_id")),
+                                    res.getString("item_name"),
+                                    new Chassis(null, null, null, null),
+                                    new Transmission(null, null, null));
 
-                if (res.getString("connector_name") != null) { //++
-                    if (res.getString("connector_name").equals("Body Mount")) {
-                        chassisBody = new Connector<>(ID.of(res.getInt("connector_id")),
-                                res.getString("connector_name"),
-                                new Chassis(ID.of(res.getInt("item_type_1_id")),
-                                        res.getString("it1_item_name"),
-                                        res.getInt("it1_weight"),
-                                        res.getInt("it1_weight_support")),
-                                new Body(ID.of(res.getInt("item_type_2_id")),
-                                        res.getString("it2_item_name"),
-                                        res.getInt("it2_weight"),
-                                        res.getInt("it2_aero_drag")));
-                    }
-                    if (res.getString("connector_name").equals("Transmission Mount")) {
-                        chassisTransmission = new Connector<>(ID.of(res.getInt("connector_id")),
-                                res.getString("connector_name"),
-                                new Chassis(ID.of(res.getInt("item_type_1_id")),
-                                        res.getString("it1_item_name"),
-                                        res.getInt("it1_weight"),
-                                        res.getInt("it1_weight_support")),
-                                new Transmission(ID.of(res.getInt("item_type_2_id")),
-                                        res.getString("it2_item_name"),
-                                        res.getInt("it2_weight")));
+                        }
+                        if (res.getString("item_name").equals("Suspension")) {
+                            chassisWheels = new Connector<>(ID.of(res.getInt("item_id")),
+                                    res.getString("item_name"),
+                                    new Chassis(null, null, null, null),
+                                    new Wheels(null, null, null, null));
 
-                    }
-                    if (res.getString("connector_name").equals("Suspension")) {
-                        chassisWheels = new Connector<>(ID.of(res.getInt("connector_id")),
-                                res.getString("connector_name"),
-                                new Chassis(ID.of(res.getInt("item_type_1_id")),
-                                        res.getString("it1_item_name"),
-                                        res.getInt("it1_weight"),
-                                        res.getInt("it1_weight_support")),
-                                new Wheels(ID.of(res.getInt("item_type_2_id")),
-                                        res.getString("it2_item_name"),
-                                        res.getInt("it2_weight"),
-                                        res.getInt("it2_traction_unit")));
-
-                    }
-                    if (res.getString("connector_name").equals("Engine Bolts")) {
-                        chassisEngine = new Connector<>(ID.of(res.getInt("connector_id")),
-                                res.getString("connector_name"),
-                                new Chassis(ID.of(res.getInt("item_type_1_id")),
-                                        res.getString("it1_item_name"),
-                                        res.getInt("it1_weight"),
-                                        res.getInt("it1_weight_support")),
-                                new Engine(ID.of(res.getInt("item_type_2_id")),
-                                        res.getString("it2_item_name"),
-                                        res.getInt("it2_weight"),
-                                        res.getInt("it2_horse_power")));
-                    }
-                    if (res.getString("connector_name").equals("Friction Plate")) {
-                        engineTransmission = new Connector<>(ID.of(res.getInt("connector_id")),
-                                res.getString("connector_name"),
-                                new Engine(ID.of(res.getInt("item_type_1_id")),
-                                        res.getString("it1_item_name"),
-                                        res.getInt("it1_weight"),
-                                        res.getInt("it1_horse_power")),
-                                new Transmission(ID.of(res.getInt("item_type_2_id")),
-                                        res.getString("it2_item_name"),
-                                        res.getInt("it2_weight")));
-                    }
-                    if (res.getString("connector_name").equals("Differential")) {
-                        transmissionWheels = new Connector<>(ID.of(res.getInt("connector_id")),
-                                res.getString("connector_name"),
-                                new Transmission(ID.of(res.getInt("item_type_1_id")),
-                                        res.getString("it1_item_name"),
-                                        res.getInt("it1_weight")),
-                                new Wheels(ID.of(res.getInt("item_type_2_id")),
-                                        res.getString("it2_item_name"),
-                                        res.getInt("it2_weight"),
-                                        res.getInt("it2_traction_unit")));
+                        }
+                        if (res.getString("item_name").equals("Engine Bolts")) {
+                            chassisEngine = new Connector<>(ID.of(res.getInt("item_id")),
+                                    res.getString("item_name"),
+                                    new Chassis(null, null, null, null),
+                                    new Engine(null, null, null, null));
+                        }
+                        if (res.getString("item_name").equals("Friction Plate")) {
+                            engineTransmission = new Connector<>(ID.of(res.getInt("item_id")),
+                                    res.getString("item_name"),
+                                    new Engine(null, null, null, null),
+                                    new Transmission(null, null, null));
+                        }
+                        if (res.getString("item_name").equals("Differential")) {
+                            transmissionWheels = new Connector<>(ID.of(res.getInt("item_id")),
+                                    res.getString("item_name"),
+                                    new Transmission(null, null, null),
+                                    new Wheels(null, null, null, null));
+                        }
                     }
                 }
-
             }
 
             if (id != null) {
@@ -421,7 +386,7 @@ public class GarageDAOClass implements GarageDAO {
     public boolean addItemToCar(ID carID, ID itemID) {
         Connection con = connectionPool.acquireConnection();
         String addItemToCarQuery = "INSERT INTO " + CAR_PARTS_TABLE + "(car_id, item_id)"+ "\n"
-                                    +"VALUES (" + carID.getID() + ", " + itemID.getID()+");";
+                                    +"VALUES (" + carID.getID() + ", " + itemID +");";
         return updateQuery(con, addItemToCarQuery);
     }
 
@@ -430,8 +395,8 @@ public class GarageDAOClass implements GarageDAO {
     public boolean removeItemFromCar(ID carID, ID itemID) {
         Connection con = connectionPool.acquireConnection();
         String removeItemFromCarQuery = "DELETE FROM " + CAR_PARTS_TABLE + "\n" +
-                                        "WHERE car_id = " + carID.getID()
-                                        + " AND item_id = " + itemID.getID() + ";";
+                                        "WHERE car_id = " + carID
+                                        + " AND item_id = " + itemID + ";";
         return updateQuery(con, removeItemFromCarQuery);
     }
 
@@ -483,7 +448,7 @@ public class GarageDAOClass implements GarageDAO {
         Connection con = connectionPool.acquireConnection();
         String hasThisSpareItemQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
                                     + "WHERE user_name = '" + userName + "' "
-                                    + "AND item_id = " + itemID.getID() + ";";
+                                    + "AND item_id = " + itemID + ";";
         boolean hasThisSpareItemBoolean = false;
         try {
             Statement hasThisSpareItemStat = con.createStatement();
@@ -501,12 +466,32 @@ public class GarageDAOClass implements GarageDAO {
     }
 
     @Override
-    public boolean addSpareItem(String userName, ID itemID) {
+    public int getThisSpareItemCount(String userName, ID itemID) {
+        Connection con = connectionPool.acquireConnection();
+        String getsThisSpareItemCountQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
+                                    + "WHERE user_name = '" + userName + "' "
+                                    + "AND item_id = " + itemID + ";";
+        int item_count = 0;
+        try {
+            Statement getThisSpareItemCountStat = con.createStatement();
+            ResultSet res = getThisSpareItemCountStat.executeQuery(getsThisSpareItemCountQuery);
+            if(res.next()){
+                if(res.getString("item_name") != null)
+                    item_count = res.getInt("item_count");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return item_count;
+    }
+
+    @Override
+    public boolean addSpareItem(String userName, ID itemID, int count){
         Connection con = connectionPool.acquireConnection();
         boolean hasSpareItemAddBoolean = false;
         String hasSpareItemAddQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
                                     + "WHERE user_name = '" + userName + "' "
-                                    + "AND item_id = " + itemID.getID() + ";";
+                                    + "AND item_id = " + itemID + ";";
         ID userID = getUserID(userName, con);
         int garage_id = 0;
         int item_count = 0;
@@ -519,7 +504,7 @@ public class GarageDAOClass implements GarageDAO {
                 item_count = res.getInt("item_count");
             }else {
                 String userGarageIDQuery = "SELECT garage_id FROM " + USER_GARAGE_TABLE + "\n"
-                                        + "WHERE user_id = " + userID.getID() + ";";
+                                        + "WHERE user_id = " + userID + ";";
                 Statement userGarageIDStat = con.createStatement();
                 ResultSet resGarageID = userGarageIDStat.executeQuery(userGarageIDQuery);
                 if(resGarageID.next()){
@@ -532,19 +517,19 @@ public class GarageDAOClass implements GarageDAO {
         String addSpareItemQuery;
         if (hasSpareItemAddBoolean){
             addSpareItemQuery = "UPDATE " + GARAGE_ITEM_TABLE + "\n"
-                            + "SET item_count = " + (item_count + 1) + "\n"
+                            + "SET item_count = " + (item_count + count) + "\n"
                             + "WHERE garage_id = " + garage_id
-                            + " AND item_id = " + itemID.getID() + ";";
+                            + " AND item_id = " + itemID + ";";
         }else {
             addSpareItemQuery = "INSERT INTO " + GARAGE_ITEM_TABLE + "(garage_id, item_id, item_count)\n"
-                                + "VALUES (" + garage_id + " ," + itemID.getID() + ", 1);";
+                                + "VALUES (" + garage_id + " ," + itemID.getID() + ", " + count + ");";
         }
 
         return updateQuery(con, addSpareItemQuery);
     }
 
     @Override
-    public boolean removeSpareItem(String userName, ID itemID) {
+    public boolean removeSpareItem(String userName, ID itemID, int count) {
         Connection con = connectionPool.acquireConnection();
         String garageIdQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
                             + "WHERE user_name = '" + userName + "' "
@@ -555,23 +540,18 @@ public class GarageDAOClass implements GarageDAO {
             Statement hasSpareItemAddStat = con.createStatement();
             ResultSet res = hasSpareItemAddStat.executeQuery(garageIdQuery);
             if(res.next()){
-                garage_id = res.getInt("garage_id");
-                item_count = res.getInt("item_count");
+                if(res.getString("item_name") != null){
+                    garage_id = res.getInt("garage_id");
+                    item_count = res.getInt("item_count");
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        String removeSpareItemQuery;
-        if(item_count > 0){
-            removeSpareItemQuery = "UPDATE " + GARAGE_ITEM_TABLE + "\n"
-                                    + "SET item_count = " + (item_count-1) + "\n"
+        String removeSpareItemQuery = "UPDATE " + GARAGE_ITEM_TABLE + "\n"
+                                    + "SET item_count = " + (item_count-count) + "\n"
                                     + "WHERE garage_id = " + garage_id
-                                    + " AND item_id = " + itemID.getID() + ";";
-
-        }else{
-            removeSpareItemQuery = "DELETE FROM " + GARAGE_ITEM_TABLE + " \n"
-                                + "WHERE garage_id = " + garage_id + " AND item_id = " + itemID.getID() + ";";
-        }
+                                    + " AND item_id = " + itemID + ";";
 
         return updateQuery(con, removeSpareItemQuery);
     }
