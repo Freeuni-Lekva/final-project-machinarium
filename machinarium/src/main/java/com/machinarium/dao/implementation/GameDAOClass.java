@@ -198,4 +198,9 @@ public class GameDAOClass implements GameDAO {
         connectionPool.releaseConnection(con);
         return addUserBoolean;
     }
+
+    @Override
+    public boolean updateGameStage(ID gameID, String newStage) {
+        return false;
+    }
 }
