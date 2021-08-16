@@ -481,6 +481,8 @@ public class GarageDAOClass implements GarageDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        connectionPool.releaseConnection(con);
         return item_count;
     }
 
