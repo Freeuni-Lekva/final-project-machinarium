@@ -20,6 +20,10 @@
 		<servlet-name>LobbyPage</servlet-name>
 		<jsp-file>/lobby/lobby.jsp</jsp-file>
 	</servlet>
+	<servlet>
+		<servlet-name>GamePage</servlet-name>
+		<jsp-file>/game/game.jsp</jsp-file>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>LoginPage</servlet-name>
@@ -37,6 +41,10 @@
 	<servlet-mapping>
 		<servlet-name>LobbyPage</servlet-name>
 		<url-pattern>/lobby</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GamePage</servlet-name>
+		<url-pattern>/game</url-pattern>
 	</servlet-mapping>
 
 </web-app>
