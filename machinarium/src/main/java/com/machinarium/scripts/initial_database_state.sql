@@ -2,8 +2,8 @@ USE machinarium_database;
 
 INSERT INTO item_categories (category_name)
 VALUES
-        ('PART'),
-        ('CONNECTOR');
+        ('PART_CAT'),
+        ('CONNECTOR_CAT');
 
 
 INSERT INTO item_types (type_name, item_category_id)
@@ -12,7 +12,8 @@ VALUES
         ('BODY', 1),
         ('ENGINE', 1),
         ('TRANSMISSION', 1),
-        ('WHEELS', 1);
+        ('WHEELS', 1),
+        ('CONNECTOR', 2);
 
 
 INSERT INTO connectors (connector_name, item_type_1_id, item_type_2_id)
@@ -37,14 +38,14 @@ VALUES
         ('Hard Compound', 5, 100, null, null, null, 5);
 
 
-INSERT INTO items (item_name, item_type_1_id, item_type_2_id)
+INSERT INTO items (item_name, type_id, item_type_1_id, item_type_2_id)
 VALUES
-        ('Body Mount', 1, 2),
-        ('Transmission Mount', 1, 4),
-        ('Suspension', 1, 5),
-        ('Engine Bolts', 1, 3),
-        ('Friction Plate', 3, 4),
-        ('Differential', 4, 5);
+        ('Body Mount', 6, 1, 2),
+        ('Transmission Mount', 6, 1, 4),
+        ('Suspension', 6, 1, 5),
+        ('Engine Bolts', 6, 1, 3),
+        ('Friction Plate', 6, 3, 4),
+        ('Differential', 6, 4, 5);
 
 
 INSERT INTO game_stages (stage_name)
