@@ -116,7 +116,7 @@ CREATE TABLE garage_item(
                             item_count INT,
                             CONSTRAINT garage_item_unique UNIQUE (garage_id, item_id),
                             FOREIGN KEY (garage_id) REFERENCES garages(id) ON DELETE CASCADE,
-                            FOREIGN KEY (item_id) 	REFERENCES items(id) ON DELETE CASCADE
+                            FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
 
 
