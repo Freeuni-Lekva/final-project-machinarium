@@ -486,7 +486,7 @@ function putItemInCar() {
     var rowsNum = table.rows.length - 1;
 
     item.innerHTML = buildDropDown("builder_", rowsNum, mySpareItemsLst);
-    method.innerHTML = "<label id=\"label_" + numRows + "\">add</label>";
+    method.innerHTML = "<label id=\"label_" + rowsNum + "\">add</label>";
 }
 
 function removeItemFromCar() {
@@ -500,8 +500,17 @@ function removeItemFromCar() {
 
     var currentCar = document.getElementById("selected_car");
 
+
+
     var request = new XMLHttpRequest();
+
     request.open("post", CAR_SERVLET);
+    request.onload = () => {
+        var response = JSON.parse(request.response);
+        item.innerHTML = buildDropDown("builder_", rowsNum, response.items);
+        method.innerHTML = "<label id=\"label_" + rowsNum + "\">remove</label>";
+    }
+    request.send(currentCar.value);
 }
 
 function removeRow() {
@@ -513,7 +522,7 @@ function removeRow() {
 function doneBuilding() {
     var table = document.getElementById("car_builder");
 
-    var rowsNUm = table.rows.length - 1;
+    var numRows = table.rows.length - 1;
 
     var addLst = [];
     var rmvLst = [];
@@ -533,7 +542,7 @@ function doneBuilding() {
     var data = {
         add: addLst,
         remove: rmvLst,
-        car: document.getElementById("selected_car").value
+        car_id: document.getElementById("selected_car").value
     };
 
     request.send(JSON.stringify(data));
