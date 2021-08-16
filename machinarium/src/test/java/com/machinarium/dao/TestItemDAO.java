@@ -130,8 +130,8 @@ public class TestItemDAO {
     }
     @Test
     public void getAllItemsTest(){
-        Set<Item> allItemsDAO = new HashSet<>(itemDAO.getAllItems());
-        System.out.println(allItemsDAO.size());
+//        Set<Item> allItemsDAO = new HashSet<>(itemDAO.getAllItems());
+//        System.out.println(allItemsDAO.size());
 //        Set<Item> allItemsTest = new HashSet<>();
 //
 //        allItemsTest.add(new Chassis(ID.of(1), "Carbon Fiber", 50,1200));
@@ -160,7 +160,7 @@ public class TestItemDAO {
 //        allItemsTest.add(new Connector<Transmission, Wheels> (ID.of(1006), "Differential",
 //                new Transmission(ID.of(4), "TRANSMISSION", null),
 //                new Wheels(ID.of(5), "WHEELS", null, null)));
-        System.out.println(allItemsDAO);
+//        System.out.println(allItemsDAO);
 //        for (i:
 //             allItemsDAO) {
 //            System.out.println(i);
