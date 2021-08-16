@@ -1,0 +1,27 @@
+/* page background color */
+body {
+    background-color: powderblue;
+}
+
+/* put result box in the center */
+#result_container {
+    margin: auto;
+    margin-top: 50px;
+    width: 50%;
+    border: 3px solid green;
+    border-radius: 10px;
+    background-color: darkslateblue;
+    padding: 10px;
+    text-align: center;
+    font-size: 25px;
+}
+
+/* make label bold */
+label {
+    font-weight: bold;
+}
+
+/* make result text orange */
+#result {
+    color: darkorange;
+}
