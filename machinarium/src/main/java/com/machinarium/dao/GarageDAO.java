@@ -31,9 +31,10 @@ public interface GarageDAO {
 	int getSpareItemCount(String userName);
 
 	boolean hasThisSpareItem(String userName, ID itemID);
+	int getThisSpareItemCount(ID itemID); //++
 
-	boolean addSpareItem(String userName, ID itemID);
-	boolean removeSpareItem(String userName, ID itemID);
+	boolean addSpareItem(String userName, ID itemID, int count); //++ch
+	boolean removeSpareItem(String userName, ID itemID, int count); //++ch
 
 	Map<Item, Integer> getAllSpareItems(String userName);
 

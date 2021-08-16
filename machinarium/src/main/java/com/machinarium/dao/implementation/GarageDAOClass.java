@@ -501,7 +501,12 @@ public class GarageDAOClass implements GarageDAO {
     }
 
     @Override
-    public boolean addSpareItem(String userName, ID itemID) {
+    public int getThisSpareItemCount(ID itemID) { //++
+        return 0;
+    }
+
+    @Override
+    public boolean addSpareItem(String userName, ID itemID, int count) { //++ch
         Connection con = connectionPool.acquireConnection();
         boolean hasSpareItemAddBoolean = false;
         String hasSpareItemAddQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
@@ -544,7 +549,7 @@ public class GarageDAOClass implements GarageDAO {
     }
 
     @Override
-    public boolean removeSpareItem(String userName, ID itemID) {
+    public boolean removeSpareItem(String userName, ID itemID, int count) { //++ch
         Connection con = connectionPool.acquireConnection();
         String garageIdQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"
                             + "WHERE user_name = '" + userName + "' "
