@@ -128,17 +128,32 @@ public class TestGarageDAO {
 	}
 
 	@Test
-	public void getCar_addEmptyCar() {
-		assertEquals(null, garageDAO.getCar(ID.of(333333)));
+	public void getCar_addEmptyCar_getCarCount() {
+		assertEquals(0, garageDAO.getCarCount("luka"));
+		assertNull(garageDAO.getCar(ID.of(-1)));
+		assertNull(garageDAO.getCar(ID.of(3333333)));
+
 		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
-		System.out.println(lukaCar1.getID() + " *** " + garageDAO.getCar(lukaCar1));
-
-
+		assertEquals(1, garageDAO.getCarCount("luka"));
 		assertNotEquals(null, garageDAO.getCar(lukaCar1));
+
 		ID lukaCar2 = garageDAO.addEmptyCar("luka", "lukaCar2");
+		assertEquals(2, garageDAO.getCarCount("luka"));
 		assertNotEquals(null, garageDAO.getCar(lukaCar2));
 
+		assertEquals(0, garageDAO.getCarCount("lukaA"));
+		assertEquals(null, garageDAO.getCar(ID.of(5555555)));
 	}
+
+	@Test
+	public void updateCarName_getCarCount() {
+//		assertEquals(0, garageDAO.getCarCount("luka"));
+//
+//		ID lukaCar1 = garageDAO.addEmptyCar("luka", "lukaCar1");
+
+
+	}
+
 
 
 
