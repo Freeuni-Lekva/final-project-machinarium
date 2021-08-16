@@ -1,4 +1,4 @@
-package com.machinarium.servlets;
+package com.machinarium.dao.filters;
 
 import com.machinarium.model.user.User;
 import com.machinarium.utility.common.ConfiguredLogger;

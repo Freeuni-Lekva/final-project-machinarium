@@ -7,9 +7,21 @@ import java.util.List;
 
 public interface GameDAO {
 
-	String IN_LOBBY = "in_lobby";
-	String ACTIVE = "active";
-	String FINISHED = "finished";
+	enum GameStage {
+		IN_LOBBY(1),
+		ACTIVE(2),
+		FINISHED(3);
+
+		public static String getActiveStages() {return "('" + ACTIVE + "', '" + IN_LOBBY + "')";}
+
+		public static GameStage of(String stageName) {return valueOf(stageName.toUpperCase());}
+
+		public int getValue() {return this.stage;}
+
+		private GameStage(int stage) {this.stage = stage;}
+
+		private final int stage;
+	};
 
 	/**
 	 * Returns the host user of the specified game.
@@ -46,9 +58,9 @@ public interface GameDAO {
 	 * Returns the current stage of the specified game.
 	 *
 	 * @param gameID The id of the game as an {@link ID} object.
-	 * @return The stage of the specified game as a {@link String}.
+	 * @return The stage of the specified game as a {@link GameStage}.
 	 */
-	String getGameStage(ID gameID);
+	GameStage getGameStage(ID gameID);
 
 	/**
 	 *
@@ -76,11 +88,27 @@ public interface GameDAO {
 	boolean addUser(ID gameID, String userName);
 
 	/**
+	 * Adds the give results to the game with the specified ID.
+	 *
+	 * @param gameID The id of the game as a {@link ID}.
+	 * @param firstPlaceUser The username of the first place winner.
+	 * @param firstPlaceReward The {@link ID} of the reward for the first place winner.
+	 * @param secondPlaceUser The username of the second place winner.
+	 * @param secondPlaceReward The {@link ID} of the reward for the second place winner.
+	 * @param thirdPlaceUser The username of the third place winner.
+	 * @param thirdPlaceReward The {@link ID} of the reward for the third place winner.
+	 * @return True if the results were updated successfully, false otherwise.
+	 */
+	boolean updateGameResult(ID gameID, String firstPlaceUser, ID firstPlaceReward,
+							 			String secondPlaceUser, ID secondPlaceReward,
+							 			String thirdPlaceUser, ID thirdPlaceReward);
+
+	/**
 	 * Updates the stage of the specified game.
 	 *
 	 * @param gameID The id of the game as a {@link ID} object.
-	 * @param newStage The new stage for the game.
+	 * @param newStage The new stage for the game as a {@link GameStage}.
 	 * @return True if the game stage was successfully updated.
 	 */
-	boolean updateGameStage(ID gameID, String newStage);
+	boolean updateGameStage(ID gameID, GameStage newStage);
 }
