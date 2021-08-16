@@ -76,7 +76,7 @@ function askForOrdersInfo() {
 function buildPage() {
     clearTables();
     buildUsersTable();
-    // buildMyRequestsTable();
+    buildMyRequestsTable();
     buildMarketTable();
     buildMyInventoryTable();
     buildMyCarsDropDown();
@@ -100,18 +100,17 @@ function clearSingleTable(tableId) {
 
 // diplays information in the my requests table
 function buildMyRequestsTable() {
-    var table = document.getElementById("requests");
+    var table = document.getElementById(MY_REQUESTS_TABLE);
 
     for(var i = 0; i < myOrdersLst.length; i++) {
         var row = table.insertRow(1);
         var srcItems = row.insertCell(0);
         var dstItems = row.insertCell(1);
         var user = row.insertCell(2);
-        var acceptButton = row.insertCell(3);
         
         var curOrder = myOrdersLst[i];
 
-        var curSrcItems = curOrder.src_items;
+        var curSrcItems = curOrder.source_items;
         var srcItemsText = "";
         for(var j = 0; j < curSrcItems.length; j++) {
             var curItem = curSrcItems[j];
@@ -121,7 +120,7 @@ function buildMyRequestsTable() {
         }
         srcItems.innerHTML = srcItemsText;
 
-        var curDstItems = curOrder.dst_items;
+        var curDstItems = curOrder.destination_items;
         var dstItemsText = "";
         for(var j = 0; j < curDstItems.length; j++) {
             var curItem = curDstItems[j];
@@ -132,21 +131,6 @@ function buildMyRequestsTable() {
         dstItems.innerHTML = dstItemsText;
 
         user.innerHTML = curOrder.user;
-
-        acceptButton.innerHTML = "<button class=\"button\ id=\"accept_" + i + "\"><b>Accept</b></button>"
-
-        var buttonObj = document.getElementById("accept_" + i);
-
-        buttonObj.onclick = () => {
-            var request = new XMLHttpRequest();
-            request.open("POST", EXCHANGE_SERVLET);
-
-            request.onload = () => {
-                console.log("request accepted");
-            }
-
-            request.send(JSON.stringify(curOrder));
-        }
     }
 }
 
