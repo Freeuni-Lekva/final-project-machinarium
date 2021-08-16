@@ -152,7 +152,7 @@ public class ItemDAOClass implements ItemDAO {
     @Override
     public List<Item> getAllItems() {
         Connection con = connectionPool.acquireConnection();
-        String getAllItemsQuery = "SELECT * FROM " + ITEMS_VIEW;
+        String getAllItemsQuery = "SELECT * FROM " + ITEMS_VIEW + ";";
         List<Item> allItems = new ArrayList<>();
         try {
             Statement getAllItemsStat = con.createStatement();
