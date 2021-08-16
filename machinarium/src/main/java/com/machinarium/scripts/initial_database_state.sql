@@ -37,7 +37,7 @@ VALUES
         ('Hard Compound', 5, 100, null, null, null, 5);
 
 
-INSERT INTO items (item_name, type_id, item_type_1_id, item_type_2_id)
+INSERT INTO items (item_name, item_type_1_id, item_type_2_id)
 VALUES
         ('Body Mount', 1, 2),
         ('Transmission Mount', 1, 4),
