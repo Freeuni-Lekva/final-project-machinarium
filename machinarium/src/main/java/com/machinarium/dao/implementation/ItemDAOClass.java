@@ -31,7 +31,7 @@ public class ItemDAOClass implements ItemDAO {
         String getItemFromItemsQuery = "SELECT * FROM " + ITEMS_VIEW + " WHERE item_id = " + itemID.getID() + ";";
 
         String getItemFromConnectorsQuery = "SELECT connector_name, item_type_1_id, " + "\n"
-                + "it1.type_name it1_type_name, it2.type_name it2_type_name " + "\n"
+                + "it1.type_name it1_type_name, item_type_2_id, it2.type_name it2_type_name " + "\n"
                 + "FROM " + CONNECTORS_TABLE + " c\n"
                 + "LEFT JOIN " + ITEM_TYPES_TABLE + " it1 ON c.item_type_1_id = it1.id\n"
                 + "LEFT JOIN " + ITEM_TYPES_TABLE + " it2 ON c.item_type_2_id = it2.id\n"
@@ -46,30 +46,30 @@ public class ItemDAOClass implements ItemDAO {
 
             if(res.next() && res.getString("type_name") != null){ //++
                 if(res.getString("type_name").equals("CHASSIS")){
-                    item = new Chassis(ID.of(res.getInt("id")),
+                    item = new Chassis(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("weight_support"));
                 }
                 if(res.getString("type_name").equals("BODY")){
-                    item = new Body(ID.of(res.getInt("id")),
+                    item = new Body(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("aero_drag"));
                 }
                 if(res.getString("type_name").equals("ENGINE")){
-                    item = new Engine(ID.of(res.getInt("id")),
+                    item = new Engine(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("horse_power"));
                 }
                 if(res.getString("type_name").equals("TRANSMISSION")){
-                    item = new Transmission(ID.of(res.getInt("id")),
+                    item = new Transmission(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"));
                 }
                 if(res.getString("type_name").equals("WHEELS")){
-                    item = new Wheels(ID.of(res.getInt("id")),
+                    item = new Wheels(ID.of(res.getInt("item_id")),
                             res.getString("item_name"),
                             res.getInt("weight"),
                             res.getInt("traction_unit"));
