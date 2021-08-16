@@ -13,6 +13,7 @@ import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,7 +52,8 @@ public class TestGarageDAO {
 	}
 
 
-	//******************************* Car ******************************************//
+	/** ========================== Car Contents ========================== **/
+
 	@Test
 	public void hasCar() {
 		assertFalse(garageDAO.hasCar("luka"));
@@ -550,7 +552,7 @@ public class TestGarageDAO {
 	}
 
 
-	//**************************************** SpareItem **********************************//
+	/** ========================== Item Contents ========================== **/
 
 	@Test
 	public void hasSpareItem() {
@@ -573,17 +575,92 @@ public class TestGarageDAO {
 	@Test
 	public void addSpareItem() {
 		assertEquals(0, garageDAO.getSpareItemCount("luka"));
-		garageDAO.addSpareItem("luka", ID.of(1), 1);
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(1), 1));
 		assertEquals(1, garageDAO.getSpareItemCount("luka"));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(2), 3));
+		assertEquals(4, garageDAO.getSpareItemCount("luka"));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 0));
+		assertEquals(4, garageDAO.getSpareItemCount("luka"));
 	}
 
+	@Test
+	public void removeSpareItem() {
+		assertEquals(0, garageDAO.getSpareItemCount("luka"));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(1), 1));
+		assertEquals(1, garageDAO.getSpareItemCount("luka"));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(2), 3));
+		assertEquals(4, garageDAO.getSpareItemCount("luka"));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 0));
+		assertEquals(4, garageDAO.getSpareItemCount("luka"));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 4));
+		assertEquals(8, garageDAO.getSpareItemCount("luka"));
 
+		assertTrue(garageDAO.removeSpareItem("luka", ID.of(3), 2));
+		assertEquals(6, garageDAO.getSpareItemCount("luka"));
 
+//		assertTrue(garageDAO.removeSpareItem("luka", ID.of(3), 6));  //Exception
+//		assertEquals(4, garageDAO.getSpareItemCount("luka"));  //Exception
+	}
 
+	@Test
+	public void getAllSpareItems() {
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(1), 1));
+//		assertEquals(1, garageDAO.getAllSpareItems("luka"));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(2), 3));
+//		assertEquals(4, garageDAO.getAllSpareItems("luka"));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 0));
+//		assertEquals(4, garageDAO.getAllSpareItems("luka"));
 
+		int itemSum = 0;
+		Map<Item, Integer> allSpareItems = garageDAO.getAllSpareItems("luka");
+		for (Item item : allSpareItems.keySet()) {
+			itemSum += allSpareItems.get(item);
+		}
+		assertEquals(4, itemSum);
+	}
 
+	@Test
+	public void hasThisSpareItem() {
+		assertFalse(garageDAO.hasThisSpareItem("luka", ID.of(-1)));
 
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(1), 1));
+		assertTrue(garageDAO.hasThisSpareItem("luka", ID.of(1)));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(2), 3));
+		assertTrue(garageDAO.hasThisSpareItem("luka", ID.of(2)));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 0));
+		assertFalse(garageDAO.hasThisSpareItem("luka", ID.of(3)));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 4));
+		assertTrue(garageDAO.hasThisSpareItem("luka", ID.of(3)));
 
+		assertFalse(garageDAO.hasThisSpareItem("luka", ID.of(7)));
+	}
+
+	@Test
+	public void getThisSpareItemCount() {
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(1), 1));
+		assertEquals(1, garageDAO.getThisSpareItemCount("luka", ID.of(1)));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(2), 3));
+		assertEquals(3, garageDAO.getThisSpareItemCount("luka", ID.of(2)));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 0));
+		assertEquals(0, garageDAO.getThisSpareItemCount("luka", ID.of(3)));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 4));
+		assertEquals(4, garageDAO.getThisSpareItemCount("luka", ID.of(3)));
+	}
+
+	@Test
+	public void getThisSpareItemCount_withRemove() {
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(1), 1));
+		assertEquals(1, garageDAO.getThisSpareItemCount("luka", ID.of(1)));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(2), 3));
+		assertEquals(3, garageDAO.getThisSpareItemCount("luka", ID.of(2)));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 0));
+		assertEquals(0, garageDAO.getThisSpareItemCount("luka", ID.of(3)));
+		assertTrue(garageDAO.addSpareItem("luka", ID.of(3), 4));
+		assertEquals(4, garageDAO.getThisSpareItemCount("luka", ID.of(3)));
+
+		assertTrue(garageDAO.removeSpareItem("luka", ID.of(3), 2));
+		assertEquals(2, garageDAO.getThisSpareItemCount("luka", ID.of(3)));
+	}
 
 
 
