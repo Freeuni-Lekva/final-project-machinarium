@@ -47,8 +47,8 @@ public class GarageServlet extends HttpServlet {
         List<Car> cars = garageDAO.getAllCars(userName);
         Map<Item, Integer> items = garageDAO.getAllSpareItems(userName);
 
-        logger.log(Level.INFO, "User(" + userName + ") Cars: " + cars);
-        logger.log(Level.INFO, "User(" + userName + ") Items: " + items);
+        logger.log(Level.FINE, "User(" + userName + ") Cars: " + cars);
+        logger.log(Level.FINE, "User(" + userName + ") Items: " + items);
 
         data.put(PARAMETER_CARS, cars.stream().map(Car::toJSONMap).collect(Collectors.toList()));
 

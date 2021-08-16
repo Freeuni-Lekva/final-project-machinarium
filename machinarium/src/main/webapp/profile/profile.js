@@ -74,7 +74,7 @@ function buildPage() {
 
     var pageItems = document.getElementById("items");
 
-    for(var j = 0; j < itemsLst.length; j++) {
+    for(var i = 0; i < itemsLst.length; i++) {
         var row = pageItems.insertRow(1);
         var itemType = row.insertCell(0);
         var amount = row.insertCell(1);

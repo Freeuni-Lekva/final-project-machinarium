@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GarageDAOClass implements GarageDAO {
+
     private final String USER_CARS_VIEW = "see_user_cars";
     private final String CAR_PARTS_VIEW = "see_car_parts";
     private final String USER_ITEMS_VIEW = "see_user_items";
@@ -36,7 +37,7 @@ public class GarageDAOClass implements GarageDAO {
     private ID getUserID(String userName, Connection con){
         ID id = null;
         String getUserIDQuery = "SELECT id FROM " + USERS_TABLE + "\n"
-                                + "WHERE user_name = '" + userName + "';";
+                              + "WHERE user_name = '" + userName + "';";
         try {
             Statement getUserIDStat = con.createStatement();
             ResultSet res = getUserIDStat.executeQuery(getUserIDQuery);
@@ -71,7 +72,7 @@ public class GarageDAOClass implements GarageDAO {
         boolean hasCarBoolean = false;
         if (userID != null){
             String hasCarQuery = "SELECT * FROM " + USER_CARS_VIEW + "\n"
-                                + "WHERE user_id = " + userID.getID() + ";";
+                               + "WHERE user_id = " + userID.getID() + ";";
             try {
                 Statement hasCarStat = con.createStatement();
                 ResultSet res = hasCarStat.executeQuery(hasCarQuery);
@@ -485,6 +486,7 @@ public class GarageDAOClass implements GarageDAO {
 
     @Override
     public boolean addSpareItem(String userName, ID itemID, int count){
+      
         Connection con = connectionPool.acquireConnection();
         boolean hasSpareItemAddBoolean = false;
         String hasSpareItemAddQuery = "SELECT * FROM " + USER_ITEMS_VIEW + "\n"

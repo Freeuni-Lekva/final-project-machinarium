@@ -46,7 +46,7 @@ public class LobbyServlet extends HttpServlet {
         Function<String, String> getRole = user -> user.equals(hostName) ? ServletConstants.VALUE_HOST : ServletConstants.VALUE_GUEST;
 
         JSONObject data = new JSONObject();
-        data.put(ServletConstants.PARAMETER_STATUS, gameDAO.getGameStage(activeGameID));
+        data.put(ServletConstants.PARAMETER_STATUS, gameDAO.getGameStage(activeGameID).toString());
 
         data.put(ServletConstants.PARAMETER_USERS, gameDAO.getGameUsers(activeGameID).stream()
                 .map(user ->
@@ -82,11 +82,20 @@ public class LobbyServlet extends HttpServlet {
 
         synchronized(LobbyServlet.class) {
 
-            List<ID> activeGames = gameDAO.getAllActiveGames();
-            if(activeGames.size() == 0) gameDAO.addGame(userName);
-            else gameDAO.addUser(activeGames.get(0), userName);
-        }
+            List<ID> activeGames = gameDAO.getAllActiveGames()
+                    .stream().filter(gameID -> gameDAO.getGameStage(gameID).equals(GameDAO.GameStage.IN_LOBBY))
+                    .collect(Collectors.toList());
 
+            if(activeGames.size() == 0) {
+
+                logger.log(Level.INFO, "No active game in progress, creating a new one.");
+                gameDAO.addGame(userName);
+            } else {
+
+                logger.log(Level.INFO, "Adding user " + userName + " to the game with id " + activeGames.get(0).getID());
+                gameDAO.addUser(activeGames.get(0), userName);
+            }
+        }
         response.setStatus(response.SC_OK);
     }
 }

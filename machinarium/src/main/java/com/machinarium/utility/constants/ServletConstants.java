@@ -26,6 +26,7 @@ public final class ServletConstants {
     public static final String PARAMETER_CAR_NAME = "car_name";
 
     public static final String PARAMETER_USER_ORDERS = "user_orders";
+    public static final String PARAMETER_OFFERS = "offers";
     public static final String PARAMETER_ORDERS = "orders";
 
     public static final String ATTRIBUTE_USER_DAO = "user_dao";
