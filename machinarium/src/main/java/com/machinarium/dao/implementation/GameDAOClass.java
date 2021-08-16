@@ -20,6 +20,7 @@ public class GameDAOClass implements GameDAO {
     private final String USERS_TABLE = "users";
     private final String GAMES_VIEW = "see_games";
     private final String USER_GAME_VIEW = "see_user_game";
+    private final String GAME_RESULTS_TABLE = "game_results";
 
     private ConnectionPool connectionPool;
 
@@ -189,26 +190,42 @@ public class GameDAOClass implements GameDAO {
         ID userID = getUserID(userName, con);
         String addUserQuery = "INSERT INTO " + USER_GAME_TABLE + "(user_id, game_id) " +
                                 "VALUES (" + userID.getID() + ", " + gameID.getID() + ");";
-        boolean addUserBoolean = false;
-        try {
-            Statement addUserStat = con.createStatement();
-            if (addUserStat.executeUpdate(addUserQuery) > 0 ) addUserBoolean = true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        connectionPool.releaseConnection(con);
-        return addUserBoolean;
+        return updateQuery(con, addUserQuery);
     }
 
     @Override
     public boolean updateGameResult(ID gameID, String firstPlaceUser, ID firstPlaceReward,
                                                String secondPlaceUser, ID secondPlaceReward,
                                                String thirdPlaceUser, ID thirdPlaceReward) {
-        return false;
+        Connection con = connectionPool.acquireConnection();
+        ID firstID = getUserID(firstPlaceUser, con);
+        ID secondID = getUserID(secondPlaceUser, con);
+        ID thirdID = getUserID(thirdPlaceUser, con);
+        String updateGameResultQuery = "INSERT INTO " + GAME_RESULTS_TABLE +
+                "(game_id, first_place_id, reward1_id, second_place_id, reward2_id, third_place_id, reward3_id)\n" +
+                "VALUES (" + gameID + ", " + firstID + ", " + firstPlaceReward + ", " + secondID + ", "+
+                secondPlaceReward + ", " + thirdID + ", " + thirdPlaceReward + ");";
+        return updateQuery(con, updateGameResultQuery);
     }
 
     @Override
     public boolean updateGameStage(ID gameID, GameStage newStage) {
-        return false;
+        Connection con = connectionPool.acquireConnection();
+        String updateGameStageQuery = "UPDATE " + GAMES_TABLE + " SET game_stage_id = " + newStage.getValue() + "\n" +
+                                "WHERE id = " + gameID + ";";
+        return updateQuery(con, updateGameStageQuery);
+    }
+
+    private boolean updateQuery(Connection con, String updateQuery) {
+        boolean updateBoolean = false;
+        try {
+            Statement updateStat = con.createStatement();
+            if (updateStat.executeUpdate(updateQuery) > 0)
+                updateBoolean = true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        connectionPool.releaseConnection(con);
+        return updateBoolean;
     }
 }

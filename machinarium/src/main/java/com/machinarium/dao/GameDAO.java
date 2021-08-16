@@ -16,6 +16,8 @@ public interface GameDAO {
 
 		public static GameStage of(String stageName) {return valueOf(stageName.toUpperCase());}
 
+		public int getValue() {return this.stage;}
+
 		private GameStage(int stage) {this.stage = stage;}
 
 		private final int stage;
