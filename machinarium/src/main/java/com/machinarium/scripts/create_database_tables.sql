@@ -115,6 +115,7 @@ CREATE TABLE garage_item(
                             item_id INT,
                             item_count INT,
                             CONSTRAINT garage_item_unique UNIQUE (garage_id, item_id),
+                            CONSTRAINT item_count_negative CHECK (item_count > -1),
                             FOREIGN KEY (garage_id) REFERENCES garages(id) ON DELETE CASCADE,
                             FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
@@ -140,6 +141,7 @@ CREATE TABLE car_parts(
                     id INT PRIMARY KEY AUTO_INCREMENT,
                     car_id INT,
                     item_id INT,
+                    CONSTRAINT item_id_negative CHECK (item_id > -1),
                     FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE,
                     FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
