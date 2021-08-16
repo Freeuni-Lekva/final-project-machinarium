@@ -150,7 +150,7 @@ public class GarageDAOClass implements GarageDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        // COMMIT; DDL
+
         if(addEmptyCarBoolean){
             String getCarIDQuery = "SELECT id FROM " + CARS_TABLE + " WHERE car_name = '" + carName + "';";
             try {
@@ -173,7 +173,6 @@ public class GarageDAOClass implements GarageDAO {
                 throwables.printStackTrace();
             }
 
-            //++
             String addCarPartsQuery = "INSERT INTO car_parts(car_id) VALUES (" + carID + ");";
             try {
                 Statement addCarPartsStat = con.createStatement();
@@ -207,7 +206,6 @@ public class GarageDAOClass implements GarageDAO {
             ID id = null;
             String name = null;
 
-            // Car Parts
             Chassis chassis = null;
             Body body = null;
             Engine engine = null;
@@ -226,7 +224,7 @@ public class GarageDAOClass implements GarageDAO {
                     name = res.getString("car_name");
                 }
 
-                if (res.getString("type_name") != null) { //++
+                if (res.getString("type_name") != null) {
                     if (res.getString("type_name").equals("CHASSIS")) {
                         chassis = new Chassis(ID.of(res.getInt("item_id")),
                                 res.getString("item_name"),
