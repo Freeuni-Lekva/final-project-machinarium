@@ -24,6 +24,10 @@
 		<servlet-name>GamePage</servlet-name>
 		<jsp-file>/game/game.jsp</jsp-file>
 	</servlet>
+	<servlet>
+		<servlet-name>ResultPage</servlet-name>
+		<jsp-file>/result/result.jsp</jsp-file>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>LoginPage</servlet-name>
@@ -46,5 +50,8 @@
 		<servlet-name>GamePage</servlet-name>
 		<url-pattern>/game</url-pattern>
 	</servlet-mapping>
-
+	<servlet-mapping>
+		<servlet-name>ResultPage</servlet-name>
+		<url-pattern>/result</url-pattern>
+	</servlet-mapping>
 </web-app>
