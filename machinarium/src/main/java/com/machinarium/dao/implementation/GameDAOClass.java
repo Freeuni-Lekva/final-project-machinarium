@@ -201,6 +201,13 @@ public class GameDAOClass implements GameDAO {
     }
 
     @Override
+    public boolean updateGameResult(ID gameID, String firstPlaceUser, ID firstPlaceReward,
+                                               String secondPlaceUser, ID secondPlaceReward,
+                                               String thirdPlaceUser, ID thirdPlaceReward) {
+        return false;
+    }
+
+    @Override
     public boolean updateGameStage(ID gameID, GameStage newStage) {
         return false;
     }

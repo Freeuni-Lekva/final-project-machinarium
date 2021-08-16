@@ -86,6 +86,22 @@ public interface GameDAO {
 	boolean addUser(ID gameID, String userName);
 
 	/**
+	 * Adds the give results to the game with the specified ID.
+	 *
+	 * @param gameID The id of the game as a {@link ID}.
+	 * @param firstPlaceUser The username of the first place winner.
+	 * @param firstPlaceReward The {@link ID} of the reward for the first place winner.
+	 * @param secondPlaceUser The username of the second place winner.
+	 * @param secondPlaceReward The {@link ID} of the reward for the second place winner.
+	 * @param thirdPlaceUser The username of the third place winner.
+	 * @param thirdPlaceReward The {@link ID} of the reward for the third place winner.
+	 * @return True if the results were updated successfully, false otherwise.
+	 */
+	boolean updateGameResult(ID gameID, String firstPlaceUser, ID firstPlaceReward,
+							 			String secondPlaceUser, ID secondPlaceReward,
+							 			String thirdPlaceUser, ID thirdPlaceReward);
+
+	/**
 	 * Updates the stage of the specified game.
 	 *
 	 * @param gameID The id of the game as a {@link ID} object.

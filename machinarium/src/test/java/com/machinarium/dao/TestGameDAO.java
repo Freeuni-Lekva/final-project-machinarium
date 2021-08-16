@@ -85,9 +85,9 @@ class TestGameDAO {
     @Test
     void getGameStage() {
         ID id = gameDAO.addGame("user");
-        assertEquals(gameDAO.getGameStage(id), "in_lobby");
-        gameDAO.updateGameStage(id, "active");
-        assertEquals((gameDAO.getGameStage(id)), "active");
+        assertEquals(gameDAO.getGameStage(id), GameDAO.GameStage.IN_LOBBY);
+        gameDAO.updateGameStage(id, GameDAO.GameStage.ACTIVE);
+        assertEquals((gameDAO.getGameStage(id)), GameDAO.GameStage.ACTIVE);
     }
 
 }
