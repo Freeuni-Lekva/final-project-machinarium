@@ -77,13 +77,17 @@ CREATE TABLE item_types(
 CREATE TABLE items(
                       id INT PRIMARY KEY AUTO_INCREMENT,
                       item_name VARCHAR(64) NOT NULL,
-                      type_id	INT NOT NULL,
-                      weight	INT,
-                      weight_support INT,
-                      aero_drag INT,
-                      horse_power INT,
-                      traction_unit INT,
-                      FOREIGN KEY (type_id) REFERENCES item_types(id) ON DELETE CASCADE
+                      type_id	INT DEFAULT NULL,
+                      weight	INT DEFAULT 0,
+                      weight_support INT DEFAULT 0,
+                      aero_drag INT DEFAULT 0,
+                      horse_power INT DEFAULT 0,
+                      traction_unit INT DEFAULT 0,
+                      item_type_1_id INT DEFAULT NULL,
+                      item_type_2_id INT DEFAULT NULL,
+                      FOREIGN KEY (type_id) REFERENCES item_types(id) ON DELETE CASCADE,
+                      FOREIGN KEY (item_type_1_id) REFERENCES item_types(id) ON DELETE CASCADE,
+                      FOREIGN KEY (item_type_2_id) REFERENCES item_types(id) ON DELETE CASCADE
 );
 
 
@@ -112,7 +116,7 @@ CREATE TABLE garage_item(
                             item_count INT,
                             CONSTRAINT garage_item_unique UNIQUE (garage_id, item_id),
                             FOREIGN KEY (garage_id) REFERENCES garages(id) ON DELETE CASCADE,
-                            FOREIGN KEY (item_id) 	REFERENCES items(id) ON DELETE CASCADE
+                            FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
 
 
@@ -136,10 +140,8 @@ CREATE TABLE car_parts(
                     id INT PRIMARY KEY AUTO_INCREMENT,
                     car_id INT,
                     item_id INT,
-                    connector_id INT,
                     FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE,
-                    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
-                    FOREIGN KEY (connector_id) REFERENCES connectors(id) ON DELETE CASCADE
+                    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
 
 
