@@ -85,7 +85,7 @@ public class GameDAOClass implements GameDAO {
     public ID getActiveGame(String userName) {
         Connection con = connectionPool.acquireConnection();
         String getActiveGameQuery = "SELECT game_id FROM " + USER_GAME_VIEW
-                                  + " WHERE user_name = '" + userName + "' AND stage_name IN ('" + ACTIVE + "', '" + IN_LOBBY + "');";
+                                  + " WHERE user_name = '" + userName + "' AND stage_name IN " + GameStage.getActiveStages();
         ID gameID = null;
         try {
             Statement getActiveGameStatement = con.createStatement();
@@ -103,7 +103,7 @@ public class GameDAOClass implements GameDAO {
     @Override
     public List<ID> getAllActiveGames() {
         Connection con = connectionPool.acquireConnection();
-        String getAllActiveGamesQuery = "SELECT * FROM " + GAMES_VIEW + " WHERE stage_name IN ('" + ACTIVE + "', '" + IN_LOBBY + "');";
+        String getAllActiveGamesQuery = "SELECT * FROM " + GAMES_VIEW + " WHERE stage_name IN " + GameStage.getActiveStages();
         List<ID> allActiveGames = new ArrayList<>();
         try {
             Statement getAllActiveGamesStat = con.createStatement();
@@ -120,15 +120,16 @@ public class GameDAOClass implements GameDAO {
     }
 
     @Override
-    public String getGameStage(ID gameID) {
+    public GameStage getGameStage(ID gameID) {
         Connection con = connectionPool.acquireConnection();
         String getGameStageQuery = "SELECT * FROM " + GAMES_VIEW + " WHERE game_id = " + gameID.getID() + ";";
-        String gameStage = null;
+        GameStage gameStage = null;
         try {
             Statement getGameStageStat = con.createStatement();
             ResultSet res = getGameStageStat.executeQuery(getGameStageQuery);
             if(res.next()){
-                gameStage = res.getString("stage_name");            }
+                gameStage = GameStage.of(res.getString("stage_name"));
+            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -200,7 +201,7 @@ public class GameDAOClass implements GameDAO {
     }
 
     @Override
-    public boolean updateGameStage(ID gameID, String newStage) {
+    public boolean updateGameStage(ID gameID, GameStage newStage) {
         return false;
     }
 }
